@@ -1,16 +1,16 @@
 {% extends "login.html" %}
 {% block title %}Sign Up{% endblock title %}
-    
+
 {% block css %}
 {{ super() }}
 <link rel="stylesheet" href="/static/css/style_signup.css">
 {% endblock css %}
-{% block content %}
+{% block content %} 
 <div class="main_container">
     <div class="signup_container">
         <div class="form">
             <h2>Create an account</h2>
-            <form action="/signup" method="POST" id="signupForm">
+            <form action="/signup" method="post">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="name" placeholder="Enter your username" required><br>
@@ -21,34 +21,36 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password1" placeholder="Enter your password" required><br>
+                    <input type="password" id="password" name="password1" placeholder="Enter your password"
+                        required><br>
                 </div>
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="password2" placeholder="Confirm your password" required><br>
+                    <input type="password" id="confirm_password" name="password2" placeholder="Confirm your password"
+                        required><br>
                 </div>
-                <button type="submit">Sign Up</button>
+                <input type="submit" name="" value="Sign Up">
             </form>
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} d-flex align-items-center" role="alert">
-                        {% if category == 'success' %}
-                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                                <use xlink:href="#check-circle-fill"/>
-                            </svg>
-                            <div>
-                                {{ message }}
-                            </div>
-                        {% else %}
-                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Error:">
-                                <use xlink:href="#exclamation-triangle-fill"/>
-                            </svg>
-                            <div>
-                                {{ message }}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} d-flex align-items-center" role="alert">
+                {% if category == 'success' %}
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    {{ message }}
+                </div>
+                {% else %}
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Error:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <div>
+                    {{ message }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
             {% endwith %}
         </div>
         <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>

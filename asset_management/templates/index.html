@@ -1,0 +1,28 @@
+{% extends "login.html" %}
+{% block title %}
+Index Page
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="/static/css/style_index.css">
+{% endblock css %}
+{% block content %}
+<div class="text" methods="post">
+    <h1 class="h">Hii!!.... Team Leads</h1>
+    <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Setting</button></a>
+</div>
+<br><div class="table_text">
+    <table class="tb">
+        <tr>
+            <th>Name</th>
+            <th>Discription</th>
+        </tr>
+        {% for entity in entities %}
+        <tr>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.discription }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
