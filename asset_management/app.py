@@ -1,10 +1,10 @@
 import pdb
 import uuid #Universally Unique Identifie
-from werkzeug.security import check_password_hash
-from flask import  render_template, request, redirect, url_for, flash
 from config import db, app
-from sql_database.models import User
+from sql_database.models import User, GroupName, users_groups
+from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user
+from flask import  render_template, request, redirect, url_for, flash
 
 @app.route('/')
 def home():
@@ -16,10 +16,10 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password):
+        if user and check_password_hash(user.password,password):
             login_user(user, remember=True)
             flash('Login successful!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('groups'))
         else:
             flash('Invalid email or password', 'error')
     return render_template('login.html') 
@@ -68,20 +68,25 @@ def about():
 def terms():
     return render_template('terms.html')
 
-@app.route('/index', methods=["GET","POST"])
-def index():
+@app.route('/groups', methods=["GET", "POST"])
+def groups():
     if request.method == "POST":
-        name = request.form['name']
-        discription = request.form['discription']
-        return render_template('index.html')
-    return render_template('index.html')
+        name = request.form.get('name')
+        description = request.form.get('description')
+        if name and description: 
+            new_group = GroupName(name=name, description=description)
+            db.session.add(new_group)
+            db.session.commit()
+            flash('Group created successfully!')
+            return redirect(url_for('groups'))
+        else:
+            flash('Name and description are required.', 'error')
+    groups = GroupName.query.all()
+    return render_template('groups.html', entities=groups)
+
 
 @app.route('/text_field',methods=["GET","POST"])
 def text_field():
-    if request.method == "POST":
-        name = request.form['name']
-        discription = request.form['discription']
-        return redirect(url_for('index'))
     return render_template('text_field.html')
     
 if __name__ == "__main__":

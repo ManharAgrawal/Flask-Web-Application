@@ -8,12 +8,12 @@ Index Page
 {% endblock css %}
 {% block content %}
 <div class="container">
-    <form action="/text_field" method="post">
+    <form action="/groups" method="post">
         <label for="name">Group Name</label>
         <input type="text" name="name" id="name" placeholder="Name" required>
-        <label for="discription">Discription</label>
-        <textarea name="discription" id="discription" cols="30" rows="20" placeholder="Discription"></textarea>
-        <a href="{{ url_for('index') }}"><button class="create-btn" type="submit">Create Field</button></a>
+        <label for="description">Description</label>
+        <textarea name="description" id="description" cols="30" rows="20" placeholder="description"></textarea>
+        <input class="create-btn" type="submit" value="Create Fields">
     </form>
 </div>
 {% endblock %}

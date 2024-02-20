@@ -78,6 +78,10 @@ body {
   padding: 20px;
 }
 
+.header a:hover{
+  color: #266764;
+}
+
 .logo {
   text-decoration: none;
   color: #fff;
@@ -97,6 +101,10 @@ body {
 
 .header-right a.active {
   font-weight: bold;
+}
+
+.header-right a:hover{
+  color: #075164;
 }
 
 .footer {

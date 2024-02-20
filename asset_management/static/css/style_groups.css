@@ -4,18 +4,21 @@
     text-align: center;
 }
 
+.h:hover{
+    color: rgb(163, 24, 24);
+}
+
 .btn_setting {
-    background-color: #168ab5;
+    background-color: #939798;
     color: white;
     text-align: center;
     font-size: 20px;
-    cursor: pointer;
     display: flex;
     margin: auto;
     border-radius: 10px;
 }
 .btn_setting:hover {
-    background-color: #4263a4;
+    background-color: #0b0c0c;
 }
 
 .container {
@@ -41,8 +44,8 @@ th {
     color: white; 
     font-size: 20px;
     padding: 10px;
-    text-align: left;
-    border: 1px solid #1695b5; 
+    text-align: c;
+    border: 1px solid #070a0a; 
 }
 
 td {

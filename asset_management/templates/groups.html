@@ -4,23 +4,23 @@ Index Page
 {% endblock title %}
 {% block css %}
 {{ super() }}
-<link rel="stylesheet" href="/static/css/style_index.css">
+<link rel="stylesheet" href="/static/css/style_groups.css">
 {% endblock css %}
 {% block content %}
 <div class="text" methods="post">
-    <h1 class="h">Hii!!.... Team Leads</h1>
-    <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Setting</button></a>
+    <h1 class="h">Hii!!....  Leads</h1>
+    <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Settings</button></a>
 </div>
 <br><div class="table_text">
     <table class="tb">
         <tr>
             <th>Name</th>
-            <th>Discription</th>
+            <th>description</th>
         </tr>
         {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
-            <td>{{ entity.discription }}</td>
+            <td>{{ entity.description }}</td>
         </tr>
         {% endfor %}
     </table>
