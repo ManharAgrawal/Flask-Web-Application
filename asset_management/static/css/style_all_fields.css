@@ -1,3 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
 .h {
     color: rgb(158, 83, 30);
     font-size: 24px;
@@ -9,7 +16,7 @@
 }
 
 .btn_setting {
-    background-color: #926010;
+    background-color: #062445;
     color: white;
     text-align: center;
     font-size: 20px;
@@ -18,7 +25,8 @@
     border-radius: 10px;
 }
 .btn_setting:hover {
-    background-color: #0b0c0c;
+    background-color: #979b9e;
+    color: #000;
 }
 
 .container {
@@ -41,7 +49,8 @@
 }
 
 th {
-    background-color: #578fa3; 
+    
+    background-color: #062445; 
     color: white; 
     font-size: 20px;
     padding: 10px;
@@ -55,7 +64,8 @@ td {
 }
 
 .btn_ops {
-    color: rgb(8, 8, 8);
+    background-color: #062445;
+    color: rgb(242, 241, 241);
     padding: 10px 20px;
     text-align: center;
     font-size: 15px;
@@ -63,6 +73,8 @@ td {
 }
 
 .btn_ops:hover {
-    color: rgb(221, 218, 218);
-    background-color: #136a82;
+    background-color: lightsteelblue;   
+    color: #000;
 }
+
+

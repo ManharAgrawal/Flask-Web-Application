@@ -1,27 +1,29 @@
 {% extends "login.html" %}
 {% block title %}
-Index Page
+Create Fields
 {% endblock title %}
 {% block css %}
 {{ super() }}
-<link rel="stylesheet" href="/static/css/style_groups.css">
+<link rel="stylesheet" href="/static/css/style_all_fields.css">
 {% endblock css %}
 {% block content %}
 <div class="text" methods="post">
-    <h1 class="h">Hii!!.... Leads</h1>
-    <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Settings</button></a>
+    <h1 class="h">Hii!!.... Team</h1>
+    <a href="{{ url_for('fields') }}"><button class="btn_setting" type="menu">Create New Fields</button></a>
 </div>
 <br><div class="table_text">
     <table class="tb">
         <tr>
             <th>Name</th>
-            <th>Description</th>
+            <th>Text</th>
+            <th>Default</th>
             <th>Actions</th>
         </tr>
         {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
-            <td>{{ entity.description }}</td>
+            <td>{{ entity.text }}</td>
+            <td>{{ entity.default }}</td>
             <td>
                 <a href="{{ url_for('update_group', id=entity.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('delete_group', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
@@ -31,4 +33,5 @@ Index Page
         {% endfor %}
     </table>
 </div>
+
 {% endblock %}

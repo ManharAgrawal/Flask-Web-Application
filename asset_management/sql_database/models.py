@@ -1,5 +1,4 @@
 from uuid import uuid4
-from flask import request
 from config import app , db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
@@ -11,8 +10,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
     is_active = db.Column(db.Boolean)
-    groups = db.relationship('GroupName', backref='user', secondary='users_groups')
-
+    groups = db.relationship('GroupName', backref='users', lazy=True)
+    
     def __init__(self, name, email, password, is_active=True): 
         self.name = name
         self.email = email
@@ -24,53 +23,26 @@ class GroupName(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    
-    def __init__(self, name, description):
+    user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    field = db.relationship('Field', backref='GroupName', lazy=True)
+
+    def __init__(self, name, description, user):
         self.name = name
         self.description = description
+        self.user = user
 
-# Association Table For Relationship
-users_groups = db.Table(
-    'users_groups',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id')),
-    db.PrimaryKeyConstraint('user_id', 'group_id')
-)
-
-class Tag(db.Model):
+class Field(db.Model):
+    __tablename__ = 'fields'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    description = db.Column(db.String())
-
-    def __repr__(self):
-        return f'<Tag "{self.name}">' 
-
-class Relation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    content = db.Column(db.String)
-    comments = db.relationship('GroupsName', backref='Relation')
-    tags = db.relationship('Tag', secondary=users_groups, backref='Relation')
-
-    def __repr__(self):
-        return f'<Post "{self.title}">'
+    name = db.Column(db.String(), nullable=False)
+    text = db.Column(db.String(), nullable=False)
+    default = db.Column(db.String(), nullable=False)
+    group_name_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     
-    
-""" 
-    ====================================================
-                
-                User Email & Pass
+    def __init__(self,name,text,default,group_name_id):
+        self.name = name
+        self.text = text
+        self.default = default
+        self.group_name_id = group_name_id
+        
 
-1. userone@gmail.com - 1234 (created)
-2. mario@gmail.com - 5678
-3. slugterra@gmail.com - 0000
-4. superman@gmail.com - 1111
-5. chip&dale@gmail.com - 5555
-6. snowbros@gmail.com - 1010
-7. bowser@gmail.com - 2222
-8. tom@gmail.com - 4040
-9. deadpool@gmail.com - 6666
-10. whoami@gmail.com - 5050 (created)
-
-    ===========================================================
-"""
