@@ -9,9 +9,9 @@ Create Fields
 {% block content %}
 <div class="text" methods="post">
     <h1 class="h">Hii!!.... Team</h1>
-    <a href="{{ url_for('fields') }}"><button class="btn_setting" type="menu">Create New Fields</button></a>
+    <a href="{{ url_for('group_fields') }}"><button class="btn_setting" type="menu">Create New Fields</button></a><br>
 </div>
-<br><div class="table_text">
+<br><div class="table_text" action="/all_fields">
     <table class="tb">
         <tr>
             <th>Name</th>
@@ -19,19 +19,19 @@ Create Fields
             <th>Default</th>
             <th>Actions</th>
         </tr>
-        {% for entity in entities %}
+        {% for field in field %}
         <tr>
-            <td>{{ entity.name }}</td>
-            <td>{{ entity.text }}</td>
-            <td>{{ entity.default }}</td>
+            <td>{{ field.name }}</td>
+            <td>{{ field.text }}</td>
+            <td>{{ field.default }}</td>
             <td>
-                <a href="{{ url_for('update_group', id=entity.id) }}"><button class="btn_ops">Update</button></a>
-                <a href="{{ url_for('delete_group', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
-                <a href="{{ url_for('all_fields', id=entity.id) }}"><button class="btn_ops" type="submit">Fields</button></a>
+                <a href="{{ url_for('update_field', id=field.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('delete_field', id=field.id) }}"><button class="btn_ops">Delete</button></a>
             </td>
         </tr>
         {% endfor %}
     </table>
+    
 </div>
-
+<br><a href="{{ url_for('groups') }}"><button class="btn">Back to groups</button></a>
 {% endblock %}

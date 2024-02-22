@@ -1,7 +1,7 @@
 import pdb
 import uuid #Universally Unique Identifie
 from config import db, app
-from sql_database.models import User, GroupName
+from sql_database.models import User, GroupName, Field
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import  render_template, request, redirect, url_for, flash
@@ -36,8 +36,8 @@ def signup():
     print(request.method)
     if request.method == 'POST':
         name = request.form['name']
-        user = User.query.filter_by(email= request.form['email']).first()
         email = request.form['email'] 
+        user = User.query.filter_by(email= request.form['email']).first()
         password1 = request.form['password1']
         password2 = request.form['password2']
         if user:
@@ -74,14 +74,14 @@ def groups():
         user_id = current_user.id
         name = request.form.get('name')
         description = request.form.get('description')
-        if name and description: 
+        if user_id: 
             new_group = GroupName(name=name, description=description, user=user_id)
             db.session.add(new_group)
             db.session.commit()
             flash('Group created successfully!')
             return redirect(url_for('groups'))
         else:
-            flash('Name and description are required.', 'error')
+            flash('Name and description are required.')
     user = GroupName.query.filter_by(user=current_user.id)
     return render_template('groups.html', entities=user)
 
@@ -91,44 +91,81 @@ def text_field():
 
 @app.route('/update_group/<int:id>',methods=["GET","POST"])
 def update_group(id):
-    group = GroupName.query.filter_by(id=id)
+    group = GroupName.query.get(id)
     if request.method == "POST":
+        id = request.form.get('id')
         name = request.form.get('name')
         description = request.form.get('description')
-        if name and description:
+        if group:
             group.name = name
             group.description = description
+            db.session.add(group)
             db.session.commit()
             flash("Group updated successfully")
             return redirect(url_for('groups'))
-    return render_template('text_field.html',entities=group)
+    return render_template('text_field.html',entity=group)
 
-@app.route('/delete_group/<int:id>', methods=['POST'])
+@app.route('/delete_group/<int:id>', methods=['GET',"POST"])
 def delete_group(id):
-    group = GroupName.query.filter_by(id=id)
+    group = GroupName.query.filter_by(id=id).first()
     if group:
         db.session.delete(group)
         db.session.commit()
-        flash('User Data Deleted Successfully')
-        return redirect(url_for('groups.html'))
+        flash('Group Data Deleted Successfully')
+        return redirect(url_for('groups'))
     else:
-        flash('User not found', 'error')
-    return redirect(url_for('groups.html'))
+        flash('Group not found')
+    return redirect(url_for('groups'))
 
 @app.route('/all_fields', methods=["GET","POST"])
 def all_fields():
-    return render_template('all_fields.html')
-
-@app.route('/fields',methods=["GET","POST"])
-def fields():
     if request.method == "POST":
-        name = request.form['name']
-        text = request.form['text']
-        default = request.form['default']
-        return redirect(url_for('all_fields',user_id=user, name=name, text=text, default=default))
-    user = GroupName.query.filter_by(user=current_user.id).first()
-    return render_template('fields.html',user=user)
-    
+        group_id = request.form.get('group')
+        name = request.form.get('name')
+        text = request.form.get('text')
+        default = request.form.get('default')
+        if group_id:
+            new_field = Field(name=name, text=text, default=default, group_name_id=group_id)
+            db.session.add(new_field)
+            db.session.commit()
+            flash('Group field created successfully!')
+            return redirect(url_for('all_fields'))
+        else:
+            flash('Group Not Found')
+    field = Field.query.all()
+    return render_template('all_fields.html', field=field)
+
+@app.route('/group_fields', methods=["GET", "POST"])
+def group_fields():
+    groups = GroupName.query.all()
+    return render_template('group_fields.html', groups=groups)
+
+@app.route('/update_field/<int:id>', methods=["GET","POST"])
+def update_field(id): 
+    field = Field.query.get(id)
+    if request.method == "POST":
+        name = request.form.get('name')
+        description = request.form.get('description')
+        field.name = name
+        field.description = description
+        db.session.add(field)
+        db.session.commit()
+        flash("Group updated successfully")
+        return redirect(url_for('all_fields'))
+    return render_template('group_fields.html',fields=field)
+
+@app.route('/delete_field/<int:id>', methods=["GET","POST"])
+def delete_field(id):
+    field = Field.query.filter_by(id=id).first()
+    if field:
+        db.session.delete(field)
+        db.session.commit()
+        flash('Group Data Deleted Successfully')
+        return redirect(url_for('all_fields'))
+    else:
+        flash('Group not found')
+    return redirect(url_for('all_fields'))
+
 if __name__ == "__main__":
     app.run(debug=True)
     with app.app_context():

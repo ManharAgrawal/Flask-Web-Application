@@ -31,7 +31,7 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
-button {
+.create-btn {
     padding: 10px 20px;
     background-color: #062445;
     color: #fff;
@@ -40,6 +40,18 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.create-btn:hover {
     background-color: #0056b3;
+}
+
+#groups{
+    width: 30%;
+    text-align: center;
+    background-color: darkgray;
+    color: currentcolor;
+}
+
+#groups:hover{
+    background-color: #fff;
+    color: #062445;
 }

@@ -12,7 +12,7 @@ Index Page
     <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Settings</button></a>
 </div>
 <br><div class="table_text">
-    <table class="tb">
+    <table class="tb" action="/groups">
         <tr>
             <th>Name</th>
             <th>Description</th>
@@ -25,7 +25,7 @@ Index Page
             <td>
                 <a href="{{ url_for('update_group', id=entity.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('delete_group', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
-                <a href="{{ url_for('all_fields', id=entity.id) }}"><button class="btn_ops" type="submit">Fields</button></a>
+                <a href="{{ url_for('all_fields', id=entity.id) }}"><button class="btn_ops">Fields</button></a>
             </td>
         </tr>
         {% endfor %}

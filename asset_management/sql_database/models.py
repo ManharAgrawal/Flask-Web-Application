@@ -44,5 +44,3 @@ class Field(db.Model):
         self.text = text
         self.default = default
         self.group_name_id = group_name_id
-        
-
