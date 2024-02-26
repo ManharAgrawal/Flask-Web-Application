@@ -1,0 +1,33 @@
+body {
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 80px 0;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+p {
+    font-size: 1.2em;
+    color: #666;    
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #1c5c7e;;
+    color: white;
+    border-radius: 15px;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    color: rgb(15, 15, 15);
+}

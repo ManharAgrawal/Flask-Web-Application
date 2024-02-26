@@ -7,10 +7,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 
+# appilcation initialization
 app = Flask("app")
 db = SQLAlchemy()
 migrate = Migrate(app, db)
 
+# Conneting ,env file 
 db_url = os.getenv('CONNECTION_URL')
 app_secret_key = os.getenv("APP_SECRET_KEY")
 

@@ -23,7 +23,8 @@ label {
     margin-bottom: 8px;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
     padding: 8px;
     margin-bottom: 16px;
     border: 1px solid #ccc;
@@ -44,14 +45,9 @@ input[type="text"] {
     background-color: #0056b3;
 }
 
-#groups{
+#groups {
     width: 30%;
     text-align: center;
     background-color: darkgray;
     color: currentcolor;
-}
-
-#groups:hover{
-    background-color: #fff;
-    color: #062445;
 }

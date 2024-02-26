@@ -1,4 +1,4 @@
-{% extends "login.html" %}
+{% extends "layouts/template_inheritance.html" %}
 {% block title %}
 Index Page
 {% endblock title %}
@@ -9,10 +9,10 @@ Index Page
 {% block content %}
 <div class="text" methods="post">
     <h1 class="h">Hii!!.... Leads</h1>
-    <a href="{{ url_for('text_field') }}"><button class="btn_setting" type="menu">Settings</button></a>
+    <a href="{{ url_for('users_group.group_fields') }}"><button class="btn_setting">Settings</button></a>
 </div>
 <br><div class="table_text">
-    <table class="tb" action="/groups">
+    <table class="tb" action="">
         <tr>
             <th>Name</th>
             <th>Description</th>
@@ -23,9 +23,9 @@ Index Page
             <td>{{ entity.name }}</td>
             <td>{{ entity.description }}</td>
             <td>
-                <a href="{{ url_for('update_group', id=entity.id) }}"><button class="btn_ops">Update</button></a>
-                <a href="{{ url_for('delete_group', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
-                <a href="{{ url_for('all_fields', id=entity.id) }}"><button class="btn_ops">Fields</button></a>
+                <a href="{{ url_for('groups.update_groups', id=entity.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('groups.delete_groups', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
+                <a href="fields/all_fields"><button class="btn_ops">Fields</button></a>
             </td>
         </tr>
         {% endfor %}
