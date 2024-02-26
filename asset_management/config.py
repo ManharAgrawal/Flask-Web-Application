@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-# from sql_database.models import db, Comment, Tag, users_groups
 
 load_dotenv()
 
