@@ -8,11 +8,12 @@ fields_blueprint = Blueprint('users_field', __name__, template_folder='templates
 
 @fields_blueprint.route('/all_fields', methods=["GET","POST"])
 def all_fields():
-    user = current_user.id
-    group = GroupName.query.filter_by(user=user).first()
-    if group:
-        fields = Field.query.filter_by(group_name_id=group.id).all()
-        return render_template('user_fields/all_fields.html', fields=fields)
+    user = current_user
+    groups = user.groups
+    all_fields = []
+    for group in groups:
+        all_fields.extend(group.field)
+    return render_template('user_fields/all_fields.html', fields=all_fields)
 
 @fields_blueprint.route('/create_fields',methods=["GET","POST"])
 def create_fields():
@@ -30,25 +31,26 @@ def create_fields():
         db.session.commit()
         flash('Field Created Successfully!')
         return redirect(url_for('users_field.all_fields'))
-        
     group = GroupName.query.all()
     context = {"groups":group}
     return render_template("user_fields/text_field.html",**context) 
 
-# @fields_blueprint.route('/text_field',methods=["GET","POST"])    
-# def text_field():
-#     return render_template('user_fields/text_field.html')
-
 @fields_blueprint.route('/update_fields/<int:id>', methods=["GET", "POST"])
 def update_fields(id):
     if request.method=="POST":
-        group = Field.query.filter_by(id=id).first()
-        group.name = request.form['name']
-        group.description = request.form['description']
+        field = Field.query.filter_by(id=id).one()
+        group_id = request.form.get('group')
+        name = request.form.get('name')
+        text = request.form.get('text')
+        is_default = request.form.get('is_default')
+        field.name = name
+        field.text = text
+        field.is_default = is_default
+        field.group_name_id = group_id
         db.session.commit()
         flash('The group has been updated successfully!','success')
         return redirect(url_for('users_field.all_fields'))
-    return render_template('user_fields_/update_fields.html',id=id)
+    return render_template('user_fields_/update_fields.html')
 
 @fields_blueprint.route('/delete_fields/<int:id>', methods=['GET',"POST"])
 def delete_fields(id):
@@ -57,7 +59,6 @@ def delete_fields(id):
         db.session.delete(field)
         db.session.commit()
         flash('Field Deleted Successfully')
-        return redirect(url_for('users_field.all_fields'))
     else:
         flash('Field not found')
     return redirect(url_for('users_field.all_fields'))

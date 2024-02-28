@@ -14,13 +14,18 @@ def groups():
         user_id = current_user.id
         name = request.form.get('name')
         description = request.form.get('description')
+        status = request.form.get('status')
         if user_id: 
-            new_group = GroupName(name=name, description=description, user=user_id)
+            new_group = GroupName(name=name, description=description, status=status, user=user_id)
             db.session.add(new_group)
             db.session.commit()
             flash('Group created successfully!')
             return redirect(url_for('users_group.groups'))
-    groups = GroupName.query.filter_by(user=current_user.id)
+    pdb.set_trace()
+    groups = GroupName.query.filter_by(user=current_user.id).all()
+    for group in groups:
+        fields = group.field
+        fields = [dict(field) for field in fields]
     return render_template("user_groups/groups.html",entities=groups)
 
 @groups_blueprint.route('/group_fields', methods=["GET", "POST"])
@@ -33,6 +38,7 @@ def update_groups(id):
         group = GroupName.query.filter_by(id=id).first()
         group.name = request.form['name']
         group.description = request.form['description']
+        group.status = request.form['status']
         db.session.commit()
         flash('The group has been updated successfully!','success')
         return redirect(url_for('users_group.groups'))

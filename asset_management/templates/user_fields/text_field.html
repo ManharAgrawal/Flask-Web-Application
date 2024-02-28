@@ -8,21 +8,24 @@ Create Fields
 {% endblock css %}
 {% block content %}
 <div class="container">
-    <form action="" method="post">
+    <form action="/users_field/create_fields" method="post">
         <br><label for="name">Name</label>
         <input type="text" name="name" id="name" placeholder="Enter your name">
         <label for="text">Text</label>
         <input type="text" name="text" id="text" placeholder="Enter some text">
-        <label for="is_default">is_Default</label>
-        <input type="radio" name="is_default" value="True" id="true">
-        <label for="true">True</label>
-        <input type="radio" name="is_default" value="False" id="false">
-        <label for="false">False</label>
-        <select name="group" id="group">
-            {% for group in groups %}
-            <option value="{{group.id}}">{{group.name}}</option>
-            {% endfor %}
-        </select>
+        <div class="is_default">
+            <label for="is_default">Is_Default</label>
+            <br><input type="radio" name="is_default" value="True" id="true">
+            <label for="true">True</label>
+            <input type="radio" name="is_default" value="False" id="false">
+            <label for="false">False</label>
+            <br><select name="group" id="group">
+                {% for group in groups %}
+                <option value="{{group.id}}">{{group.name}}</option>
+                {% endfor %}
+            </select>
+        </div>    
+        
         <br><input class="create-btn" type="submit" value="Add">
     </form>
 </div>

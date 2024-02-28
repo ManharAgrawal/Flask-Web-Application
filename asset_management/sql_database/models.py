@@ -23,12 +23,14 @@ class GroupName(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
+    status = db.Column(db.String())
     user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     field = db.relationship('Field', backref='GroupName', lazy=True)
 
-    def __init__(self, name, description, user):
+    def __init__(self, name, description, status, user):
         self.name = name
         self.description = description
+        self.status = status
         self.user = user
 
 class Field(db.Model):

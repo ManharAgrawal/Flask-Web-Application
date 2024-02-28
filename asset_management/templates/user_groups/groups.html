@@ -17,6 +17,8 @@ Index Page
             <th>Name</th>
             <th>Description</th>
             <th>Actions</th>
+            <th>Status</th>
+            <th>Fields</th>
         </tr>
         {% for entity in entities %}
         <tr>
@@ -27,6 +29,8 @@ Index Page
                 <a href="{{ url_for('users_group.delete_groups', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
                 <a href="{{ url_for('users_field.all_fields', id=entity.id) }}"><button class="btn_ops">Fields</button></a>   
             </td>
+            <td>{{ entity.status }}</td>
+            <td>{{ entity.fields         }}</td>
         </tr>
         {% endfor %}
     </table>

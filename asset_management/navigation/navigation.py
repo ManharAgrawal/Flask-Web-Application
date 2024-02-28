@@ -1,19 +1,24 @@
-from flask import request, render_template, Blueprint
+from flask import request, redirect, url_for, Blueprint, flash, render_template
 
-navigate_blueprint = Blueprint('navigations', __name__, template_folder='templates/navigations')
+navigate_blueprint = Blueprint('navigate', __name__, template_folder='templates/navigations')
 
-@navigate_blueprint.route('/contact')
+@navigate_blueprint.route('/contact', methods=["GET", "POST"])
 def contact():
-    if request.method=='POST':
+    if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
-    return render_template('navigations/contact.html',name, email, message)
+        flash('Message sent successfully!', 'success')
+    else:
+        name = ""
+        email = ""
+        message = ""
+    return render_template('navigations/contact.html', name=name, email=email, message=message)
 
-@navigate_blueprint.route('/about')
+@navigate_blueprint.route('/about', methods=["GET"])
 def about():
     return render_template('navigations/about.html')
 
-@navigate_blueprint.route('/terms')
+@navigate_blueprint.route('/terms', methods=["GET"])
 def terms():
     return render_template('navigations/terms.html')

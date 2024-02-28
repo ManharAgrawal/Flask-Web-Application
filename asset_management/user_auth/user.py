@@ -1,3 +1,4 @@
+import pdb
 from config import app,db
 from sql_database.models import User
 from werkzeug.security import check_password_hash
@@ -10,6 +11,7 @@ user_blueprint = Blueprint('auth', __name__, template_folder='templates/forms')
 def signup():
     print(request.method)
     if request.method == 'POST':
+        # pdb.set_trace()      
         name = request.form['name']
         email = request.form['email'] 
         user = User.query.filter_by(email= email).first()
@@ -22,7 +24,7 @@ def signup():
             user = User(name=name, email=email, password=password1)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('forms.login'))
+            return redirect(url_for('auth.login'))
         else:
             flash('Passwords do not match. Please try again.', 'error')
     return render_template('forms/sign_up.html')
@@ -31,7 +33,7 @@ def signup():
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        password = request.form['password']
+        password =  request.form['password']
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password,password):
             login_user(user, remember=True)
@@ -46,4 +48,4 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out', 'info')
-    return redirect(url_for('forms/login'))
+    return redirect(url_for('auth.login'))
