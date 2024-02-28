@@ -22,7 +22,7 @@ def signup():
             user = User(name=name, email=email, password=password1)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('forms/login'))
+            return redirect(url_for('forms.login'))
         else:
             flash('Passwords do not match. Please try again.', 'error')
     return render_template('forms/sign_up.html')

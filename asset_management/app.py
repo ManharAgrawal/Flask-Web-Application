@@ -8,7 +8,7 @@ from navigation.navigation import navigate_blueprint
 
 app.register_blueprint(groups_blueprint, url_prefix='/users_group')
 app.register_blueprint(user_blueprint, url_prefix='/auth')
-app.register_blueprint(fields_blueprint, url_prefix='/fields')
+app.register_blueprint(fields_blueprint, url_prefix='/users_field')
 app.register_blueprint(navigate_blueprint, url_prefix='/navigate')
 
 @app.route('/')
