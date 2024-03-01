@@ -38,7 +38,7 @@ def login():
         if user and check_password_hash(user.password,password):
             login_user(user, remember=True)
             flash('Login successful!','success')
-            return redirect(url_for('users_group.groups'))
+            return redirect(url_for('users_group.groups',user_id=user.id))
         else:
             flash('Invalid email or password', 'error')
     return render_template('forms/login.html')

@@ -1,68 +1,134 @@
+/* Heading Styles */
 .h {
-    color: rgb(158, 83, 30);
-    font-size: 24px;
+    color: #34495e; /* Dark blue */
+    font-size: 28px;
     text-align: center;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease; /* Fade in animation */
 }
 
-.h:hover{
-    color: rgb(163, 24, 24);
-}
-
+/* Button Styles */
 .btn_setting {
-    background-color: #926010;
+    display: block;
+    margin: 0 auto;
+    background-color: #3498db; /* Blue */
     color: white;
-    text-align: center;
-    font-size: 20px;
-    display: flex;
-    margin: auto;
-    border-radius: 10px;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: pulse 1.5s infinite alternate; /* Pulse animation */
 }
 .btn_setting:hover {
-    background-color: #0b0c0c;
+    background-color: #2980b9; /* Dark blue */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.btn_setting::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+.btn_setting:hover::after {
+    width: 0;
+    height: 0;
 }
 
-.container {
-    text-align: center;
-    margin-top: 20px;
+/* Table Styles */
+.table_text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    animation: slideInLeft 1s ease; /* Slide in animation */
 }
-
-.table_text{
-    display: flex;
-    justify-content: left;
-    font-size: 23px;
-    margin-left: 10px;
-}
-
-.tb{
+.tb {
     width: 100%;
     border-collapse: collapse;
-    border: 2px solid #255d71; 
-    text-align: center;
+}
+.tb th, .tb td {
+    padding: 12px;
+    border: 1px solid #ccc; /* Border color */
+    transition: background-color 0.3s ease;
+}
+.tb th {
+    background-color: #f2f2f2; /* Light gray */
+}
+.tb tr:hover {
+    background-color: #f9f9f9; /* Lighter gray */
 }
 
-th {
-    background-color: #578fa3; 
-    color: white; 
-    font-size: 20px;
-    padding: 10px;
-    text-align: c;
-    border: 1px solid #070a0a; 
+/* Button Ops Styles */
+.btn_ops-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Adjust margin as needed */
 }
-
-td {
-    padding: 10px;
-    border: 1px solid #578fa3; 
-}
-
 .btn_ops {
-    color: rgb(8, 8, 8);
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 15px;
-    margin: 4px 2px;
+    background-color: #16a085; /* Green */
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    animation: bounceIn 1s ease; /* Bounce in animation */
+}
+.btn_ops:hover {
+    background-color: #1abc9c; /* Dark green */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-.btn_ops:hover {
-    color: rgb(221, 218, 218);
-    background-color: #136a82;
+/* Keyframe animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

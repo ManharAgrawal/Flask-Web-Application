@@ -16,23 +16,23 @@ Index Page
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Actions</th>
             <th>Status</th>
+            <th>Actions</th>
             <th>Fields</th>
         </tr>
         {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
             <td>{{ entity.description }}</td>
-            <td>
-                <a href="{{ url_for('users_group.update_groups', id=entity.id) }}"><button class="btn_ops">Update</button></a>
-                <a href="{{ url_for('users_group.delete_groups', id=entity.id) }}"><button class="btn_ops">Delete</button></a>
-                <a href="{{ url_for('users_field.all_fields', id=entity.id) }}"><button class="btn_ops">Fields</button></a>   
-            </td>
             <td>{{ entity.status }}</td>
-            <td>{{ entity.fields         }}</td>
+            <td>
+                <a href="{{ url_for('users_group.update_groups', group_id=entity.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('users_group.delete_groups', group_id=entity.id) }}"><button class="btn_ops">Delete</button></a>
+                <a href="{{ url_for('users_field.all_fields', group_id=entity.id) }}"><button class="btn_ops">Fields</button></a>   
+            </td>
+            <td>{{ entity.fields }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
-{% endblock %}
+{% endblock %}  
