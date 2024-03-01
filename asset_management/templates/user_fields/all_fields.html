@@ -1,6 +1,6 @@
 {% extends "layouts/template_inheritance.html" %}
 {% block title %}
-Create Fields
+All Fields
 {% endblock title %}
 {% block css %}
 {{ super() }}
@@ -8,7 +8,7 @@ Create Fields
 {% endblock css %}
 {% block content %}
 <div class="text">
-    <h1 class="h">Hi Team!  </h1>
+    <h1 class="h">Hi Team!</h1>
     <a href="{{ url_for('users_field.create_fields', group_id=group_id)}}"><button class="btn_setting">Create New Fields</button></a><br>
 </div>
 <br><div class="table_text">

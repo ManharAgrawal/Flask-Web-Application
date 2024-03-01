@@ -44,3 +44,19 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #a99c11;
 }
+
+input[type="submit"] {
+    background-image: linear-gradient(to right, #71621c, #263775);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-image: linear-gradient(to right, #591515, #0c334d);
+}

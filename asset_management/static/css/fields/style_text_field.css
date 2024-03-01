@@ -15,7 +15,7 @@ form {
 }
 
 label {
-    color: #0d8486;
+    color: #154157;
     margin-bottom: 10px;
     cursor: pointer;
 }
@@ -29,12 +29,11 @@ input[type="radio"] {
 }
 
 input[type="submit"] {
-    background-color: #0d8486;
+    background-image: linear-gradient(to right, #0e6d4c, #6213b0);
     border: none;
     color: white;
     padding: 10px 20px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 16px;
     border-radius: 5px;
@@ -42,5 +41,5 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #a99c11;
+    background-image: linear-gradient(to right, #139680, #961e3c);
 }

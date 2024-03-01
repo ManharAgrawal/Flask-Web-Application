@@ -5,7 +5,6 @@ body {
     padding: 0;
 }
 
-/* Container Styles */
 .container {
     width: 80%;
     margin: auto;
@@ -29,7 +28,7 @@ p {
 
 .btn {
     padding: 10px 30px;
-    background-color: #3498db;
+    background-color: #104569;
     color: #fff;
     border: none;
     border-radius: 25px;
@@ -40,7 +39,7 @@ p {
     margin-block: 3px;
 }
 .btn:hover {
-    background-color: #2980b9;
+    background-color: #142c43;
 }
 
 @keyframes fadeInDown {
