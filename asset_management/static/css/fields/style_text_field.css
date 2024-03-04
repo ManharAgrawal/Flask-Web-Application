@@ -20,16 +20,20 @@ label {
     cursor: pointer;
 }
 
+label:hover{
+    color: #020202;
+}
+
 input[type="text"],
 input[type="radio"] {
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #2e2a2a;
+    border-radius: 10px;
 }
 
 input[type="submit"] {
-    background-image: linear-gradient(to right, #0e6d4c, #6213b0);
+    background-image: linear-gradient(to right, #a32115, #0d817d);
     border: none;
     color: white;
     padding: 10px 20px;
@@ -41,5 +45,5 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-image: linear-gradient(to right, #139680, #961e3c);
+    background-image: linear-gradient(to right, #1c3d9e, #7c710c);
 }

@@ -8,18 +8,24 @@ Update Fields
 {% endblock css %}
 {% block content %}
 <div class="container">
-    <form action="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field_id) }}" method="post">
-        <input type="hidden" name="id" id="id">
+    <form action="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}" method="post">
         <br><label for="name">Name</label>
-        <input type="text" name="name" id="name" placeholder="Enter your name">
+        <input type="text" name="name" id="name" value="{{field.name}}" placeholder="Enter your name">
         <label for="text">Text</label>
-        <input type="text" name="text" id="text" placeholder="Enter some text">
+        <input type="text" name="text" id="text" value="{{field.text}}"  placeholder="Enter some text">
         <div class="isdefault">
             <label for="is_default">is_Default</label>
-            <br><input type="radio" name="is_default" value="true" id="true">
+            {% if field.is_default %}
+            <input type="radio" name="is_default" value="true" id="true" checked>
             <label for="true">True</label>
             <input type="radio" name="is_default" value="false" id="false">
             <label for="false">False</label>
+            {% else %}
+            <input type="radio" name="is_default" value="true" id="true">
+            <label for="true">True</label>
+            <input type="radio" name="is_default" value="false" id="false" checked>
+            <label for="false">False</label>
+            {% endif %}
         </div>    
         <br><input class="create-btn" type="submit" value="Add">
     </form>

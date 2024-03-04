@@ -1,4 +1,3 @@
-import pdb
 from config import db
 from sql_database.models import Field, GroupName
 from flask import Blueprint, render_template, request, flash, url_for, redirect
@@ -31,21 +30,24 @@ def create_fields(group_id):
     return render_template("user_fields/text_field.html",**context,group_id=group_id) 
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/update_fields', methods=["GET", "POST"])
-def update_fields(group_id,field_id,id):
-    if request.method=="POST":
-        field = Field.query.filter_by(id=id).one()
-        group_id = request.form.get('group')
+def update_fields(group_id, field_id):
+    field = Field.query.get(field_id)
+    if request.method == "POST":
         name = request.form.get('name')
         text = request.form.get('text')
         is_default = request.form.get('is_default')
+        if is_default.lower() == 'true':
+            is_default = True
+        else:
+            is_default = False
         field.name = name
         field.text = text
         field.is_default = is_default
         field.group_name_id = group_id
         db.session.commit()
-        flash('The group has been updated successfully!','success')
-        return redirect(url_for('users_field.all_fields'))
-    return render_template('user_fields_/update_fields.html',group_id=group_id,field_id=field_id)
+        flash('The field has been updated successfully!')
+        return redirect(url_for('users_field.all_fields', group_id=group_id))
+    return render_template('user_fields/update_fields.html', field=field, group_id=group_id)
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/delete_fields>', methods=['GET',"POST"])
 def delete_fields(group_id,field_id):

@@ -1,10 +1,9 @@
-import pdb
 from config import db, app
 from flask import  render_template
-from asset_features.user_groups import groups_blueprint
-from fields.fields import fields_blueprint
 from user_auth.user import user_blueprint
+from fields.fields import fields_blueprint
 from navigation.navigation import navigate_blueprint
+from asset_features.user_groups import groups_blueprint
 
 app.register_blueprint(groups_blueprint, url_prefix='/users_group')
 app.register_blueprint(user_blueprint, url_prefix='/auth')

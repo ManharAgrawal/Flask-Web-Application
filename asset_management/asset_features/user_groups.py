@@ -28,15 +28,15 @@ def group_fields():
 
 @groups_blueprint.route('/groups/<int:group_id>/update_groups>', methods=["GET", "POST"])
 def update_groups(group_id):
+    group = GroupName.query.get(group_id)
     if request.method=="POST":
-        group = GroupName.query.get(group_id)
         group.name = request.form['name']
         group.description = request.form['description']
         group.status = request.form['status']
         db.session.commit()
         flash('The group has been updated successfully!','success')
         return redirect(url_for('users_group.groups'))
-    return render_template('user_groups/update_group.html', group_id=group_id)
+    return render_template('user_groups/update_group.html', group=group)
 
 @groups_blueprint.route('/groups/<int:group_id>/delete_groups', methods=["GET","POST"])
 def delete_groups(group_id):
