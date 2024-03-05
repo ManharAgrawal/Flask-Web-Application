@@ -45,5 +45,5 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-image: linear-gradient(to right, #1c3d9e, #7c710c);
+    background-image: linear-gradient(to right, #cfae1c, #1e4697);
 }

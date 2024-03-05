@@ -10,8 +10,7 @@ user_blueprint = Blueprint('auth', __name__, template_folder='templates/forms')
 @user_blueprint.route('/signup', methods=["GET",'POST'])
 def signup():
     print(request.method)
-    if request.method == 'POST':
-        # pdb.set_trace()      
+    if request.method == 'POST':    
         name = request.form['name']
         email = request.form['email'] 
         user = User.query.filter_by(email= email).first()
