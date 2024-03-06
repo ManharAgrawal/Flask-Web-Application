@@ -1,5 +1,5 @@
 import pdb
-from config import app,db
+from config import db
 from sql_database.models import User
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user
@@ -9,8 +9,7 @@ user_blueprint = Blueprint('auth', __name__, template_folder='templates/forms')
 
 @user_blueprint.route('/signup', methods=["GET",'POST'])
 def signup():
-    print(request.method)
-    if request.method == 'POST':    
+    if request.method == 'POST':
         name = request.form['name']
         email = request.form['email'] 
         user = User.query.filter_by(email= email).first()
@@ -19,10 +18,10 @@ def signup():
         if user:
             flash("User Email already Exists")
         elif password1 == password2:
-            flash('Signed Up Successfully!!', 'success')
             user = User(name=name, email=email, password=password1)
             db.session.add(user)
             db.session.commit()
+            flash('Signed Up Successfully!!', 'success')
             return redirect(url_for('auth.login'))
         else:
             flash('Passwords do not match. Please try again.', 'error')

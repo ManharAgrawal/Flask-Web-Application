@@ -19,8 +19,9 @@ def groups():
             db.session.commit()
             flash('Group created successfully!')
             return redirect(url_for('users_group.groups'))
+    num_fields_created = GroupName.query.filter_by(user=current_user.id).count()
     groups = GroupName.query.filter_by(user=current_user.id).all()
-    return render_template("user_groups/groups.html", entities=groups)
+    return render_template("user_groups/groups.html", entities=groups, num_fields_created=num_fields_created)
     
 @groups_blueprint.route('/groups/group_fields', methods=["GET", "POST"])
 def group_fields():

@@ -55,7 +55,7 @@
                 {% endwith %}
             </div>
             <p>Already have an account? <a href="/auth/login">Log in</a></p>
-            <p>By signing up, you agree to our <a href="/navigations/terms">Terms and Conditions</a>.</p>
+            <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms and Conditions</a>.</p>
         </div>
     </div>
     <script src="/static/js/form/sign_up.js"></script>
