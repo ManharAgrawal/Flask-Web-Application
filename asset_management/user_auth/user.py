@@ -16,7 +16,7 @@ def signup():
         password1 = request.form['password1']
         password2 = request.form['password2']
         if user:
-            flash("User Email already Exists")
+            flash("User Email already Exists", 'error')
         elif password1 == password2:
             user = User(name=name, email=email, password=password1)
             db.session.add(user)
@@ -45,5 +45,5 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out', 'info')
+    flash('You have been logged out', 'success')
     return redirect(url_for('auth.login'))

@@ -12,7 +12,7 @@ Update Fields
         <br><label for="name">Name</label>
         <input type="text" name="name" id="name" value="{{field.name}}" placeholder="Enter your name">
         <label for="text">Text</label>
-        <input type="text" name="text" id="text" value="{{field.text}}"  placeholder="Enter some text">
+        <input type="text" name="text" id="text" value="{{field.text}}" placeholder="Enter some text">
         <div class="isdefault">
             <label for="is_default">is_Default</label>
             {% if field.is_default %}
@@ -26,8 +26,22 @@ Update Fields
             <input type="radio" name="is_default" value="false" id="false" checked>
             <label for="false">False</label>
             {% endif %}
-        </div>    
+        </div>
         <br><input class="create-btn" type="submit" value="Add">
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    {% if category == 'success' %}
+    <div>
+        {{ message }}
+    </div>
+    {% else %}
+    <div>
+        {{ message }}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endwith %}
 </div>
 {% endblock %}

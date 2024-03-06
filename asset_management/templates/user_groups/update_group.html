@@ -10,22 +10,37 @@ Update Groups
 <div class="container">
     <form action="{{ url_for('users_group.update_groups', group_id=group.id) }}" method="post">
         <label for="name">Group Name</label>
-        <input type="text" name="name" id="name"  value="{{group.name}}" placeholder="Name" required>
+        <input type="text" name="name" id="name" value="{{group.name}}" placeholder="Name" required>
         <label for="description">Description</label>
-        <textarea name="description" id="description" cols="30" rows="20" placeholder="description">{{ group.description }}</textarea>
+        <textarea name="description" id="description" cols="30" rows="20"
+            placeholder="description">{{ group.description }}</textarea>
         <div class="status">
             <br><label for="status">Status</label>
-            <select name="status" id="status"> 
+            <select name="status" id="status">
                 {% if group.status %}
-                <option selected value="Active">Active</option> 
-                <option value="Inactive">Inactive</option>  
+                <option selected value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
                 {% else %}
-                <option selected value="Inactive">Inactive</option>  
-                <option  value="Active">Active</option>    
+                <option selected value="Inactive">Inactive</option>
+                <option value="Active">Active</option>
                 {% endif %}
             </select>
         </div>
         <input class="create-btn" type="submit" value="Create">
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    {% if category == 'success' %}
+    <div>
+        {{ message }}
+    </div>
+    {% else %}
+    <div>
+        {{ message }}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endwith %}
 </div>
 {% endblock %}

@@ -22,11 +22,12 @@ def create_fields(group_id):
         new_field = Field(name=name, text=text, is_default=flag, group_name_id=group_id)
         db.session.add(new_field)
         db.session.commit() 
-        flash('Field Created Successfully!')
+        flash('Field Created Successfully!', 'success')
         return redirect(url_for('users_field.all_fields', group_id=group_id))
     else:
         group = GroupName.query.all()
         context = {"groups":group}
+        flash('Invalid email or password', 'error')
     return render_template("user_fields/text_field.html",**context,group_id=group_id) 
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/update_fields', methods=["GET", "POST"])
@@ -45,7 +46,7 @@ def update_fields(group_id, field_id):
         field.is_default = is_default
         field.group_name_id = group_id
         db.session.commit()
-        flash('The field has been updated successfully!')
+        flash('The field has been updated successfully!', 'success')
         return redirect(url_for('users_field.all_fields', group_id=group_id))
     return render_template('user_fields/update_fields.html', field=field, group_id=group_id)
 
@@ -55,7 +56,7 @@ def delete_fields(group_id,field_id):
     if field:
         db.session.delete(field)
         db.session.commit()
-        flash('Field Deleted Successfully')
+        flash('Field Deleted Successfully', 'success')
     else:
         flash('Field not found')
     return redirect(url_for('users_field.all_fields',group_id=group_id,field_id=field_id))

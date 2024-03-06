@@ -17,7 +17,7 @@ def groups():
             new_group = GroupName(name=name, description=description, status=status, user=user)
             db.session.add(new_group)
             db.session.commit()
-            flash('Group created successfully!')
+            flash('Group created successfully!', 'success')
             return redirect(url_for('users_group.groups'))
     num_fields_created = GroupName.query.filter_by(user=current_user.id).count()
     groups = GroupName.query.filter_by(user=current_user.id).all()
@@ -45,8 +45,8 @@ def delete_groups(group_id):
     if group:
         db.session.delete(group)
         db.session.commit()
-        flash('Group Data Deleted Successfully')
+        flash('Field Data Deleted Successfully', 'success')
     else:
-        flash('Group Not Found')
+        flash('Field Not Found', 'error')
     return redirect(url_for('users_group.groups'))
 
