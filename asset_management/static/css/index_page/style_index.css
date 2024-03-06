@@ -36,7 +36,7 @@ p {
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     animation: pulse 1.5s infinite alternate;
-    margin-block: 3px;
+    margin-left:26px;
 }
 .btn:hover {
     background-color: #142c43;
