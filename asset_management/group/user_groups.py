@@ -1,7 +1,7 @@
 import pdb
 from config import db
 from flask_login import current_user
-from sql_database.models import GroupName
+from sql_database.models import GroupName, Field
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
@@ -19,9 +19,13 @@ def groups():
             db.session.commit()
             flash('Group created successfully!', 'success')
             return redirect(url_for('users_group.groups'))
-    num_fields_created = GroupName.query.filter_by(user=current_user.id).count()
     groups = GroupName.query.filter_by(user=current_user.id).all()
-    return render_template("user_groups/groups.html", entities=groups, num_fields_created=num_fields_created)
+    all_groups = []
+    for group in groups:
+        num_fields_created = len(group.field)
+        all_groups.append(group)
+    num_fields_created = f"Number of fields:{num_fields_created}"
+    return render_template("user_groups/groups.html", entities=all_groups, num_fields_created=num_fields_created)
     
 @groups_blueprint.route('/groups/group_fields', methods=["GET", "POST"])
 def group_fields():
@@ -49,4 +53,3 @@ def delete_groups(group_id):
     else:
         flash('Field Not Found', 'error')
     return redirect(url_for('users_group.groups'))
-
