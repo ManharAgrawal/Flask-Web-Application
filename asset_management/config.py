@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from dotenv import load_dotenv
+from dotenv import load_dotenv  
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
