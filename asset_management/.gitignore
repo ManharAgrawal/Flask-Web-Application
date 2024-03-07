@@ -1,5 +1,6 @@
 # created by virtualenv automatically
 * readme.md
 * .env
-* venv/
-* migrations/
+* venv
+* migrations
+.gitignore
