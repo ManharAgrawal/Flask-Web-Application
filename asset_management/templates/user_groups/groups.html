@@ -6,33 +6,48 @@ All Groups
 {{ super() }}
 <link rel="stylesheet" href="/static/css/groups/style_groups.css">
 {% endblock css %}
+<!-- {% block js %}
+{% endblock js %} -->
 {% block content %}
+<script src="/static/js/group/flash_for_groups.js"></script>
 <div class="text" methods="post">
     <h1 class="h">Hii!!.... Leads</h1>
-    <a href="{{ url_for('users_group.group_fields') }}"><button class="btn_setting">Settings</button></a>
+    <a class="btn_set" href="{{ url_for('users_group.group_fields') }}"><button class="btn_setting">Settings</button></a>
 </div>
-<br><div class="table_text">
+<br>
+<div class="table_text">
     <table class="tb" action="">
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
-            <th>Fields</th>
-            <th>Actions</th>
+            <th colspan="2">Actions</th>
         </tr>
         {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
             <td>{{ entity.description }}</td>
             <td>{{ entity.status }}</td>
-            <td>{{ num_fields_created }}</td>
             <td>
                 <a href="{{ url_for('users_group.update_groups', group_id=entity.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_group.delete_groups', group_id=entity.id) }}"><button class="btn_ops">Delete</button></a>
-                <a href="{{ url_for('users_field.all_fields', group_id=entity.id) }}"><button class="btn_ops">Fields</button></a>   
+            </td>
+            <td>
+                <a href="{{ url_for('users_field.all_fields', group_id=entity.id) }}"><button class="btn_ops">Fields</button></a>
             </td>
         </tr>
         {% endfor %}
     </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
-{% endblock %}  
+    {% endblock %}

@@ -6,6 +6,9 @@ All Fields
 {{ super() }}
 <link rel="stylesheet" href="/static/css/fields/style_all_fields.css">
 {% endblock css %}
+{% block js %}
+<script src="/static/js/field/flash_for_fields.js"></script>
+{% endblock js %}
 {% block content %}
 <div class="text">
     <h1 class="h">Hi Team!</h1>
@@ -31,6 +34,17 @@ All Fields
         </tr>
         {% endfor %}
     </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
 <br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back to groups</button></a>
 {% endblock %}

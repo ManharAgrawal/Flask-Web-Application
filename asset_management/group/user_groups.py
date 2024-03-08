@@ -2,6 +2,7 @@ import pdb
 from config import db
 from flask_login import current_user
 from sql_database.models import GroupName, Field
+from services.flash import flash_for_users
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
@@ -17,15 +18,10 @@ def groups():
             new_group = GroupName(name=name, description=description, status=status, user=user)
             db.session.add(new_group)
             db.session.commit()
-            flash('Group created successfully!', 'success')
+            flash_for_users('Group created successfully!', 'success')
             return redirect(url_for('users_group.groups'))
     groups = GroupName.query.filter_by(user=current_user.id).all()
-    all_groups = []
-    for group in groups:
-        num_fields_created = len(group.field)
-        all_groups.append(group)
-    num_fields_created = f"Number of fields:{num_fields_created}"
-    return render_template("user_groups/groups.html", entities=all_groups, num_fields_created=num_fields_created)
+    return render_template("user_groups/groups.html", entities=groups)
     
 @groups_blueprint.route('/groups/group_fields', methods=["GET", "POST"])
 def group_fields():
@@ -39,7 +35,7 @@ def update_groups(group_id):
         group.description = request.form['description']
         group.status = request.form['status']
         db.session.commit()
-        flash('The group has been updated successfully!','success')
+        flash_for_users('The group has been updated successfully!','success')
         return redirect(url_for('users_group.groups'))
     return render_template('user_groups/update_group.html', group=group)
 
@@ -47,9 +43,10 @@ def update_groups(group_id):
 def delete_groups(group_id):
     group = GroupName.query.get(group_id)
     if group:
+        Field.query.filter_by(group_name_id=group_id).delete()
         db.session.delete(group)
         db.session.commit()
-        flash('Field Data Deleted Successfully', 'success')
+        flash_for_users('Group Data Deleted Successfully', 'success')
     else:
-        flash('Field Not Found', 'error')
-    return redirect(url_for('users_group.groups'))
+        flash_for_users('Group Not Found', 'error')
+    return redirect(url_for('users_group.groups', group_id=group_id))

@@ -6,6 +6,7 @@
   <title>Log In</title>
   <link rel="icon" href="/static/images/feather-solid.svg">
   <link rel="stylesheet" href="/static/css/froms/style_login.css">
+  <script src="/static/js/form/flash_for_log_in.js"></script>
 </head>
 <body>
   <div class="login_page">
@@ -21,19 +22,15 @@
         </div>
       </form>
       {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, message in messages %}
-      <div>
-        {% if category == 'success' %}
-        <div>
-          {{ message }}
-        </div>
-        {% else %}
-        <div>
-          {{ message }}
-        </div>
-        {% endif %}
-      </div>
-      {% endfor %}
+      {% if messages %}
+          <div id="flash-messages" class="flash-messages">
+              {% for category, message in messages %}
+                  <div class="flash-message {{ category }}">
+                      {{ message }}
+                  </div>
+              {% endfor %}
+          </div>
+      {% endif %}
       {% endwith %}
     </div>
   </div>

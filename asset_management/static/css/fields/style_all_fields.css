@@ -94,6 +94,25 @@
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
+.flash-messages {
+    /* position: fixed; */
+    width: 300px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.flash-message {
+    margin-bottom: 10px;
+}
+
+.flash-message.error {
+    color: red;
+}
+
+.flash-message.success {
+    color: green;
+}
 
 @keyframes fadeInDown {
     from {

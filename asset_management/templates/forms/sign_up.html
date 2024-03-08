@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="/static/css/froms/style_signup.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up</title>
+        <link rel="stylesheet" href="/static/css/froms/style_signup.css">
+        <script src="/static/js/form/flash_for_sign_up.js"></script>
 </head>
 <body>
     <div class="main_container">
@@ -33,24 +34,20 @@
                     <input type="submit" name="Sign Up" value="Sign Up">
                 </form>
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                {% for category, message in messages %}
-                {% if category == 'success' %}
-                    <div>
-                        {{ message }}
+                {% if messages %}
+                    <div id="flash-messages" class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     </div>
-                    {% else %}
-                    <div>
-                        {{ message }}
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
+                {% endif %}
                 {% endwith %}
             </div>
             <p>Already have an account? <a href="/auth/login">Log in</a></p>
             <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms and Conditions</a>.</p>
         </div>
     </div>
-    <script src="/static/js/form/sign_up.js"></script>
 </body>
 </html>

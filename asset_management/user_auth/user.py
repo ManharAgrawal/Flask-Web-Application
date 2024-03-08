@@ -2,6 +2,7 @@ import pdb
 from config import db
 from sql_database.models import User
 from werkzeug.security import check_password_hash
+from services.flash import flash_for_users
 from flask_login import login_user, login_required, logout_user
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 
@@ -16,15 +17,15 @@ def signup():
         password1 = request.form['password1']
         password2 = request.form['password2']
         if user:
-            flash("User Email already Exists", 'error')
+            flash_for_users("User Email already Exists", 'error')
         elif password1 == password2:
             user = User(name=name, email=email, password=password1)
             db.session.add(user)
             db.session.commit()
-            flash('Signed Up Successfully!!', 'success')
+            flash_for_users('Signed Up Successfully!!', 'success')
             return redirect(url_for('auth.login'))
         else:
-            flash('Passwords do not match. Please try again.', 'error')
+            flash_for_users('Passwords do not match. Please try again.', 'error')
     return render_template('forms/sign_up.html')
 
 @user_blueprint.route('/login',methods=["GET","POST"])
@@ -35,15 +36,15 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password,password):
             login_user(user, remember=True)
-            flash('Login successful!','success')
+            flash_for_users('Login successful!','success')
             return redirect(url_for('users_group.groups',user_id=user.id))
         else:
-            flash('Invalid email or password', 'error')
+            flash_for_users('Invalid email or password', 'error')
     return render_template('forms/login.html')
 
 @user_blueprint.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out', 'success')
+    flash_for_users('You have been logged out', 'success')
     return redirect(url_for('auth.login'))
