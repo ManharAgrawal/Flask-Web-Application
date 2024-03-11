@@ -24,25 +24,31 @@ class GroupName(db.Model):
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
     status = db.Column(db.String())
-    user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    field = db.relationship('Field', backref='GroupName', lazy=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    field = db.relationship('Field', backref='group', lazy=True)
 
-    def __init__(self, name, description, status, user):
+    def __init__(self, name, description, status, user_id):
         self.name = name
         self.description = description
         self.status = status
-        self.user = user
+        self.user_id = user_id
 
 class Field(db.Model):
     __tablename__ = 'fields'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    text = db.Column(db.String(), nullable=False)
-    is_default = db.Column(db.Boolean)
-    group_name_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+    description = db.Column(db.String(), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     
-    def __init__(self,name,text,is_default,group_name_id):
+    def __init__(self,name,description,group_id):
         self.name = name
-        self.text = text
-        self.is_default = is_default
-        self.group_name_id = group_name_id
+        self.description = description
+        self.group_id = group_id
+        
+class DataType(db.Model):
+    __tablename__ = 'datatype'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+
+    def __init__(self, name):
+        self.name = name

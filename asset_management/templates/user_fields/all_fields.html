@@ -4,30 +4,29 @@ All Fields
 {% endblock title %}
 {% block css %}
 {{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
 <link rel="stylesheet" href="/static/css/fields/style_all_fields.css">
 {% endblock css %}
-{% block js %}
-<script src="/static/js/field/flash_for_fields.js"></script>
-{% endblock js %}
 {% block content %}
 <div class="text">
     <h1 class="h">Hi Team!</h1>
-    <a href="{{ url_for('users_field.create_fields', group_id=group_id)}}"><button class="btn_setting">Create New Fields</button></a><br>
+    <a href="{{ url_for('users_field.create_field', group_id=group_id)}}"><button class="btn_setting">Create New Fields</button></a><br>
 </div>
 <br><div class="table_text">
     <table class="tb">
         <tr>
             <th>Name</th>
-            <th>Text</th>
-            <th>is_Default</th>
+            <th>Description</th>
+            <!-- <th>Type</th> -->
             <th>Actions</th>
         </tr>
         {% for field in fields %}
         <tr>
             <td>{{ field.name }}</td>
-            <td>{{ field.text }}</td>
-            <td>{{ field.is_default }}</td>
+            <td>{{ field.description }}</td>
+            <!-- <td>{{ field.type }}</td> -->
             <td>
+                <a href="{{ url_for('users_field.field_report', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Create Reports</button></a>
                 <a href="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_field.delete_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>
             </td>
@@ -47,4 +46,5 @@ All Fields
     {% endwith %}
 </div>
 <br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back to groups</button></a>
+<script src="/static/js/field/flash_for_fields.js"></script>
 {% endblock %}

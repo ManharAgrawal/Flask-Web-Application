@@ -1,12 +1,11 @@
 .container {
     max-width: 500px;
-    margin: 6%;
+    margin: 6% auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #f9f9f9;
     font-family: Cursive;
-    margin-left: 34%;
 }
 
 form {
@@ -20,12 +19,12 @@ label {
     cursor: pointer;
 }
 
-label:hover{
+label:hover {
     color: #020202;
 }
 
 input[type="text"],
-input[type="radio"] {
+input[type="description"]{
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #2e2a2a;
@@ -38,7 +37,6 @@ input[type="submit"] {
     color: white;
     padding: 10px 20px;
     text-align: center;
-    display: inline-block;
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;

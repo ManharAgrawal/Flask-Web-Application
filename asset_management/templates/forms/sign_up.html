@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sign Up</title>
+        <link rel="icon" href="/static/images/feather-solid.svg">
         <link rel="stylesheet" href="/static/css/froms/style_signup.css">
         <script src="/static/js/form/flash_for_sign_up.js"></script>
 </head>
@@ -12,7 +13,7 @@
         <div class="signup_container">
             <div class="form">
                 <h2>Create an account</h2>
-                <form action="/auth/signup" method="post">
+                <form action="{{url_for('auth.signup')}}" method="post">
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input type="text" id="username" name="name" placeholder="Enter your username" required><br>

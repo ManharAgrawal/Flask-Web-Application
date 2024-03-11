@@ -4,6 +4,7 @@ Update Fields
 {% endblock title %}
 {% block css %}
 {{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
 <link rel="stylesheet" href="/static/css/fields/style_update_fields.css">
 {% endblock css %}
 {% block content %}
@@ -11,21 +12,8 @@ Update Fields
     <form action="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}" method="post">
         <br><label for="name">Name</label>
         <input type="text" name="name" id="name" value="{{field.name}}" placeholder="Enter your name">
-        <label for="text">Text</label>
-        <input type="text" name="text" id="text" value="{{field.text}}" placeholder="Enter some text">
-        <div class="isdefault">
-            <label for="is_default">is_Default</label>
-            {% if field.is_default %}
-            <input type="radio" name="is_default" value="true" id="true" checked>
-            <label for="true">True</label>
-            <input type="radio" name="is_default" value="false" id="false">
-            <label for="false">False</label>
-            {% else %}
-            <input type="radio" name="is_default" value="true" id="true">
-            <label for="true">True</label>
-            <input type="radio" name="is_default" value="false" id="false" checked>
-            <label for="false">False</label>
-            {% endif %}
+        <label for="description">Description</label>
+        <input type="`text" name="description" id="description" placeholder="Enter some description">
         </div>
         <br><input class="create-btn" type="submit" value="Add">
     </form>
