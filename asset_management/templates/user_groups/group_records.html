@@ -1,0 +1,53 @@
+{% extends "layouts/template_inheritance.html" %}
+{% block title %}
+Group Recods
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/groups/style_group_records.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <h1>Group Recods</h1>
+</div>
+<div class="container1">
+    <div class="integer">
+        <form action="{{url_for('users_group.group_records', gourp_id=group_id)}}" method="post">
+            <label for="dataformat">{{ dataformat }}</label><br />
+            <input type="hidden" name="dataformat" value="{{ dataformat }}">
+            <label for="number">Number</label>
+            <input type="number" name="number" id="number" placeholder="Enter Your Number">
+            <label for="employee_id">Employee Id</label>
+            <input type="number" name="employee_id" id="employee_id" placeholder="Enter Your Employee Id">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="string">
+        <form action="">
+            <label for="dataformat">{{ dataformat }}</label><br />
+            <input type="hidden" name="dataformat" value="{{ dataformat }}">
+            <label for="F_name">Frist Name</label>
+            <input type="text" name="F_name" id="F_name" placeholder="Enter your First Name">
+            <label for="L_name">Last Name</label>
+            <input type="text" name="L_name" id="L_name" placeholder="Last Name">
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" placeholder="Enter Your Address">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="boolean">
+        <form action="">
+            <label for="dataformat">{{ dataformat }}</label><br />
+            <input type="hidden" name="dataformat" value="{{ dataformat }}">
+            <div class="bool">
+                <label for="true">True</label>
+                <input type="radio" value="true" name="true" id="true">
+                <label for="false">False</label>
+                <input type="radio" name="false" value="false" id="false">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

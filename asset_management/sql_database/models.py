@@ -23,14 +23,14 @@ class GroupName(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    status = db.Column(db.String())
+    dataformat = db.Column(db.String(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    field = db.relationship('Field', backref='group', lazy=True)
+    field = db.relationship('Field', backref='groups', lazy=True)
 
-    def __init__(self, name, description, status, user_id):
+    def __init__(self, name, description, dataformat, user_id):
         self.name = name
         self.description = description
-        self.status = status
+        self.dataformat = dataformat
         self.user_id = user_id
 
 class Field(db.Model):
@@ -38,17 +38,11 @@ class Field(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
+    dataformat = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     
-    def __init__(self,name,description,group_id):
+    def __init__(self,name,description, dataformat, group_id):
         self.name = name
         self.description = description
+        self.dataformat = dataformat
         self.group_id = group_id
-        
-class DataType(db.Model):
-    __tablename__ = 'datatype'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-
-    def __init__(self, name):
-        self.name = name

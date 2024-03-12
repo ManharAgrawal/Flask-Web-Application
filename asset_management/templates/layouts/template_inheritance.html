@@ -12,7 +12,7 @@
 <body>
     {% if current_user.is_authenticated %}
         <div class="header" action="/login">
-            <a href="/auth/login" class="logo">Asset Management</a>
+            <a href="/auth/login" class="logo"> <img src="/static/images/icons8-scooby-doo.svg" alt="Logo">Asset Management</a>
             <div class="header-right">
                 <a class="active" href="/users_group/groups">Home</a>
                 <a class="active" href="{{ url_for('navigate.contact', user_id=current_user.id) }}">Contact</a>

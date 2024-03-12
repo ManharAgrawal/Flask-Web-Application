@@ -14,12 +14,19 @@ def create_field(group_id):
     if request.method == "POST":
         name = request.form.get('name')
         description = request.form.get('description')
-        if name and description:
-            new_field = Field(name=name, description=description, group_id=group_id)
+        dataformat = request.form.get('dataformat')
+        if dataformat == 'Integer':
+            flag = 'Integer'
+        elif dataformat == 'String':
+            flag = 'String'
+        else:
+            flag = 'Boolean'
+        if name and description and dataformat:
+            new_field = Field(name=name, description=description, dataformat=dataformat, group_id=group_id)
             db.session.add(new_field)
             db.session.commit() 
             flash('Field Created Successfully!', 'success')
-            return redirect(url_for('users_field.all_fields', group_id=group_id))  # Corrected the route name
+            return redirect(url_for('users_field.all_fields', group_id=group_id))
     return render_template("user_fields/create_field.html", group_id=group_id)
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/update_fields', methods=["GET", "POST"])
@@ -36,9 +43,10 @@ def update_fields(group_id, field_id):
         return redirect(url_for('users_field.all_fields', group_id=group_id))  # Corrected the route name
     return render_template('user_fields/update_fields.html', field=field, group_id=group_id)
 
-@fields_blueprint.route("/groups/<int:group_id>/fields/<int:field_id>/field_report")
-def field_report(group_id, field_id):
-    return render_template('user_fields/field_report.html', group_id=group_id, field_id=field_id)
+@fields_blueprint.route("/groups/fields/<int:field_id>/field_records", methods=["GET","POST"])
+def field_records(field_id):
+    return render_template('user_fields/field_records.html', field_id=field_id)
+
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/delete_fields>', methods=['GET',"POST"])
 def delete_fields(group_id,field_id):

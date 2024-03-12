@@ -41,3 +41,9 @@
 .boolean label {
     margin-right: 10px;
 }
+
+button{
+    background-color: #fff;
+    color: black;
+    border-radius: 5px;
+}

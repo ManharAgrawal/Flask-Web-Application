@@ -23,8 +23,7 @@ label:hover {
     color: #020202;
 }
 
-input[type="text"],
-input[type="description"]{
+input{
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #2e2a2a;
@@ -44,4 +43,14 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-image: linear-gradient(to right, #cfae1c, #1e4697);
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 1%;
 }

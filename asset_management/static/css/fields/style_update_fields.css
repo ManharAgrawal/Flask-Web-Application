@@ -19,8 +19,7 @@ label {
     cursor: pointer;
 }
 
-input[type="text"],
-input[type="radio"] {
+input{
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -41,4 +40,14 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-image: linear-gradient(to right, #591515, #0c334d);
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 1%;
 }

@@ -12,16 +12,22 @@ def groups():
         user_id = current_user.id
         name = request.form.get('name')
         description = request.form.get('description')
-        status = request.form.get('status')
-        if name and description and status: 
-            new_group = GroupName(name=name, description=description, status=status, user_id=user_id)
+        dataformat = request.form.get('dataformat')
+        if dataformat == 'Integer':
+            flag = 'Integer'
+        elif dataformat == 'String':
+            flag = 'String'
+        else:
+            flag = 'Boolean'
+        if name and description and dataformat: 
+            new_group = GroupName(name=name, description=description, dataformat=flag, user_id=user_id)
             db.session.add(new_group)
             db.session.commit()
             flash('Group created successfully!', 'success')
             return redirect(url_for('users_group.groups'))
     groups = GroupName.query.filter_by(user_id=current_user.id).all()
     return render_template("user_groups/groups.html", entities=groups)
-    
+
 @groups_blueprint.route('/groups/group_fields', methods=["GET", "POST"])
 def group_fields():
     return render_template('user_groups/group_fields.html')
@@ -32,15 +38,15 @@ def update_groups(group_id):
     if request.method=="POST":
         group.name = request.form['name']
         group.description = request.form['description']
-        group.status = request.form['status']
+        group.dataformat = request.form['dataformat']
         db.session.commit()
         flash('The group has been updated successfully!','success')
         return redirect(url_for('users_group.groups'))
     return render_template('user_groups/update_group.html', group=group)
 
-@groups_blueprint.route('/groups/group_report', methods=["GET", "POST"])
-def group_report():
-    return render_template('user_groups/group_report.html')
+@groups_blueprint.route('/groups/group_records', methods=["GET", "POST"])
+def group_records():
+    return render_template('user_groups/group_records.html')
     
 @groups_blueprint.route('/groups/<int:group_id>/delete_groups', methods=["GET","POST"])
 def delete_groups(group_id):

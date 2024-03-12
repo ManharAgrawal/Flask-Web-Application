@@ -15,18 +15,14 @@ Update Groups
         <label for="description">Description</label>
         <textarea name="description" id="description" cols="30" rows="20"
             placeholder="description">{{ group.description }}</textarea>
-        <div class="status">
-            <br><label for="status">Status</label>
-            <select name="status" id="status">
-                {% if group.status %}
-                <option selected value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                {% else %}
-                <option selected value="Inactive">Inactive</option>
-                <option value="Active">Active</option>
-                {% endif %}
-            </select>
-        </div>
+            <div class="dataformat">
+                <br><label for="dataformat">Choose Type</label>
+                <select name="dataformat" id="dataformat">
+                    <option selected="selected" value="Integer">Integer</option>
+                    <option value="String">String</option>
+                    <option value="boolean">Boolean</option>
+                </select>
+            </div>
         <input class="create-btn" type="submit" value="Create">
     </form>
 </div>

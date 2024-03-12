@@ -6,40 +6,46 @@
     animation: fadeInDown 1s ease; 
 }
 
-.btn_setting {
-    display: block;
-    margin: 0 auto;
-    background-color: #1d7cbb; 
-    color: white;
-    font-size: 18px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 19px;
-    cursor: pointer;
-    overflow: hidden;
-    animation: pulse 1.5s infinite alternate; 
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.btn_setting:hover {
+.btn1 {
+    padding: 10px 30px;
+    background-color: #104569;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+.btn2 {
+    padding: 10px 30px;
+    background-color: #104569;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+.btn1:hover {
     background-color: #295eb9;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn_setting::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
-    z-index: 0;
+.btn1:hover::after {
+    width: 0;
+    height: 0;
 }
 
-.btn_setting:hover::after {
+.btn2:hover {
+    background-color: #295eb9;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn2:hover::after {
     width: 0;
     height: 0;
 }
@@ -85,8 +91,6 @@
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    animation: bounceIn 1s ease; 
 }
 
 .btn_ops:hover {
@@ -171,8 +175,7 @@
     border: none;
     border-radius: 19px;
     cursor: pointer;
-    overflow: hidden;
-    animation: pulse 1.5s infinite alternate; 
+    overflow: hidden; 
 }
 
 .btn:hover {
@@ -180,18 +183,6 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background-color: rgba(71, 80, 151, 0.387);
-    border-radius: 50%;
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
-}
 
 .btn:hover::after {
     width: 0;

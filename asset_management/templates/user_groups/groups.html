@@ -13,7 +13,10 @@ All Groups
 {% endblock js %}
 <div class="text" methods="post">
     <h1 class="h">Hii!!.... Leads</h1>
-    <a class="btn_set" href="{{ url_for('users_group.group_fields') }}"><button class="btn_setting">Settings</button></a>
+</div>
+<div class="buttons-container">
+    <a href="{{ url_for('users_group.group_fields') }}"><button class="btn1">Settings</button></a>
+    <a href="{{ url_for('users_group.group_records') }}"><button class="btn2">Create Records</button></a>
 </div>
 <br>
 <div class="table_text">
@@ -21,16 +24,15 @@ All Groups
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Status</th>
+            <th>DataFormat</th>
             <th colspan="2">Actions</th>
         </tr>
         {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
             <td>{{ entity.description }}</td>
-            <td>{{ entity.status }}</td>
+            <td>{{ entity.dataformat }}</td>
             <td>
-                <a href="{{ url_for('users_group.group_report', group_id=entity.id) }}"><button class="btn_ops">Create Reports</button></a>
                 <a href="{{ url_for('users_group.update_groups', group_id=entity.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_group.delete_groups', group_id=entity.id) }}"><button class="btn_ops">Delete</button></a>
             </td>
