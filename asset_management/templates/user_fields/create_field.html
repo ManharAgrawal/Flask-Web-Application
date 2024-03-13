@@ -8,14 +8,14 @@ Create Fields
 <link rel="stylesheet" href="/static/css/fields/style_create_field.css">
 {% endblock css %}
 {% block content %}
-    <div class="container">
+<div class="container">
     <form action="{{ url_for('users_field.create_field', group_id=group_id) }}" method="post">
         <br><label for="name">Name</label>
         <input type="text" name="name" id="name" placeholder="Enter your name">
         <br><label for="description">Description</label>
         <input type="text" name="description" id="description" placeholder="Enter some description">
-        <div class="data_type">
-            <select name="data_type" id="data_type">
+        <div class="dataformat">
+            <select name="dataformat" id="dataformat">
                 <option selected="selected" value="Integer">Integer</option>
                 <option value="String">String</option>
                 <option value="boolean">Boolean</option>

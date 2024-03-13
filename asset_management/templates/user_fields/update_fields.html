@@ -13,9 +13,10 @@ Update Fields
         <br><label for="name">Name</label>
         <input type="text" name="name" id="name" value="{{field.name}}" placeholder="Enter your name">
         <label for="description">Description</label>
-        <input type="text" name="description" id="description" placeholder="Enter some description">
-        <div class="data_type">
-            <select name="data_type" id="data_type">
+        <input type="text" name="description" id="description" value="{{field.description}}" placeholder="Enter some description">
+        <div class="dataformat">
+            <br><label for="dataformat">Choose Type</label>
+            <select name="dataformat" id="dataformat">
                 <option selected="selected" value="Integer">Integer</option>
                 <option value="String">String</option>
                 <option value="boolean">Boolean</option>

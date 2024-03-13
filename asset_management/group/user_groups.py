@@ -46,7 +46,11 @@ def update_groups(group_id):
 
 @groups_blueprint.route('/groups/group_records', methods=["GET", "POST"])
 def group_records():
-    return render_template('user_groups/group_records.html')
+    groups = GroupName.query.all()
+    group_names = []
+    for group in groups:
+        group_names.append(group.name)
+    return render_template('user_groups/group_records.html', groups=groups, group_names=group_names)
     
 @groups_blueprint.route('/groups/<int:group_id>/delete_groups', methods=["GET","POST"])
 def delete_groups(group_id):

@@ -1,49 +1,16 @@
 .container1 {
     display: flex;
-    gap: 15%;
-}
-
-.container1 form {
+    gap: 20%;
+    padding: 15px;
+    border-radius:10px;
+    background-color:transparent;
     margin-right: 25px; 
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 10px;
 }
 
-.container1 form:last-child {
-    margin-right: 0;
-}
-
-.integer, .string, .boolean {
-    padding: 40px;
-    border-radius: 5px;
-}
-
-.integer label, .string label, .boolean label {
-    display: block;
+input {
+    width:60%;
+    padding: 1px;
     margin-bottom: 10px;
-}
-
-.integer input, .string input, .boolean input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.boolean .bool {
-    display: flex;
-    align-items: center;
-}
-
-.boolean label {
-    margin-right: 10px;
-}
-
-button{
-    background-color: #fff;
-    color: black;
-    border-radius: 5px;
+    border-radius: 10px;
 }

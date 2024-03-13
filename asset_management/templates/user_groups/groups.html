@@ -16,7 +16,7 @@ All Groups
 </div>
 <div class="buttons-container">
     <a href="{{ url_for('users_group.group_fields') }}"><button class="btn1">Settings</button></a>
-    <a href="{{ url_for('users_group.group_records') }}"><button class="btn2">Create Records</button></a>
+    <a href="{{ url_for('users_group.group_records', groups=groups, group_names=group_names) }}"><button class="btn2">Create Records</button></a>
 </div>
 <br>
 <div class="table_text">
