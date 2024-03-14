@@ -1,5 +1,6 @@
-from config import db
-from sql_database.models import Field, GroupName
+from config import db, mongo
+from sql_database.models import Field
+from bson.objectid import ObjectId 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
@@ -47,6 +48,11 @@ def update_fields(group_id, field_id):
 
 @fields_blueprint.route("/groups/fields/field_records", methods=["GET","POST"])
 def field_records():
+    if request.method == "POST":
+        name = {"Field Name":"field.name"}
+        dataformat = {"Field Dataformat":"field.dataformat"}
+        records = mongo.db.inventory.insert_one({"Field Name":name, "Field Dataformat":dataformat})
+        return render_template('user_fields/field_records.html', records=records)
     fields = Field.query.all()
     field_names = []
     for field in fields:

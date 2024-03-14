@@ -1,4 +1,4 @@
-from config import db, app
+from config import db, app, mongo
 from flask import  render_template
 from user_auth.user import user_blueprint
 from fields.fields import fields_blueprint
@@ -12,6 +12,7 @@ app.register_blueprint(fields_blueprint, url_prefix='/users_field')
 
 @app.route('/')
 def home():
+    mongo.db.inventory.insert_one({"z":1})
     return render_template('index/index.html')
 
 if __name__ == "__main__":
