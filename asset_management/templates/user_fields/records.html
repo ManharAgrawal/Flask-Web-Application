@@ -21,9 +21,9 @@ Records
         {% for record in records%}
         <tr>
             <td>{{ record.name }}</td>
-            <td>{{ record.field_reocrd }}</td>    
+            <td>{{ record.field_reocrd }}</td>
             <td>
-                <a href="{{url_for('users_field.delete_records')}}"><button class="btn btn-outline-secondary">Delete</button></a>
+                <a href="{{url_for('users_field.delete_records')}}"><button class="btn_ops">Delete</button></a>
             </td>
         </tr>
         {% endfor %}
@@ -39,6 +39,7 @@ Records
     </div>
     {% endif %}
     {% endwith %}
-    </div>
-    <script src="/static/js/field/flash_for_records.js"></script>
-    {% endblock %}
+</div>
+<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
+<script src="/static/js/field/flash_for_records.js"></script>
+{% endblock %}

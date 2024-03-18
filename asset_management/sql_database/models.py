@@ -38,7 +38,7 @@ class Field(db.Model):
     description = db.Column(db.String(), nullable=False)
     dataformat = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
-    field_key = db.Column(db.String()) 
+    field_key = db.Column(db.Integer) 
     
     def __init__(self,name,description, dataformat, field_key, group_id):
         self.name = name

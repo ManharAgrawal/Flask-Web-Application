@@ -14,7 +14,7 @@ Field Records
     <h1>Fields Records</h1>
 </div>
 <div class="container1">
-    <form action="{{url_for('users_field.records'  )}}" method="post">
+    <form action="{{url_for('users_field.records')}}" method="post">
         {% for field in fields %}
         {% if field.dataformat == 'Integer' %}
         <div class="form-group column">

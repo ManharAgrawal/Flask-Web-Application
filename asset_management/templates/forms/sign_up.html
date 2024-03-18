@@ -1,61 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign Up</title>
-        <link rel="icon" href="/static/images/feather-solid.svg">
-        <link rel="stylesheet" href="/static/css/froms/style_signup.css">
-        <script src="/static/js/form/flash_for_sign_up.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" href="/static/images/feather-solid.svg">
+    <link rel="stylesheet" href="/static/css/froms/style_signup.css">
+    <script src="/static/js/form/flash_for_sign_up.js"></script>
 </head>
 <body>
     <div class="main_container">
         <div class="signup_container">
-            <div class="form">
-                <h2>Create an account</h2>
-                <form action="{{url_for('auth.signup')}}" method="post">
+            <h2>Create an account</h2>
+            <div class="container">
+                <form action="{{url_for('auth.signup')}}" method="post" class="signup-form">
+                    <h2>Sign Up</h2>
                     <div class="form-control">
-                        <input type="value" required="">
-                        <label>
-                            <span style="transition-delay:0ms">U</span><span style="transition-delay:50ms">s</span><span style="transition-delay:100ms">e</span><span style="transition-delay:150ms">r</span><span style="transition-delay:200ms">n</span><span style="transition-delay:250ms">a</span><span style="transition-delay:300ms">m</span><span style="transition-delay:350ms">e</span>
-                        </label>
+                        <label for="username">Username</label>
+                        <br><input type="text" name="name" id="username" required><br>
+                        <br><label for="email">Email</label>
+                        <br><input type="email" name="email" id="email" required><br>
+                        <br><label for="password">Password</label>
+                        <br><input type="password" name="password" id="password" required><br>
+                        <br><label for="confirm_password">Confirm Password</label>
+                        <br><input type="password" name="confirm_password" id="confirm_password" required>
                     </div>
-                    <div class="form-control">
-                        <input type="value" required="">
-                        <label>
-                            <span style="transition-delay:0ms">E</span><span style="transition-delay:50ms">m</span><span style="transition-delay:100ms">a</span><span style="transition-delay:150ms">i</span><span style="transition-delay:200ms">l</span>
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <input type="value" required="">
-                        <label>
-                            <span style="transition-delay:0ms">P</span><span style="transition-delay:50ms">a</span><span style="transition-delay:100ms">s</span><span style="transition-delay:150ms">s</span><span style="transition-delay:200ms">w</span><span style="transition-delay:250ms">o</span><span style="transition-delay:300ms">r</span><span style="transition-delay:350ms">d</span>
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <input type="value" required="">
-                        <label>
-                            <span style="transition-delay:0ms">C</span><span style="transition-delay:50ms">o</span><span style="transition-delay:100ms">n</span><span style="transition-delay:150ms">f</span><span style="transition-delay:200ms">i</span><span style="transition-delay:250ms">r</span><span style="transition-delay:300ms">m</span>
-                            <span style="transition-delay:350ms">P</span><span style="transition-delay:400ms">a</span><span style="transition-delay:450ms">s</span><span style="transition-delay:500ms">s</span><span style="transition-delay:550ms">w</span><span style="transition-delay:600ms">o</span><span style="transition-delay:650ms">r</span><span style="transition-delay:700ms">d</span>
-                        </label>
-                    </div>
-                    <input type="submit" value="Sign Up">
+                    <br><input type="submit" value="Submit">
                 </form>
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div id="flash-messages" class="flash-messages">
-                        {% for category, message in messages %}
-                            <div class="flash-message {{ category }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% endwith %}
             </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div id="flash-messages" class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
             <p>Already have an account? <a href="/auth/login">Log in</a></p>
             <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms and Conditions</a>.</p>
         </div>
     </div>
 </body>
+
 </html>

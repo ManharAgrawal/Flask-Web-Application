@@ -1,7 +1,8 @@
 import pdb
 from config import db, mongo
+from sqlalchemy import func
 from sql_database.models import Field, GroupName
-from bson.objectid import ObjectId 
+from bson import ObjectId 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
@@ -18,13 +19,15 @@ def create_field(group_id):
         description = request.form.get('description')
         dataformat = request.form.get('dataformat')
         field_key = request.form.get('field_key')
+        last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=group_id).scalar()
+        if last_field_key is None:
+            field_key = 1
+        else:
+            field_key = last_field_key + 1
         if name and dataformat:
             new_field = Field(name=name, description=description, dataformat=dataformat, field_key=field_key, group_id=group_id)
             db.session.add(new_field)
             db.session.commit()
-            new_field_id = new_field.id
-            new_field.field_key = f"field_{new_field_id}"
-            db.session.commit() 
             flash('Field Created Successfully!', 'success')
             return redirect(url_for('users_field.all_fields', group_id=group_id))
     return render_template("user_fields/create_field.html", group_id=group_id)
@@ -59,12 +62,10 @@ def field_records(group_id):
 @fields_blueprint.route("/groups/fields/field_records/records", methods=["GET","POST"])
 def records():
     if request.method == "POST":
-        # pdb.set_trace()
         request_data = dict(request.form)
         record = {}
         for k,v in request_data.items():
             record.update({k:v})
-        instance = mongo.db.records.insert_one(record)
         return redirect(url_for('users_field.get_records'))
     records = mongo.db.records.find()
     return render_template('user_fields/records.html', records=records)
@@ -74,11 +75,16 @@ def get_records():
     records = mongo.db.records.find() 
     return render_template("user_fields/records.html", records=records)
 
-@fields_blueprint.route('/group/field/field_records/records/delete_records', methods=["GET"])
+@fields_blueprint.route('/group/field/field_records/records/delete_records', methods=["GET","POST"])
 def delete_records():
-    return render_template('user_fields/delete_records')
-
-@fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/delete_fields>', methods=['GET',"POST"])
+        record_id = request.args.get('id')
+        bson_id = ObjectId(record_id)
+        record = mongo.db.records.find_one({"_id": bson_id})
+        if record:
+            return record
+        return render_template('user_fields/records.html')
+    
+@fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/delete_fields', methods=['GET',"POST"])
 def delete_fields(group_id,field_id):
     field = Field.query.get(field_id)
     if field:
@@ -90,6 +96,6 @@ def delete_fields(group_id,field_id):
     flash(status_message,status)
     return redirect(url_for('users_field.all_fields',group_id=group_id,field_id=field_id))
 
-@fields_blueprint.route('/groups/groups',methods=["GET","POST"])
+@fields_blueprint.route('/groups/fields', methods=["GET", "POST"])
 def back_to_group():
-    return redirect(url_for('users_group.groups'))
+    return redirect(url_for('users.group.group'))

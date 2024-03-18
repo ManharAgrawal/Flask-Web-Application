@@ -1,4 +1,4 @@
-.h {
+h1 {
     color: #34495e; 
     font-size: 28px;
     text-align: center;
@@ -166,26 +166,59 @@
 }
 
 .btn {
-    display: block;
-    margin: 20px auto;
-    background-color: #3c9ae7; 
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #03045e;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in;
+    z-index: 1;
+    margin-left: 47%;    
+}
+
+.btn:hover{
     color: white;
-    font-size: 18px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 19px;
-    cursor: pointer;
-    overflow: hidden; 
 }
 
-.btn:hover {
-    background-color: #15446c;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-
-.btn:hover::after {
+.btn::before,
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
     width: 0;
-    height: 0;
+    height: 100%;
+    transform: skew(15deg);
+    transition: all 0.5s;
+    overflow: hidden;
+    z-index: -1;
+    
 }
 
+.btn::before {
+    left: -10px;
+    background: #240046;
+}
+
+.btn::after {
+    right: -10px;
+    background: #5a189a;
+}
+
+.btn:hover::before,
+.btn:hover::after {
+    width: 58%;
+}
+
+.btn:hover span {
+    color: #e0aaff;
+    transition: 0.3s;
+}
+
+.btn span {
+    color: #03045e;
+    font-size: 18px;
+    transition: all 0.3s ease-in;
+    
+}

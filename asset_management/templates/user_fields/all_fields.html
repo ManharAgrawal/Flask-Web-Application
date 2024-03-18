@@ -21,7 +21,6 @@ All Fields
             <th>Name</th>
             <th>Description</th>
             <th>DataFormat</th>
-            <th>Field Key</th>
             <th>Actions</th>
         </tr>
         {% for field in fields %}
@@ -29,7 +28,6 @@ All Fields
             <td>{{ field.name }}</td>
             <td>{{ field.description }}</td>
             <td>{{ field.dataformat }}</td>
-            <td>{{ field.field_key }}</td>
             <td>
                 <a href="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_field.delete_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>
@@ -49,6 +47,6 @@ All Fields
     {% endif %}
     {% endwith %}
 </div>
-<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back to groups</button></a>
+<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
 <script src="/static/js/field/flash_for_fields.js"></script>
 {% endblock %}

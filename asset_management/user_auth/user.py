@@ -13,8 +13,8 @@ def signup():
         name = request.form['name']
         email = request.form['email'] 
         user = User.query.filter_by(email= email).first()
-        password1 = request.form['password1']
-        password2 = request.form['password2']
+        password1 = request.form['password']
+        password2 = request.form['confirm_password']
         if user:
             status_message, status = "User Email already Exists", 'error'
         elif password1 == password2:
