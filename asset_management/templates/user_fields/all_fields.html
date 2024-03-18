@@ -12,8 +12,8 @@ All Fields
     <h1 class="h">Hi Team!</h1>
 </div>
 <div class="buttons-container">
-    <a href="{{ url_for('users_field.create_field', group_id=group_id)}}"><button class="btn1">Create New Fields</button></a>
-    <a href="{{ url_for('users_field.field_records', fields=fields) }}"><button class="btn2">Create Records</button></a>
+    <a href="{{ url_for('users_field.create_field', group_id=group_id)}}"><button class="btn2">Create New Fields</button></a>
+    <a href="{{ url_for('users_field.field_records', group_id=group_id, fields=fields) }}"><button class="btn2">Create Records</button></a>
 </div>
 <br><div class="table_text">
     <table class="tb">
@@ -21,6 +21,7 @@ All Fields
             <th>Name</th>
             <th>Description</th>
             <th>DataFormat</th>
+            <th>Field Key</th>
             <th>Actions</th>
         </tr>
         {% for field in fields %}
@@ -28,6 +29,7 @@ All Fields
             <td>{{ field.name }}</td>
             <td>{{ field.description }}</td>
             <td>{{ field.dataformat }}</td>
+            <td>{{ field.field_key }}</td>
             <td>
                 <a href="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_field.delete_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>

@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_pymongo import PyMongo
-from pymongo import MongoClient 
+# from pymongo import MongoClient 
 
 load_dotenv()
 
@@ -27,6 +27,7 @@ mongo_url = os.getenv('MONGO_URL')
 app.config['MONGO_URI'] = os.getenv('MONGO_URL')
 app.config['SQLALCHEMY_BINDS'] = {'mongo': mongo_url}
 mongo = PyMongo(app)
+
 
 # Initialize Flask-Login
 login_manager = LoginManager()

@@ -1,0 +1,44 @@
+{% extends "layouts/template_inheritance.html" %}
+{% block title %}
+Records
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/fields/style_records.css">
+{% endblock css %}
+{% block content %}
+<div class="heading">
+    <h1>Records</h1>
+</div>
+<div class="table_text">
+    <table class="tb">
+        <tr>
+            <th>Name</th>
+            <th>Field Record</th>
+            <th>Action</th>
+        </tr>
+        {% for record in records%}
+        <tr>
+            <td>{{ record.name }}</td>
+            <td>{{ record.field_reocrd }}</td>    
+            <td>
+                <a href="{{url_for('users_field.delete_records')}}"><button class="btn btn-outline-secondary">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="flash-messages" class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    </div>
+    <script src="/static/js/field/flash_for_records.js"></script>
+    {% endblock %}

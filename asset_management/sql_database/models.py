@@ -23,14 +23,12 @@ class GroupName(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    dataformat = db.Column(db.String(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     field = db.relationship('Field', backref='groups', lazy=True)
 
-    def __init__(self, name, description, dataformat, user_id):
+    def __init__(self, name, description, user_id):
         self.name = name
         self.description = description
-        self.dataformat = dataformat
         self.user_id = user_id
 
 class Field(db.Model):
@@ -40,9 +38,11 @@ class Field(db.Model):
     description = db.Column(db.String(), nullable=False)
     dataformat = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+    field_key = db.Column(db.String()) 
     
-    def __init__(self,name,description, dataformat, group_id):
+    def __init__(self,name,description, dataformat, field_key, group_id):
         self.name = name
         self.description = description
         self.dataformat = dataformat
         self.group_id = group_id
+        self.field_key = field_key

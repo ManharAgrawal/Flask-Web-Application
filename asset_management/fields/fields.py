@@ -1,5 +1,6 @@
+import pdb
 from config import db, mongo
-from sql_database.models import Field
+from sql_database.models import Field, GroupName
 from bson.objectid import ObjectId 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
@@ -16,15 +17,13 @@ def create_field(group_id):
         name = request.form.get('name')
         description = request.form.get('description')
         dataformat = request.form.get('dataformat')
-        if dataformat == 'Integer':
-            flag = 'Integer'
-        elif dataformat == 'String':
-            flag = 'String'
-        else:
-            flag = 'Boolean'
-        if name and description and dataformat:
-            new_field = Field(name=name, description=description, dataformat=flag, group_id=group_id)
+        field_key = request.form.get('field_key')
+        if name and dataformat:
+            new_field = Field(name=name, description=description, dataformat=dataformat, field_key=field_key, group_id=group_id)
             db.session.add(new_field)
+            db.session.commit()
+            new_field_id = new_field.id
+            new_field.field_key = f"field_{new_field_id}"
             db.session.commit() 
             flash('Field Created Successfully!', 'success')
             return redirect(url_for('users_field.all_fields', group_id=group_id))
@@ -37,27 +36,47 @@ def update_fields(group_id, field_id):
         name = request.form.get('name')
         description = request.form.get('description')
         dataformat = request.form.get('dataformat')
+        field_key = request.form.get('field_key')
         field.name = name
         field.description = description
         field.dataformat = dataformat
+        field.field_key = field_key
         field.group_id = group_id
         db.session.commit()
         flash('The field has been updated successfully!', 'success')
         return redirect(url_for('users_field.all_fields', group_id=group_id))
     return render_template('user_fields/update_fields.html', field=field, group_id=group_id)
 
-@fields_blueprint.route("/groups/fields/field_records", methods=["GET","POST"])
-def field_records():
-    if request.method == "POST":
-        name = {"Field Name":"field.name"}
-        dataformat = {"Field Dataformat":"field.dataformat"}
-        records = mongo.db.inventory.insert_one({"Field Name":name, "Field Dataformat":dataformat})
-        return render_template('user_fields/field_records.html', records=records)
-    fields = Field.query.all()
+@fields_blueprint.route("/groups/<int:group_id>/fields/field_records", methods=["GET","POST"])
+def field_records(group_id):
+    group = GroupName.query.get(group_id)
+    fields = Field.query.filter_by(group_id=group_id).all()
     field_names = []
     for field in fields:
         field_names.append(field.name)
-    return render_template('user_fields/field_records.html', fields=fields, field_names=field_names)
+    return render_template('user_fields/field_records.html', group=group, fields=fields, field_names=field_names)
+
+@fields_blueprint.route("/groups/fields/field_records/records", methods=["GET","POST"])
+def records():
+    if request.method == "POST":
+        # pdb.set_trace()
+        request_data = dict(request.form)
+        record = {}
+        for k,v in request_data.items():
+            record.update({k:v})
+        instance = mongo.db.records.insert_one(record)
+        return redirect(url_for('users_field.get_records'))
+    records = mongo.db.records.find()
+    return render_template('user_fields/records.html', records=records)
+
+@fields_blueprint.route('/group/field/field_records/records/get_records', methods=["GET"])
+def get_records():
+    records = mongo.db.records.find() 
+    return render_template("user_fields/records.html", records=records)
+
+@fields_blueprint.route('/group/field/field_records/records/delete_records', methods=["GET"])
+def delete_records():
+    return render_template('user_fields/delete_records')
 
 @fields_blueprint.route('/groups/<int:group_id>/fields/<int:field_id>/delete_fields>', methods=['GET',"POST"])
 def delete_fields(group_id,field_id):

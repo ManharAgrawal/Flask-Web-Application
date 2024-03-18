@@ -12,10 +12,9 @@ app.register_blueprint(fields_blueprint, url_prefix='/users_field')
 
 @app.route('/')
 def home():
-    mongo.db.inventory.insert_one({"z":1})
     return render_template('index/index.html')
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
     with app.app_context():
         db.create_all()

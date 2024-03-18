@@ -14,41 +14,61 @@ Field Records
     <h1>Fields Records</h1>
 </div>
 <div class="container1">
-    <form action="" method="post">
+    <form action="{{url_for('users_field.records'  )}}" method="post">
         {% for field in fields %}
-            {% if field.dataformat == 'Integer' %}
-                <div class="form-group row">
-                    <label for="inputNumber3" class="col-sm-2 col-form-label">{{ field.name }}</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputNumber3" name="{{ field.name }}" placeholder="{{ field.name }}">
+        {% if field.dataformat == 'Integer' %}
+        <div class="form-group column">
+            <label for="inputNumber3" class="col-sm-2 col-form-label">{{ field.name }}</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputNumber3" name="{{ field.name }}"
+                    placeholder="{{ field.name }}">
+            </div>
+        </div>
+        {% elif field.dataformat == 'String' %}
+        <div class="form-group column">
+            <label for="inputText3" class="col-sm-2 col-form-label">{{ field.name }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputText3" name="{{ field.name }}"
+                    placeholder="{{ field.name }}">
+            </div>
+        </div>
+        {% else %}
+        <fieldset class="form-group">
+            <div class="column">
+                <legend class="col-form-label col-sm-2 pt-0">{{ field.name }}</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}True"
+                            value="True">
+                        <label class="form-check-label" for="{{ field.name }}True">True</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}False"
+                            value="False">
+                        <label class="form-check-label" for="{{ field.name }}False">False</label>
                     </div>
                 </div>
-            {% elif field.dataformat == 'String' %}
-                <div class="form-group row">
-                    <label for="inputText3" class="col-sm-2 col-form-label">{{ field.name }}</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputText3" name="{{ field.name }}" placeholder="{{ field.name }}">
-                    </div>
-                </div>
-            {% else %}
-                <fieldset class="form-group">
-                    <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">{{ field.name }}</legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}True" value="True">
-                                <label class="form-check-label" for="{{ field.name }}True">True</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}False" value="False">
-                                <label class="form-check-label" for="{{ field.name }}False">False</label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset><br>
-            {% endif %}
+            </div>
+        </fieldset><br>
+        {% endif %}
         {% endfor %}
+        <a href="{{url_for('users_field.records')}}"><button class="btn btn--gooey">Submit<div class="btn__blobs">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block; height: 0; width: 0;">
+                <defs>
+                    <filter id="goo">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                            result="goo"></feColorMatrix>
+                        <feBlend in="SourceGraphic" in2="goo"></feBlend>
+                    </filter>
+                </defs>
+            </svg>
+        </a>
     </form>
 </div>
-<button type="submit" value="submit" class="btn btn-outline-secondary">Submit</button>
 {% endblock %}

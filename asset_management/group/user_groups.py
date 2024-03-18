@@ -12,15 +12,8 @@ def groups():
         user_id = current_user.id
         name = request.form.get('name')
         description = request.form.get('description')
-        dataformat = request.form.get('dataformat')
-        if dataformat == 'Integer':
-            flag = 'Integer'
-        elif dataformat == 'String':
-            flag = 'String'
-        else:
-            flag = 'Boolean'
-        if name and description and dataformat: 
-            new_group = GroupName(name=name, description=description, dataformat=flag, user_id=user_id)
+        if name and description: 
+            new_group = GroupName(name=name, description=description, user_id=user_id)
             db.session.add(new_group)
             db.session.commit()
             flash('Group created successfully!', 'success')
@@ -43,14 +36,6 @@ def update_groups(group_id):
         flash('The group has been updated successfully!','success')
         return redirect(url_for('users_group.groups'))
     return render_template('user_groups/update_group.html', group=group)
-
-@groups_blueprint.route('/groups/group_records', methods=["GET", "POST"])
-def group_records():
-    groups = GroupName.query.all()
-    group_names = []
-    for group in groups:
-        group_names.append(group.name)
-    return render_template('user_groups/group_records.html', groups=groups, group_names=group_names)
     
 @groups_blueprint.route('/groups/<int:group_id>/delete_groups', methods=["GET","POST"])
 def delete_groups(group_id):
