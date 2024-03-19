@@ -1,26 +1,20 @@
+/* Global styles */
 h1 {
-    color: #34495e; 
+    color: #34495e;
     font-size: 28px;
     text-align: center;
     margin-bottom: 20px;
-    animation: fadeInDown 1s ease; 
+    animation: fadeInDown 1s ease;
 }
 
+/* Buttons */
 .buttons-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-.btn1 {
-    padding: 10px 30px;
-    background-color: #104569;
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-}
-
+.btn1,
 .btn2 {
     padding: 10px 30px;
     background-color: #104569;
@@ -30,30 +24,17 @@ h1 {
     font-size: 20px;
 }
 
-.btn1:hover {
-    background-color: #295eb9;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.btn1:hover::after {
-    width: 0;
-    height: 0;
-}
-
+.btn1:hover,
 .btn2:hover {
     background-color: #295eb9;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn2:hover::after {
-    width: 0;
-    height: 0;
-}
-
+/* Table */
 .table_text {
     font-size: 18px;
     margin-bottom: 20px;
-    animation: slideInLeft 1s ease; 
+    animation: slideInLeft 1s ease;
 }
 
 .tb {
@@ -61,9 +42,10 @@ h1 {
     border-collapse: collapse;
 }
 
-.tb th, .tb td {
+.tb th,
+.tb td {
     padding: 12px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     transition: background-color 0.3s ease;
     text-align: center;
 }
@@ -73,14 +55,15 @@ h1 {
 }
 
 .tb tr:hover {
-    background-color: #f9f9f9; 
+    background-color: #f9f9f9;
 }
 
+/* Buttons Container */
 .btn_ops-container {
     display: flex;
     justify-content: center;
-    gap: 10px; 
-    margin-top: 20px; 
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .btn_ops {
@@ -94,10 +77,11 @@ h1 {
 }
 
 .btn_ops:hover {
-    background-color: #139ab8; 
+    background-color: #139ab8;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Flash Messages */
 .flash-messages {
     position: fixed;
     top: 50%;
@@ -123,6 +107,7 @@ h1 {
     color: green;
 }
 
+/* Animations */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -131,15 +116,6 @@ h1 {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@keyframes pulse {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(1.1);
     }
 }
 
@@ -152,73 +128,4 @@ h1 {
         opacity: 1;
         transform: translateX(0);
     }
-}
-
-@keyframes bounceIn {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.btn {
-    display: inline-block;
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #03045e;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s ease-in;
-    z-index: 1;
-    margin-left: 47%;    
-}
-
-.btn:hover{
-    color: white;
-}
-
-.btn::before,
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 100%;
-    transform: skew(15deg);
-    transition: all 0.5s;
-    overflow: hidden;
-    z-index: -1;
-    
-}
-
-.btn::before {
-    left: -10px;
-    background: #240046;
-}
-
-.btn::after {
-    right: -10px;
-    background: #5a189a;
-}
-
-.btn:hover::before,
-.btn:hover::after {
-    width: 58%;
-}
-
-.btn:hover span {
-    color: #e0aaff;
-    transition: 0.3s;
-}
-
-.btn span {
-    color: #03045e;
-    font-size: 18px;
-    transition: all 0.3s ease-in;
-    
 }

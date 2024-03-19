@@ -14,19 +14,22 @@ Records
 <div class="table_text">
     <table class="tb">
         <tr>
-            <th>Name</th>
-            <th>Field Record</th>
+            <th>Record Data</th>
             <th>Action</th>
         </tr>
-        {% for record in records%}
         <tr>
-            <td>{{ record.name }}</td>
-            <td>{{ record.field_reocrd }}</td>
+            <td>
+                {% for key, value in record_data.items() %}
+                <ul>{{ key }}:
+                    {{ value }}</ul>
+                {% endfor %}
             <td>
                 <a href="{{url_for('users_field.delete_records')}}"><button class="btn_ops">Delete</button></a>
             </td>
+
+            </td>
+
         </tr>
-        {% endfor %}
     </table>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -40,6 +43,5 @@ Records
     {% endif %}
     {% endwith %}
 </div>
-<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
 <script src="/static/js/field/flash_for_records.js"></script>
 {% endblock %}

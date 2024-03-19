@@ -14,23 +14,23 @@ Field Records
     <h1>Fields Records</h1>
 </div>
 <div class="container1">
-    <form action="{{url_for('users_field.records')}}" method="post">
+    <form action="{{url_for('users_field.records', group_id=group_id)}}" method="post">
         {% for field in fields %}
         {% if field.dataformat == 'Integer' %}
         <div class="form-group column">
             <label for="inputNumber3" class="col-sm-2 col-form-label">{{ field.name }}</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="inputNumber3" name="{{ field.name }}"
-                    placeholder="{{ field.name }}">
+                <input type="number" class="form-control" id="inputNumber3" name="{{ field.name }}"placeholder="{{ field.name }}">
             </div>
+            <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
         </div>
         {% elif field.dataformat == 'String' %}
         <div class="form-group column">
             <label for="inputText3" class="col-sm-2 col-form-label">{{ field.name }}</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputText3" name="{{ field.name }}"
-                    placeholder="{{ field.name }}">
+                <input type="text" class="form-control" id="inputText3" name="{{ field.name }}"placeholder="{{ field.name }}">
             </div>
+            <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
         </div>
         {% else %}
         <fieldset class="form-group">
@@ -38,15 +38,14 @@ Field Records
                 <legend class="col-form-label col-sm-2 pt-0">{{ field.name }}</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}True"
-                            value="True">
+                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}True"value="True">
                         <label class="form-check-label" for="{{ field.name }}True">True</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}False"
-                            value="False">
+                        <input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.name }}False"value="False">
                         <label class="form-check-label" for="{{ field.name }}False">False</label>
                     </div>
+                    <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
                 </div>
             </div>
         </fieldset><br>
@@ -62,8 +61,7 @@ Field Records
                 <defs>
                     <filter id="goo">
                         <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
-                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-                            result="goo"></feColorMatrix>
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"result="goo"></feColorMatrix>
                         <feBlend in="SourceGraphic" in2="goo"></feBlend>
                     </filter>
                 </defs>

@@ -11,13 +11,13 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     is_active = db.Column(db.Boolean)
     groups = db.relationship('GroupName', backref='users', lazy=True)
-    
+
     def __init__(self, name, email, password, is_active=True): 
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
         self.is_active = is_active
-        
+
 class GroupName(db.Model):
     __tablename__ = 'groups'
     id = db.Column(db.Integer, primary_key=True) 
@@ -38,8 +38,8 @@ class Field(db.Model):
     description = db.Column(db.String(), nullable=False)
     dataformat = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
-    field_key = db.Column(db.Integer) 
-    
+    field_key = db.Column(db.String(), nullable=False) 
+
     def __init__(self,name,description, dataformat, field_key, group_id):
         self.name = name
         self.description = description
