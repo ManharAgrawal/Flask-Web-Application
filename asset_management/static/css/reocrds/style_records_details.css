@@ -1,190 +1,24 @@
-/* Global styles */
-h1 {
-    color: #34495e;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 20px;
-    animation: fadeInDown 1s ease;
-}
-
-/* Buttons */
-.buttons-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.btn1,
-.btn2 {
-    padding: 10px 30px;
-    background-color: #104569;
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-}
-
-.btn1:hover,
-.btn2:hover {
-    background-color: #295eb9;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Table */
-.table_text {
-    font-size: 18px;
-    margin-bottom: 20px;
-    animation: slideInLeft 1s ease;
-}
-
-.tb {
+.records-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.tb th,
-.tb td {
-    padding: 12px;
-    border: 1px solid #ccc;
-    transition: background-color 0.3s ease;
-    text-align: center;
+.records-table th, .records-table td {
+    padding: 8px;
+    border: 1px solid #000000;
 }
 
-.tb th {
-    background-color: #f2f2f2;
+.records-table th {
+    background-color: #9a9b9c;
+    color: rgb(4, 4, 4);
+    font-weight: bold;
+    text-align: left;
 }
 
-.tb tr:hover {
-    background-color: #f9f9f9;
+.records-table tbody tr:nth-child(even) {
+    background-color:transparent;
 }
 
-/* Buttons Container */
-.btn_ops-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn_ops {
-    background-color: #2f3c7c;
-    color: white;
-    font-size: 14px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.btn_ops:hover {
-    background-color: #139ab8;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Flash Messages */
-.flash-messages {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 10px;
-    background-color: #fff;
-    border: 2px solid #000;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.flash-message {
-    margin-bottom: 10px;
-}
-
-.flash-message.error {
-    color: red;
-}
-
-.flash-message.success {
-    color: green;
-}
-
-/* Animations */
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-
-.btn {
-    display: inline-block;
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #03045e;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s ease-in;
-    z-index: 1;
-    margin-left: 47%;    
-}
-
-.btn:hover{
-    color: white;
-}
-
-.btn::before,
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 100%;
-    transform: skew(15deg);
-    transition: all 0.5s;
-    overflow: hidden;
-    z-index: -1;
-    
-}
-
-.btn::before {
-    left: -10px;
-    background: #240046;
-}
-
-.btn::after {
-    right: -10px;
-    background: #5a189a;
-}
-
-.btn:hover::before,
-.btn:hover::after {
-    width: 58%;
-}
-
-.btn:hover span {
-    color: #e0aaff;
-    transition: 0.3s;
-}
-
-.btn span {
-    color: #03045e;
-    font-size: 18px;
-    transition: all 0.3s ease-in;
-    
+.records-table tbody tr:hover {
+    background-color: transparent;
 }

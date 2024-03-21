@@ -1,32 +1,33 @@
 {% extends "layouts/template_inheritance.html" %}
+
 {% block title %}
 All Records
 {% endblock title %}
+
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
-</div><link rel="stylesheet" href="/static/css/reocrds/style_records_details.css">
+<link rel="stylesheet" href="/static/css/reocrds/style_records_details.css">
 {% endblock css %}
+
 {% block content %}
 <div>
-    <h1>All Reocrds</h1>\
+    <h1>All Records</h1>
 </div>
-<div class="table_text">
-    <table class="tb">
+<div>
+    <table class="records-table">
+        {% for field_name in field_names %}
+        <th>{{ field_name }}</th>
+        {% endfor %}
+        <th>Action</th>
         <tr>
-            {% for field_name in field_names %}
-            <th>Field Records</th>
-            <th>{{ field_name }}</th>
-            {% endfor %}
-            <th>Action</th>
-        </tr>
-        <tr>
-            {% for key, value in record_data.items() %}
+            {% for key in records_data %}
             <td>
-                <ul>{{ key }} : {{ value }}</ul>
+                <ul>{{ key }}</ul>
             </td>
             {% endfor %}
             <td>
+                
             </td>
         </tr>
     </table>

@@ -30,7 +30,7 @@ All Groups
         </tr>
         {% for entity in entities %}
         <tr>
-            <td>{{ entity.name }}</td>
+            <td><a href="{{url_for('users_reocrds.records', group_id=entity.id)}}">{{ entity.name }}</a></td>
             <td>{{ entity.description }}</td>
             <td>
                 <a href="{{ url_for('users_group.update_groups', group_id=entity.id) }}"><button class="btn_ops">Update</button></a>
