@@ -20,7 +20,7 @@ Records
             <th>Action</th>
         </tr>
         <tr>
-            {% for key, value in record_data.items() %}
+            {% for key, value in my_dict.items() %}
             <td>
                 <a href="{{url_for('users_reocrds.records_details', group_id=group_id, field=field)}}"><ul>{{ value }}</ul></a>
             </td>
@@ -42,6 +42,6 @@ Records
     {% endif %}
     {% endwith %}
 </div>
-<a href="{{ url_for('users_field.all_fields', group_id=group_id) }}"><button class="btn">Back To Fields</button></a>
-<script src="/static/js/field/flash_for_records.js"></script>
+<br><a href="{{ url_for('users_field.all_fields', group_id=group_id) }}"><button class="btn">Back To Fields</button></a> 
+<script src="/static/js/records/flash_for_records.js"></script>
 {% endblock %}

@@ -7,40 +7,49 @@ from flask import Blueprint, request, render_template, redirect, url_for,flash
 
 user_blueprint = Blueprint('auth', __name__, template_folder='templates/forms')
 
-@user_blueprint.route('/signup', methods=["GET",'POST'])
-def signup():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email'] 
-        user = User.query.filter_by(email= email).first()
-        password1 = request.form['password']
-        password2 = request.form['confirm_password']
-        if user:
-            status_message, status = "User Email already Exists", 'error'
-        elif password1 == password2:
-            user = User(name=name, email=email, password=password1)
-            db.session.add(user)
-            db.session.commit()
-            status_message, status = 'Signed Up Successfully!!', 'success'
-            return redirect(url_for('auth.login'))
-        else:
-            status_message, status = 'Passwords do not match. Please try again.', 'error'
-        flash(status_message, status)
+@user_blueprint.route('/signup', methods=["GET"])   
+def signup_form():
     return render_template('forms/sign_up.html')
 
-@user_blueprint.route('/login',methods=["GET","POST"])
+@user_blueprint.route('/signup', methods=['POST'])
+def signup():
+    name = request.form['name']
+    email = request.form['email'] 
+    user = User.query.filter_by(email=email).first()
+    password = request.form['password']
+    if user:
+        status_message, status = "User email already exists", 'error'
+    else:
+        new_user = User(name=name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        status_message, status = 'Signed up successfully!', 'success'
+        return redirect(url_for('auth.login'))
+    flash(status_message, status)
+    return render_template('forms/sign_up.html')
+    
+@user_blueprint.route('/login',methods=["GET"])
+def login_form():
+    return render_template('forms/login.html')
+
+@user_blueprint.route('/login',methods=["POST"])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password =  request.form['password']
-        user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password,password):
-            login_user(user, remember=True)
-            status_message, status = 'Login successful!','success'
-            return redirect(url_for('users_group.groups',user_id=user.id))
+    email = request.form['email']
+    password =  request.form['password']
+    user = User.query.filter_by(email=email).first()
+    if user:
+        if email and password:
+            if check_password_hash(user.password, password):
+                login_user(user, remember=True)
+                status_message, status = 'Login successful!', 'success'
+                return redirect(url_for('users_group.groups', user_id=user.id))
+            else:
+                status_message, status = 'Invalid Password', 'error'
         else:
-            status_message, status = 'Invalid email or password', 'error'
-        flash(status_message, status)
+            status_message, status = 'Email or Password not provided', 'error'
+    else:
+        status_message, status = 'User not found', 'error'
+    flash(status_message, status)
     return render_template('forms/login.html')
 
 @user_blueprint.route('/logout')

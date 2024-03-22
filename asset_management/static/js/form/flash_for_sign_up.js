@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
+    const form = document.querySelector('.signup-form');
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -33,15 +33,25 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const confirmPasswordInput = document.getElementById('confirm_password');
+        // Confirm Password
         const confirmPassword = confirmPasswordInput.value.trim();
         if (password !== confirmPassword) {
             showError(confirmPasswordInput, 'Passwords do not match');
             return;
         }
-
+        
         // If all validations pass, submit the form
         form.submit();
+    });
+
+    passwordInput.addEventListener('input', function () {
+        const password = passwordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+        if (confirmPassword && password !== confirmPassword) {
+            showError(confirmPasswordInput, 'Passwords do not match');
+        } else {
+            clearError(confirmPasswordInput);
+        }
     });
 
     function isValidEmail(email) {
@@ -66,6 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 3000); // Remove the error message after 3 seconds
     }
 
+    function clearError(input) {
+        const formGroup = input.parentElement;
+        const errorDiv = formGroup.querySelector('.error-message');
+        if (errorDiv) {
+            errorDiv.remove();
+            input.style.border = '1px solid #ccc';
+        }
+    }
+    
     setTimeout(function () {
         const flashMessages = document.getElementById('flash-messages');
         if (flashMessages) {

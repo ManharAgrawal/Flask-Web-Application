@@ -50,23 +50,14 @@ Field Records
             </div>
         </fieldset><br>
         {% endif %}
-        <input type="text" name="group_id" value="{{field.group_id}}" hidden/>
+        <br><input type="text" name="group_id" value="{{field.group_id}}" hidden/>
         {% endfor %}
-        <a href="{{url_for('users_reocrds.records')}}"><button class="btn btn--gooey">Submit<div class="btn__blobs">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
+        <a href="{{url_for('users_reocrds.records')}}">
+            <button class="ui-btn">
+                <span>
+                    Submit 
+                </span>
             </button>
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block; height: 0; width: 0;">
-                <defs>
-                    <filter id="goo">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
-                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"result="goo"></feColorMatrix>
-                        <feBlend in="SourceGraphic" in2="goo"></feBlend>
-                    </filter>
-                </defs>
-            </svg>
         </a>
     </form>
 </div>

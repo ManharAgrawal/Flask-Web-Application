@@ -9,14 +9,12 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
-    is_active = db.Column(db.Boolean)
     groups = db.relationship('GroupName', backref='users', lazy=True)
 
-    def __init__(self, name, email, password, is_active=True): 
+    def __init__(self, name, email, password): 
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
-        self.is_active = is_active
 
 class GroupName(db.Model):
     __tablename__ = 'groups'
