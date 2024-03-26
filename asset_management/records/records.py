@@ -45,8 +45,6 @@ def records():
 def records_details():
     group_id = request.args.get('group_id')
     fields = Field.query.filter_by(group_id=group_id).all()
-    records_value = None
-    key_value = None
     records = mongo.db.records.find()
     for record in records:
         if 'record_data' in record:
