@@ -32,21 +32,18 @@ def signup():
 def login_form():
     return render_template('forms/login.html')
 
-@user_blueprint.route('/login',methods=["POST"])
+@user_blueprint.route('/login', methods=["POST"])
 def login():
     email = request.form['email']
-    password =  request.form['password']
+    password = request.form['password']
     user = User.query.filter_by(email=email).first()
     if user:
-        if email and password:
-            if check_password_hash(user.password, password):
-                login_user(user, remember=True)
-                status_message, status = 'Login successful!', 'success'
-                return redirect(url_for('users_group.groups', user_id=user.id))
-            else:
-                status_message, status = 'Invalid Password', 'error'
+        if check_password_hash(user.password, password):
+            login_user(user, remember=True)
+            status_message, status = 'Login successful!', 'success'
+            return redirect(url_for('users_group.groups', user_id=user.id))
         else:
-            status_message, status = 'Email or Password not provided', 'error'
+            status_message, status = 'Incorrect email or password', 'error'
     else:
         status_message, status = 'User not found', 'error'
     flash(status_message, status)

@@ -5,11 +5,11 @@ Update Groups
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
-<link rel="stylesheet" href="/static/css/groups/style_update_group.css">
+<link rel="stylesheet" href="/static/css/groups/update.css">
 {% endblock css %}
 {% block content %}
 <div class="container">
-    <form action="{{ url_for('users_group.update_groups', group_id=group.id) }}" method="post">
+    <form action="{{ url_for('users_group.update', id=group.id) }}" method="post">
         <label for="name">Group Name</label>
         <input type="text" name="name" id="name" value="{{group.name}}" placeholder="Name" required>
         <label for="description">Description</label>

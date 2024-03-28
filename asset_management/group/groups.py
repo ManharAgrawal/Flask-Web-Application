@@ -8,8 +8,9 @@ groups_blueprint = Blueprint('users_group', __name__, template_folder='templates
 
 @groups_blueprint.route('/groups', methods=["GET"])
 def group_page():
-    groups = GroupName.query.all()
-    return render_template("user_groups/groups.html", entities=groups)
+    user_id = current_user.id
+    user_groups = GroupName.query.filter_by(user_id=user_id).all()
+    return render_template("user_groups/groups.html", entities=user_groups)
 
 @groups_blueprint.route('/groups', methods=["POST"])
 def groups():
@@ -23,38 +24,38 @@ def groups():
         db.session.commit()
         status_message, message = 'Group created successfully!', 'success'
     else:
-        status_message, message = "Enter Name","error"
+        status_message, message = "Enter Name", "error"
         flash(status_message,message)
         return redirect(url_for('users_group.groups'))
     return render_template("user_groups/groups.html", entities=groups)
 
-@groups_blueprint.route('/groups/group_fields', methods=["GET", "POST"])
-def group_fields():
-    return render_template('user_groups/group_fields.html')
+@groups_blueprint.route('/groups/create', methods=["GET"])
+def create():
+    return render_template('user_groups/create.html')
 
-@groups_blueprint.route('/groups/<int:group_id>/update_groups>', methods=["GET"])
-def update_groups_page(group_id):
-    group = GroupName.query.get(group_id)
-    return render_template('user_groups/update_group.html', group=group)
+@groups_blueprint.route('/groups/<int:id>/update', methods=["GET"])
+def update_page(id):
+    group = GroupName.query.get(id)
+    return render_template('user_groups/update.html', group=group)
 
-@groups_blueprint.route('/groups/<int:group_id>/update_groups>', methods=["POST"])
-def update_groups(group_id):
-    group = GroupName.query.get(group_id)
+@groups_blueprint.route('/groups/<int:id>/update', methods=["POST"])
+def update(id):
+    group = GroupName.query.get(id)
     group.name = request.form['name']
     group.description = request.form['description']
     db.session.commit()
     flash('The group has been updated successfully!','success')
     return redirect(url_for('users_group.groups'))
 
-@groups_blueprint.route('/groups/<int:group_id>/delete_groups')
-def delete_groups(group_id):
-    group = GroupName.query.get(group_id)
+@groups_blueprint.route('/groups/<int:id>/delete')
+def delete(id):
+    group = GroupName.query.get(id)
     if group:
-        Field.query.filter_by(group_id=group_id).delete()
+        Field.query.filter_by(id=id).delete()
         db.session.delete(group)
         db.session.commit()
         status_message, status = 'Group deleted succesfully !!!', 'success'
     else:
         status_message, status = 'Error in deleting group !!', 'error'
     flash(status_message, status)
-    return redirect(url_for('users_group.groups', group_id=group_id))
+    return redirect(url_for('users_group.groups', id=id))

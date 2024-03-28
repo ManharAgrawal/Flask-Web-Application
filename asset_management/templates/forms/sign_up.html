@@ -3,15 +3,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="icon" href="/static/images/feather-solid.svg">
-    <link rel="stylesheet" href="/static/css/froms/style_signup.css">
-    <script src="/static/js/form/flash_for_sign_up.js"></script>
+    <link rel="stylesheet" href="/static/css/froms/signup.css">
+    <script src="/static/js/form/signup.js"></script>
 </head>
 <body>
     <div class="main_container">
         <div class="signup_container">
             <h2>Create an account</h2>
             <div class="container">
-                <form action="{{url_for('auth.signup')}}" method="post" class="signup-form" onsubmit="return validatePassword()">
+                <form action="{{url_for('auth.signup')}}" method="post" class="signup-form" onsubmit="return validateform()">
                     <h2>Sign Up</h2>
                     <div class="form-control">
                         <label for="username">Username</label>

@@ -28,30 +28,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Password
         const passwordInput = document.getElementById('password');
         const password = passwordInput.value.trim();
-        if (!isValidPassword(password)) {
-            showError(passwordInput, 'Password must be at least 6 characters long');
-            return;
-        }
 
         // Confirm Password
+        const confirmPasswordInput = document.getElementById('password');
         const confirmPassword = confirmPasswordInput.value.trim();
+
         if (password !== confirmPassword) {
             showError(confirmPasswordInput, 'Passwords do not match');
             return;
         }
-        
-        // If all validations pass, submit the form
-        form.submit();
-    });
 
-    passwordInput.addEventListener('input', function () {
-        const password = passwordInput.value.trim();
-        const confirmPassword = confirmPasswordInput.value.trim();
-        if (confirmPassword && password !== confirmPassword) {
-            showError(confirmPasswordInput, 'Passwords do not match');
-        } else {
-            clearError(confirmPasswordInput);
-        }
+        form.submit();
     });
 
     function isValidEmail(email) {
@@ -73,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {
             errorDiv.remove();
             input.style.border = '1px solid #ccc';
-        }, 3000); // Remove the error message after 3 seconds
+        }, 3000);
     }
 
     function clearError(input) {
@@ -84,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             input.style.border = '1px solid #ccc';
         }
     }
-    
+
     setTimeout(function () {
         const flashMessages = document.getElementById('flash-messages');
         if (flashMessages) {

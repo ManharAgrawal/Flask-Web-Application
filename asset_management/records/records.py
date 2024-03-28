@@ -7,15 +7,15 @@ from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_reocrds', __name__, template_folder='templates/records')
 
-@records_blueprint.route("/groups/<int:group_id>/fields/field_records", methods=["GET"])
-def field_records(group_id):
-    group = GroupName.query.get(group_id)
-    fields = Field.query.filter_by(group_id=group_id).all()
+@records_blueprint.route("/groups/<int:id>/fields/field_records", methods=["GET"])
+def field_records(id):
+    group = GroupName.query.get(id)
+    fields = Field.query.filter_by(id=id).all()
     field_names = []
     for field in fields:
         field_names.append(field.name)
-    mongo.db.records.insert_one({"group_id": group_id, "field_names": field_names})
-    return render_template('records/field_records.html', group_id=group_id, group=group, fields=fields, field_names=field_names)
+    mongo.db.records.insert_one({"id": id, "field_names": field_names})
+    return render_template('records/field_records.html', id=id, group=group, fields=fields, field_names=field_names)
 
 @records_blueprint.route("/groups/fields/field_records/records", methods=["GET"])
 def records_page():
@@ -49,12 +49,18 @@ def records_details():
     for record in records:
         if 'record_data' in record:
             records_data = record.get('record_data')
-    return render_template('records/records_details.html', group_id=group_id, records_data=records_data)
+    field_names = {}
+    for field in fields:
+        field_names[field.name] = field.name
+    reocrd = {}
+    for key, value in zip(field_names.values(), records_data.values()):
+        reocrd[key] = value
+    return render_template('records/records_details.html', group_id=group_id, records_data=reocrd, field_names=field_names)
 
 @records_blueprint.route('/groups/<int:group_id>/fields/records', methods=["GET"])
 def back_to_fields(group_id):
     fields = Field.query.filter_by(group_id=group_id).all()
-    return redirect(url_for('user_fields.all_fields', group_id=group_id))
+    return redirect(url_for('user_fields.fields', group_id=group_id))
 
 @records_blueprint.route('/group/fields/field_records/records/delete_records')
 def delete_records():

@@ -16,8 +16,8 @@ All Records
 </div>
 <div>
     <ul>
-        {% for key, value in records_data.items() %}
-        <li>{{ key }}: {{ value }}</li>
+        {% for field_name, value in records_data.items() %}
+        <li><b>{{ field_name }}</b> : <i>{{ value }}</i></li>
         {% endfor %}
     </ul>
     {% with messages = get_flashed_messages(with_categories=true) %}

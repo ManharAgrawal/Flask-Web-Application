@@ -3,7 +3,7 @@ from flask import  render_template
 from user_auth.user import user_blueprint
 from fields.fields import fields_blueprint
 from navigation.navigation import navigate_blueprint
-from group.user_groups import groups_blueprint
+from group.groups import groups_blueprint
 from records.records import records_blueprint
 
 app.register_blueprint(user_blueprint, url_prefix='/auth')

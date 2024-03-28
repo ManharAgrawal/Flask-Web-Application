@@ -5,15 +5,15 @@ All Fields
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
-<link rel="stylesheet" href="/static/css/fields/style_all_fields.css">
+<link rel="stylesheet" href="/static/css/fields/fields.css">
 {% endblock css %}
 {% block content %}
 <div class="text">
     <h1 class="h">Hi Team!</h1>
 </div>
 <div class="buttons-container">
-    <a href="{{ url_for('users_field.create_field', group_id=group_id)}}"><button class="btn2">Create New Fields</button></a>
-    <a href="{{ url_for('users_reocrds.field_records', group_id=group_id, fields=fields) }}"><button class="btn2">Create Records</button></a>
+    <a href="{{ url_for('users_field.create', id=id)}}"><button class="btn2">Create New Fields</button></a>
+    <a href="{{ url_for('users_reocrds.field_records', id=id, fields=fields) }}"><button class="btn2">Create Records</button></a>
 </div>
 <br><div class="table_text">
     <table class="tb">
@@ -29,8 +29,8 @@ All Fields
             <td>{{ field.description }}</td>
             <td>{{ field.dataformat }}</td>
             <td>
-                <a href="{{ url_for('users_field.update_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
-                <a href="{{ url_for('users_field.delete_fields', group_id=group_id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>
+                <a href="{{ url_for('users_field.update', id=id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('users_field.delete', id=id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>
             </td>
         </tr>
         {% endfor %}        
@@ -48,5 +48,5 @@ All Fields
     {% endwith %}
 </div>
 <br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
-<script src="/static/js/field/flash_for_fields.js"></script>
+<script src="/static/js/field/field.js"></script>
 {% endblock %}
