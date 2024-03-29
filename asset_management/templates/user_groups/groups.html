@@ -1,4 +1,4 @@
-{% extends "layouts/template_inheritance.html" %}
+{% extends "layouts/inheritance.html" %}
 {% block title %}
 All Groups
 {% endblock title %}
@@ -30,7 +30,7 @@ All Groups
         </tr>
         {% for entity in entities %}
         <tr>
-            <td><a href="{{url_for('users_reocrds.records', id=entity.id)}}">{{ entity.name }}</a></td>
+            <td><a href="{{ url_for('users_records.all_records', group_id=entity.id) }}">{{ entity.name }}</a></td>
             <td>{{ entity.description }}</td>
             <td>
                 <a href="{{ url_for('users_group.update', id=entity.id) }}"><button class="btn_ops">Update</button></a>

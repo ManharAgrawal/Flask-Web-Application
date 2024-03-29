@@ -1,11 +1,11 @@
-{% extends "layouts/template_inheritance.html" %}
+{% extends "layouts/inheritance.html" %}
 {% block title %}
 Records
 {% endblock title %}
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
-<link rel="stylesheet" href="/static/css/reocrds/style_records.css">
+<link rel="stylesheet" href="/static/css/reocrds/records.css">
 {% endblock css %}
 {% block content %}
 <div class="heading">
@@ -17,18 +17,16 @@ Records
             {% for field_name in field_names %}
             <th>{{ field_name }}</th>
             {% endfor %}
-            <th>Action</th>
         </tr>
+        {% for record in records %}
         <tr>
-            {% for key, value in my_dict.items() %}
+            {% for k,v in record.items() %}   
             <td>
-                <a href="{{url_for('users_reocrds.records_details', group_id=group_id, field=field)}}"><ul>{{ value }}</ul></a>
+                <a href="{{ url_for('users_records.details', group_id=group_id, field=field) }}">{{ value }}</a>
             </td>
             {% endfor %}
-            <td>
-                <a href="#!"><button><i class="fas fa-drum-steelpan">Delete</i></button></a>
-            </td>
         </tr>
+        {% endfor %}
     </table>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -40,8 +38,8 @@ Records
         {% endfor %}
     </div>
     {% endif %}
-    {% endwith %}
+    {% endwith %}   
 </div>
-<br><a href="{{ url_for('users_field.fields', group_id=group_id) }}"><button class="btn">Back To Fields</button></a> 
+<a href="{{ url_for('users_field.fields', id=group_id) }}"><button class="btn">Back To Fields</button></a>
 <script src="/static/js/records/records.js"></script>
 {% endblock %}

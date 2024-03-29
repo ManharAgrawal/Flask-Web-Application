@@ -1,4 +1,4 @@
-{% extends "layouts/template_inheritance.html" %}
+{% extends "layouts/inheritance.html" %}
 {% block title %}
 All Fields
 {% endblock title %}
@@ -13,7 +13,7 @@ All Fields
 </div>
 <div class="buttons-container">
     <a href="{{ url_for('users_field.create', id=id)}}"><button class="btn2">Create New Fields</button></a>
-    <a href="{{ url_for('users_reocrds.field_records', id=id, fields=fields) }}"><button class="btn2">Create Records</button></a>
+    <a href="{{ url_for('users_records.entry', id=id) }}"><button class="btn2">Create Records</button></a>
 </div>
 <br><div class="table_text">
     <table class="tb">
