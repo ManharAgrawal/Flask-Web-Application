@@ -11,11 +11,11 @@ def fields(id):
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('user_fields/fields.html', fields=fields, id=id)
 
-@fields_blueprint.route('/groups/<int:id>/create', methods=["GET"])
+@fields_blueprint.route('/groups/<int:id>/fields/create', methods=["GET"])
 def create_page(id):
     return render_template("user_fields/create.html", id=id)
 
-@fields_blueprint.route('/groups/<int:id>/create', methods=["POST"])   
+@fields_blueprint.route('/groups/<int:id>/fields/create', methods=["POST"])   
 def create(id):
     name = request.form.get('name')
     description = request.form.get('description')
@@ -69,6 +69,6 @@ def delete(id,field_id):
     flash(status_message,status)
     return redirect(url_for('users_field.fields',id=id,field_id=field_id))
 
-@fields_blueprint.route('/groups/fields', methods=["GET"])
+@fields_blueprint.route('/groups', methods=["GET"])
 def back_to_group():
     return redirect(url_for('users.group.group'))

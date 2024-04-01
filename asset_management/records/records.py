@@ -7,64 +7,60 @@ from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
 
-@records_blueprint.route("/groups/<int:id>/entry", methods=["GET"])
-def entry(id):
+@records_blueprint.route("/groups/<int:id>/records", methods=["GET"])
+def records(id):
     group = GroupName.query.get(id)
     fields = Field.query.filter_by(group_id=id).all()
-    return render_template('records/entry.html', id=id, group=group, fields=fields)
+    return render_template('records/records.html', id=id, group=group, fields=fields)
 
-@records_blueprint.route("/groups/fields/records", methods=["POST"])
-def all_records_page():
+@records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
+def record_list_page(id):
     request_data = dict(request.form)
-    group_id = request_data.pop('group_id')
     user_id = current_user.id
-    records = mongo.db.records.find({'group_id': group_id})
-    record_data = []
-    field_dict = []
-    field_names = {}
-    records = list(records)
-    if records:
-        fields = Field.query.filter_by(group_id=group_id).all()
-        field_dict = records[0]['field_names']
-        for record in records:
-            if record['record_data']:
-                record_data.append(record['record_data'])
-        field_names = [val for val in field_dict.values()]
-    return render_template('records/all_records.html', records=record_data, user_id=user_id, group_id=group_id, field_names=field_names)
-
-@records_blueprint.route("/groups/fields/records", methods=["POST"])
-def all_records():
-    record_data = []
-    request_data = dict(request.form)
-    group_id = request_data.pop('group_id')
-    user_id = current_user.id
-    group_id = request.form.get('group_id')
-    fields = Field.query.filter_by(group_id=group_id).all()
+    group_id = request_data.get('group_id')
+    records = mongo.db.records.find({'group_id': str(id)})
+    record_data = {}
+    for record in records:
+        if record.get('record_data'):
+            record_id = str(record['_id'])
+            record_data[record_id] = record['record_data']
+    fields = Field.query.filter_by(group_id=id).all()
     field_names = {}
     for field in fields:
         field_names[field.name] = field.name
-    records = mongo.db.records.insert_one({'record_data': record_data, 'group_id': group_id, 'user_id': user_id, 'field_names': field_names})
-    return render_template('records/all_records.html', record_data=request_data, records=records, user_id=user_id, group_id=group_id, field_names=field_names)
+    return render_template('records/record_list.html', records=record_data.items(), user_id=user_id, group_id=id, field_names=field_names)
 
-@records_blueprint.route("/groups/records/details", methods=["GET"])
-def details():
-    group_id = request.args.get('group_id')
+
+@records_blueprint.route("/groups/all_records", methods=["POST"])
+def all_records():
+    request_data = dict(request.form)
+    group_id = request_data.pop('group_id')
+    user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all()
-    records = mongo.db.records.find()
-    records_data = {}
-    for record in records:
-        if 'record_data' in record:
-            records_data = record.get('record_data')
-            break
     field_names = {}
     for field in fields:
-        field_names[field.name] = field.name    
-    record = {}
-    for key, value in zip(field_names.values(), records_data.values()):
-        record[key] = value
-    return render_template('records/details.html', group_id=group_id, records_data=record, field_names=field_names)
+        field_names[field.name] = field.name   
+    records = {}
+    for key, val in zip(field_names.values(), request_data.values()):
+        records[key] = val 
+    mongo.db.records.insert_one({'record_data': records, 'user_id': user_id, 'group_id': group_id})
+    return redirect(url_for('users_records.record_list_page', id=group_id))
 
-@records_blueprint.route('/groups/<int:id>/fields/', methods=["GET"])
+@records_blueprint.route("/groups/details", methods=["GET"])
+def details():
+    group_id = request.args.get('group_id')
+    records = mongo.db.records.find({'group_id': group_id})
+    field_names = {}
+    fields = Field.query.filter_by(group_id=group_id).all()
+    for field in fields:
+        field_names[field.name] = field.name    
+    record_data = []
+    for record in records:
+        if 'record_data' in record:
+            record_data.append(record.get('record_data'))
+    return render_template('records/details.html', group_id=group_id, record_data=record_data, field_names=field_names)
+
+@records_blueprint.route('/groups/<int:id>', methods=["GET"])
 def back_to_fields(id):
     fields = Field.query.filter_by(id=id).all()
     return redirect(url_for('users_field.fields', id=id))

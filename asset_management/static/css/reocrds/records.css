@@ -6,29 +6,10 @@ h1 {
     animation: fadeInDown 1s ease;
 }
 
-.buttons-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+.form-group{
+    margin-left: 7px;
 }
 
-.btn1,
-.btn2 {
-    padding: 10px 30px;
-    background-color: #104569;
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-}
-
-.btn1:hover,
-.btn2:hover {
-    background-color: #295eb9;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Table */
 .table_text {
     font-size: 18px;
     margin-bottom: 20px;
@@ -36,7 +17,7 @@ h1 {
 }
 
 .tb {
-    width: 100%;
+    width: 1%;
     border-collapse: collapse;
 }
 
@@ -56,30 +37,12 @@ h1 {
     background-color: #f9f9f9;
 }
 
-/* Buttons Container */
-.btn_ops-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+.form-control {
+    display: block;
+    width: 15%;
+    margin-left: 1%;
 }
 
-.btn_ops {
-    background-color: #2f3c7c;
-    color: white;
-    font-size: 14px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.btn_ops:hover {
-    background-color: #139ab8;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Flash Messages */
 .flash-messages {
     position: fixed;
     top: 50%;
@@ -105,7 +68,6 @@ h1 {
     color: green;
 }
 
-/* Animations */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -127,60 +89,158 @@ h1 {
         transform: translateX(0);
     }
 }
-.btn {
-    display: inline-block;
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #03045e;
+
+.ui-btn {
+    --btn-default-bg: rgb(41, 41, 41);
+    --btn-padding: 15px 20px;
+    --btn-hover-bg: rgb(51, 51, 51);
+    --btn-transition: .3s;
+    --btn-letter-spacing: .1rem;
+    --btn-animation-duration: 1.2s;
+    --btn-shadow-color: rgba(0, 0, 0, 0.137);
+    --btn-shadow: 0 2px 10px 0 var(--btn-shadow-color);
+    --hover-btn-color: #FAC921;
+    --default-btn-color: #fff;
+    --font-size: 16px;
+    --font-weight: 600;
+    --font-family: Menlo,Roboto Mono,monospace;
+    margin-left: 8px;
+}  
+
+.ui-btn {
+    box-sizing: border-box;
+    padding: var(--btn-padding);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--default-btn-color);
+    font: var(--font-weight) var(--font-size) var(--font-family);
+    background: var(--btn-default-bg);
+    border: none;
+    cursor: pointer;
+    transition: var(--btn-transition);
+    overflow: hidden;
+    box-shadow: var(--btn-shadow);
+}
+  
+.ui-btn span {
+    letter-spacing: var(--btn-letter-spacing);
+    transition: var(--btn-transition);
+    box-sizing: border-box;
     position: relative;
-    overflow: hidden;
-    transition: all 0.5s ease-in;
-    z-index: 1;
-    margin-left: 47%;    
+    background: inherit;
 }
-
-.btn:hover{
-    color: white;
-}
-
-.btn::before,
-.btn::after {
-    content: '';
+  
+.ui-btn span::before {
+    box-sizing: border-box;
     position: absolute;
-    top: 0;
-    width: 0;
-    height: 100%;
-    transform: skew(15deg);
-    transition: all 0.5s;
-    overflow: hidden;
-    z-index: -1;
-    
+    content: "";
+    background: inherit;
 }
+  
+.ui-btn:hover, .ui-btn:focus {
+    background: var(--btn-hover-bg);
+}
+  
+.ui-btn:hover span, .ui-btn:focus span {
+    color: var(--hover-btn-color);
+}
+  
+.ui-btn:hover span::before, .ui-btn:focus span::before {
+    animation: chitchat linear both var(--btn-animation-duration);
+}
+  
+@keyframes chitchat {
+    0% {
+        content: "#";
+    }
 
-.btn::before {
-    left: -10px;
-    background: #240046;
-}
+    5% {
+        content: ".";
+    }
 
-.btn::after {
-    right: -10px;
-    background: #5a189a;
-}
+    10% {
+        content: "^{";
+    }
 
-.btn:hover::before,
-.btn:hover::after {
-    width: 58%;
-}
+    15% {
+        content: "-!";
+    }
 
-.btn:hover span {
-    color: #e0aaff;
-    transition: 0.3s;
-}
+    20% {
+        content: "#$_";
+    }
 
-.btn span {
-    color: #03045e;
-    font-size: 18px;
-    transition: all 0.3s ease-in;
-    
-}
+    25% {
+        content: "№:0";
+    }
+
+    30% {
+        content: "#{+.";
+    }
+
+    35% {
+        content: "@}-?";
+    }
+
+    40% {
+        content: "?{4@%";
+    }
+
+    45% {
+        content: "=.,^!";
+    }
+
+    50% {
+        content: "?2@%";
+    }
+
+    55% {
+        content: "\;1}]";
+    }
+
+    60% {
+        content: "?{%:%";
+        right: 0;
+    }
+
+    65% {
+        content: "|{f[4";
+        right: 0;
+    }
+
+    70% {
+        content: "{4%0%";
+        right: 0;
+    }
+
+    75% {
+        content: "'1_0<";
+        right: 0;
+    }
+
+    80% {
+        content: "{0%";
+        right: 0;
+    }
+
+    85% {
+        content: "]>'";
+        right: 0;
+    }
+
+    90% {
+        content: "4";
+        right: 0;
+    }
+
+    95% {
+        content: "2";
+        right: 0;
+    }
+
+    100% {
+        content: "";
+        right: 0;
+    }
+} 

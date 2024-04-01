@@ -5,7 +5,7 @@ Records
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
-<link rel="stylesheet" href="/static/css/reocrds/records.css">
+<link rel="stylesheet" href="/static/css/reocrds/all_records.css">
 {% endblock css %}
 {% block content %}
 <div class="heading">
@@ -18,16 +18,17 @@ Records
             <th>{{ field_name }}</th>
             {% endfor %}
         </tr>
-        {% for record in records %}
+        {% for record_id, record_data in records %} 
         <tr>
-            {% for k,v in record.items() %}   
+            {% for field_name, value in record_data.items() %}   
             <td>
-                <a href="{{ url_for('users_records.details', group_id=group_id, field=field) }}">{{ value }}</a>
+                <a href="{{ url_for('users_records.details', group_id=group_id, record_id=record_id) }}">{{ value }}</a>
             </td>
             {% endfor %}
         </tr>
         {% endfor %}
     </table>
+    
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <div id="flash-messages" class="flash-messages">

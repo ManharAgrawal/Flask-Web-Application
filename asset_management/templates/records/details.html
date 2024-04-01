@@ -13,11 +13,15 @@ All Records
     <h1>All Records</h1>
 </div>
 <div>
+    {% for record in record_data %}
     <ul>
-        {% for field_name, value in records_data.items() %}
-        <li><b>{{ field_name }}</b> : <i>{{ value }}</i></li>
-        {% endfor %}
+        {% if record is mapping %}
+            {% for field_name, value in record.items() %}
+                <li><b>{{ field_name }}</b> : <i>{{ value }}</i></li>
+            {% endfor %}
+        {% endif %}
     </ul>
+    {% endfor %}
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <div id="flash-messages" class="flash-messages">
