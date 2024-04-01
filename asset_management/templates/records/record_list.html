@@ -17,6 +17,7 @@ Records
             {% for field_name in field_names %}
             <th>{{ field_name }}</th>
             {% endfor %}
+            <th>Action</th>
         </tr>
         {% for record_id, record_data in records %} 
         <tr>
@@ -25,6 +26,9 @@ Records
                 <a href="{{ url_for('users_records.details', group_id=group_id, record_id=record_id) }}">{{ value }}</a>
             </td>
             {% endfor %}
+            <td>
+                <a href="{{url_for('users_records.delete', id=group_id)}}"><button class="btn_ops">Delete</button></a>
+            </td>
         </tr>
         {% endfor %}
     </table>
