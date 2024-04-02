@@ -17,7 +17,6 @@ def records(id):
 def record_list_page(id):
     request_data = dict(request.form)
     user_id = current_user.id
-    group_id = request_data.get('group_id')
     records = mongo.db.records.find({'group_id': str(id)})
     record_data = {}
     for record in records:
