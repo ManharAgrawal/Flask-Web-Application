@@ -11,17 +11,16 @@ def fields(id):
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('user_fields/fields.html', fields=fields, id=id)
 
-@fields_blueprint.route('/groups/<int:id>/fields/create', methods=["GET"])
+@fields_blueprint.route('/groups/<int:id>/create', methods=["GET"])
 def create_page(id):
     return render_template("user_fields/create.html", id=id)
 
-@fields_blueprint.route('/groups/<int:id>/fields/create', methods=["POST"])   
+@fields_blueprint.route('/groups/<int:id>/create', methods=["POST"])   
 def create(id):
     name = request.form.get('name')
     description = request.form.get('description')
     dataformat = request.form.get('dataformat')
-    field_key = request.form.get('field_key')
-    last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar()    
+    last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar() # scalar - Return the first element of the first result or None if no rows present.    
     if last_field_key is None:
         field_key = 'field_1'
     else:
@@ -36,12 +35,12 @@ def create(id):
         return redirect(url_for('users_field.fields', id=id))
     return render_template("user_fields/create.html", id=id, fields=new_field)
 
-@fields_blueprint.route('/groups/<int:id>/<int:field_id>/update', methods=["GET"])
+@fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["GET"])
 def update_page(id,field_id):
     field = Field.query.get(field_id)
     return render_template('user_fields/update.html', field=field, id=id)
     
-@fields_blueprint.route('/groups/<int:id>/<int:field_id>/update', methods=["POST"])
+@fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):
     field = Field.query.get(field_id)
     name = request.form.get('name')
@@ -52,7 +51,7 @@ def update(id, field_id):
     field.description = description
     field.dataformat = dataformat
     field.field_key = field_key
-    field.id = id
+    field.group_id = id 
     db.session.commit()
     flash('The field has been updated successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))

@@ -14,11 +14,10 @@ def group_page():
 
 @groups_blueprint.route('/groups', methods=["POST"])
 def groups():
-    groups = GroupName.query.all()
     user_id = current_user.id
     name = request.form.get('name')
     description = request.form.get('description')
-    if name: 
+    if name:
         new_group = GroupName(name=name, description=description, user_id=user_id)
         db.session.add(new_group)
         db.session.commit()
@@ -26,7 +25,7 @@ def groups():
     else:
         status_message, message = "Enter Name", "error"
         flash(status_message,message)
-        return redirect(url_for('users_group.groups'))
+    groups = GroupName.query.all()
     return render_template("user_groups/groups.html", entities=groups)
 
 @groups_blueprint.route('/groups/create', methods=["GET"])
@@ -51,11 +50,18 @@ def update(id):
 def delete(id):
     group = GroupName.query.get(id)
     if group:
-        Field.query.filter_by(id=id).delete()
-        db.session.delete(group)
-        db.session.commit()
-        status_message, status = 'Group deleted succesfully !!!', 'success'
-    else:
-        status_message, status = 'Error in deleting group !!', 'error'
+        fields = Field.query.filter_by(group_id=id).all()
+        deleted_data = {'group': group, 'fields': fields}
+        try:
+            Field.query.filter_by(group_id=id).delete()
+            db.session.delete(group)
+            db.session.commit()
+            status_message, status = 'Group deleted successfully!!!', 'success'
+        except Exception as e:
+            db.session.rollback()
+            db.session.add(deleted_data['group'])
+            db.session.add_all(deleted_data['fields'])
+            db.session.commit()
+            status_message, status = f'Error in deleting group: {str(e)}', 'error'
     flash(status_message, status)
     return redirect(url_for('users_group.groups', id=id))
