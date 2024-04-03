@@ -25,7 +25,9 @@ Records
         <tr>
             {% for field_name, value in record_data.items() %}   
                 {% if loop.index <= 5 %}
-                    <td><a href="{{ url_for('users_records.details', group_id=group_id, record_id=record_id) }}">{{ value }}</a></td>
+                    <td>
+                        <a href="{{ url_for('users_records.details', group_id=group_id, record_id=record_id) }}">{{ value }}</a>
+                    </td>
                 {% endif %}
             {% endfor %}
             <td>

@@ -1,6 +1,7 @@
 import pdb
 from config import db
 from sqlalchemy import func
+from datetime import datetime
 from sql_database.models import Field
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
@@ -20,7 +21,9 @@ def create(id):
     name = request.form.get('name')
     description = request.form.get('description')
     dataformat = request.form.get('dataformat')
-    last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar() # scalar - Return the first element of the first result or None if no rows present.    
+    created_date = datetime.utcnow()
+    updated_date = datetime.utcnow()
+    last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar()
     if last_field_key is None:
         field_key = 'field_1'
     else:
@@ -28,8 +31,10 @@ def create(id):
         new_field_key_int = last_field_key_int + 1
         field_key = f'field_{new_field_key_int}'
     if name and dataformat:
-        new_field = Field(name=name, description=description, dataformat=dataformat, field_key=field_key, group_id=id)
+        new_field = Field(name=name, description=description, dataformat=dataformat, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date)
         db.session.add(new_field)
+        new_field.created_date = created_date
+        new_field.updated_date = updated_date
         db.session.commit()
         flash('Field Created Successfully!', 'success')
         return redirect(url_for('users_field.fields', id=id))
@@ -47,11 +52,12 @@ def update(id, field_id):
     description = request.form.get('description')
     dataformat = request.form.get('dataformat')
     field_key = request.form.get('field_key')
+    field.updated_date = datetime.utcnow() 
     field.name = name
     field.description = description
     field.dataformat = dataformat
     field.field_key = field_key
-    field.group_id = id 
+    field.group_id = id
     db.session.commit()
     flash('The field has been updated successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))

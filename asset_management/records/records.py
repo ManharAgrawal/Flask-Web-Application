@@ -1,6 +1,7 @@
 import pdb
 from config import mongo
 from bson import ObjectId
+from datetime import datetime
 from flask_login import current_user
 from sql_database.models import GroupName, Field
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
@@ -9,7 +10,6 @@ records_blueprint = Blueprint('users_records', __name__, template_folder='templa
 
 @records_blueprint.route("/groups/<int:id>/records", methods=["GET"])
 def records(id):
-    group = GroupName.query.get(id)
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('records/records.html', id=id, fields=fields)
 
@@ -34,15 +34,22 @@ def all_records():
     request_data = dict(request.form)
     group_id = request_data.pop('group_id')
     user_id = current_user.id
-    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id})
+    fields = Field.query.filter_by(group_id=group_id).all()
+    for field in fields:
+        if field.dataformat == 'Integer':
+            if field.field_key in request_data:
+                value = request_data[field.field_key]
+                if value and value.isdigit():
+                    request_data[field.field_key] = int(value)
+    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])
 def details(record_id):
     group_id = request.args.get('group_id')
     record_id = mongo.db.records.find_one({'_id': ObjectId(record_id)})
-    field_names = {}
     fields = Field.query.filter_by(group_id=group_id).all()
+    field_names = {}
     for field in fields:
         field_names[field.name] = field.name  
     record_data = record_id.get('record_data')
@@ -59,7 +66,6 @@ def details(record_id):
 
 @records_blueprint.route('/groups/<int:id>', methods=["GET"])
 def back_to_fields(id):
-    fields = Field.query.filter_by(id=id).all()
     return redirect(url_for('users_field.fields', id=id))
 
 @records_blueprint.route('/group/<int:id>/records/<string:record_id>', methods=["GET"])

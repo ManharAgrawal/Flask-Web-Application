@@ -32,6 +32,13 @@ Field Records
             </div>
             <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
         </div>
+        {% elif field.dataformat == 'DateTime' %}
+        <div class="form-group column">
+            <label for="{{field.field_key}}" class="col-sm-2 col-form-label">{{ field.name }}</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="datetime-local" id="{{field.field_key}}" name="{{field.field_key}}">
+            </div>
+        </div>
         {% else %}
         <fieldset class="form-group">
             <div class="column">
@@ -54,6 +61,5 @@ Field Records
         {% endfor %}
         <input class="ui-btn" type="submit" value="Submit">
     </form>
-    
 </div>
 {% endblock %}

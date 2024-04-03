@@ -1,5 +1,6 @@
 import pdb
 from config import db
+from datetime import datetime
 from flask_login import current_user
 from sql_database.models import GroupName, Field
 from flask import Blueprint, render_template, request, redirect, url_for, flash
@@ -17,8 +18,10 @@ def groups():
     user_id = current_user.id
     name = request.form.get('name')
     description = request.form.get('description')
+    created_date = datetime.utcnow()
+    updated_date = datetime.utcnow()
     if name:
-        new_group = GroupName(name=name, description=description, user_id=user_id)
+        new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
         db.session.add(new_group)
         db.session.commit()
         status_message, message = 'Group created successfully!', 'success'
@@ -26,7 +29,7 @@ def groups():
         status_message, message = "Enter Name", "error"
         flash(status_message,message)
     groups = GroupName.query.all()
-    return render_template("user_groups/groups.html", entities=groups)
+    return redirect(url_for("users_group.groups", entities=groups))
 
 @groups_blueprint.route('/groups/create', methods=["GET"])
 def create():
@@ -42,6 +45,7 @@ def update(id):
     group = GroupName.query.get(id)
     group.name = request.form['name']
     group.description = request.form['description']
+    group.updated_data = datetime.utcnow() 
     db.session.commit()
     flash('The group has been updated successfully!','success')
     return redirect(url_for('users_group.groups'))
@@ -56,12 +60,12 @@ def delete(id):
             Field.query.filter_by(group_id=id).delete()
             db.session.delete(group)
             db.session.commit()
-            status_message, status = 'Group deleted successfully!!!', 'success'
+            status_message, status = 'Group Deleted Successfully!!!', 'success'
         except Exception as e:
             db.session.rollback()
             db.session.add(deleted_data['group'])
             db.session.add_all(deleted_data['fields'])
             db.session.commit()
-            status_message, status = f'Error in deleting group: {str(e)}', 'error'
+            status_message, status = 'Error In Deleting Group', 'error'
     flash(status_message, status)
     return redirect(url_for('users_group.groups', id=id))
