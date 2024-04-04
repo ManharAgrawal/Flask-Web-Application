@@ -5,4 +5,14 @@ records = {"numer":int, "str":"str} - done
 
 create data and update date - Done
 
-time stamp (utc) add in data format(calendar)
+time stamp (utc) add in data format(calendar) - Done
+
+set a limit on showing 5 records in page - Done
+
+Add link on row in record table - Done
+
+Add email and url fields - Done
+
+manage data in key : value in same column - Done
+
+make link in JQuery - ??

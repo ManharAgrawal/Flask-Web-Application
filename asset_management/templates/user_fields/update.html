@@ -17,9 +17,12 @@ Update Fields
         <div class="dataformat">
             <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
-                <option selected="selected" value="Integer">Integer</option>
-                <option value="String">String</option>
-                <option value="Boolean">Boolean</option>
+                <option selected="selected" value="number">Number</option>
+                <option value="text">Text</option>
+                <option value="radio">True and False</option>
+                <option value="datetime-local">DateTime-Local</option>
+                <option value="url">URL</option>
+                <option value="email">Email</option>
             </select>
         </div>
         <input type="hidden" name="field_key" value="{{field.field_key}}">

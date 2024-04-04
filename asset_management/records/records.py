@@ -23,11 +23,18 @@ def record_list_page(id):
         if record.get('record_data'):
             record_id = str(record['_id'])
             record_data[record_id] = record['record_data']
-    fields = Field.query.filter_by(group_id=id).all()
-    field_names = {}
+    fields = Field.query.filter_by(group_id=id).all() 
+    field_names = []
     for field in fields:
-        field_names[field.name] = field.name
-    return render_template('records/record_list.html', records=record_data.items(), user_id=user_id, group_id=id, field_names=field_names)
+        field_names.append(field.name)
+    field_names = field_names[:5]
+    record = list(record_data.values())
+    record = record[0]
+    while True:
+        key, value = record.popitem()
+        if key=='field_6':
+            break
+    return render_template('records/record_list.html', records=record, user_id=user_id, group_id=id, field_names=field_names, record_id=record_id,)
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
 def all_records():
@@ -36,10 +43,10 @@ def all_records():
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all()
     for field in fields:
-        if field.dataformat == 'Integer':
+        if field.dataformat == 'number':
             if field.field_key in request_data:
                 value = request_data[field.field_key]
-                if value and value.isdigit():
+                if value.isdigit():
                     request_data[field.field_key] = int(value)
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))

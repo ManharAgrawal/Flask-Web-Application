@@ -16,47 +16,24 @@ Field Records
 <div class="container1">
     <form action="{{ url_for('users_records.all_records', group_id=id) }}" method="post">
         {% for field in fields %}
-        {% if field.dataformat == 'Integer' %}
         <div class="form-group column">
-            <label for="inputNumber3" class="col-sm-2 col-form-label">{{ field.name }}</label>
+            <label for="{{ field.field_key }}" class="col-sm-2 col-form-label">{{ field.name }}</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="inputNumber3" name="{{ field.field_key }}"placeholder="{{ field.name }}">
-            </div>
-            <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
-        </div>
-        {% elif field.dataformat == 'String' %}
-        <div class="form-group column">
-            <label for="inputText3" class="col-sm-2 col-form-label">{{ field.name }}</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputText3" name="{{ field.field_key }}"placeholder="{{ field.name }}">
-            </div>
-            <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
-        </div>
-        {% elif field.dataformat == 'DateTime' %}
-        <div class="form-group column">
-            <label for="{{field.field_key}}" class="col-sm-2 col-form-label">{{ field.name }}</label>
-            <div class="col-sm-10">
-                <input class="form-control" type="datetime-local" id="{{field.field_key}}" name="{{field.field_key}}">
-            </div>
-        </div>
-        {% else %}
-        <fieldset class="form-group">
-            <div class="column">
-                <legend class="col-form-label col-sm-2 pt-0">{{ field.name }}</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ field.field_key }}" id="{{ field.name }}True"value="True">
-                        <label class="form-check-label" for="{{ field.name }}True">True</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ field.field_key }}" id="{{ field.name }}False"value="False">
-                        <label class="form-check-label" for="{{ field.name }}False">False</label>
-                    </div>
-                    <input type="hidden" name="{{ field.field_key }}" id="{{ field.field_key }}" value="{{ field.field_key }}">
+                {% if field.dataformat == 'radio' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ field.field_key }}" id="{{ field.field_key }}True" value="True">
+                    <label class="form-check-label" for="{{ field.field_key }}True">True</label>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ field.field_key }}" id="{{ field.field_key }}False" value="False">
+                    <label class="form-check-label" for="{{ field.field_key }}False">False</label>
+                </div>
+                {% else %}
+                <input type="{{ field.dataformat }}" class="form-control" id="{{ field.field_key }}" name="{{ field.field_key }}" placeholder="{{ field.name }}">
+                {% endif %}
+                <input type="hidden" name="{{ field.field_key }}" value="{{ field.field_key }}">
             </div>
-        </fieldset><br>
-        {% endif %}
+        </div>
         <br><input type="text" name="group_id" value="{{ id}}" hidden/>
         {% endfor %}
         <input class="ui-btn" type="submit" value="Submit">
