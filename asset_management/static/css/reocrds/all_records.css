@@ -177,3 +177,18 @@ h1 {
     font-size: 18px;
     transition: all 0.3s ease-in;  
 }
+
+
+.btn1{
+        padding: 9px 25px;
+        background-color: #2569ad;
+        color: #f8f8f8;
+        border: none;
+        border-radius: 20px;
+        font-size: 20px;
+}
+
+.btn1:hover{
+    background-color: #313030;
+    color: wheat;
+}

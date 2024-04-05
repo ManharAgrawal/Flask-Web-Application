@@ -15,4 +15,4 @@ Add email and url fields - Done
 
 manage data in key : value in same column - Done
 
-make link in JQuery - ??
+create one-to-many relationship in fields and dataformats - 

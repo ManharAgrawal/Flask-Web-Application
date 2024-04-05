@@ -15,26 +15,16 @@ def records(id):
 
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 def record_list_page(id):
-    request_data = dict(request.form)
     user_id = current_user.id
     records = mongo.db.records.find({'group_id': str(id)})
     record_data = {}
     for record in records:
         if record.get('record_data'):
             record_id = str(record['_id'])
-            record_data[record_id] = record['record_data']
-    fields = Field.query.filter_by(group_id=id).all() 
-    field_names = []
-    for field in fields:
-        field_names.append(field.name)
-    field_names = field_names[:5]
-    record = list(record_data.values())
-    record = record[0]
-    while True:
-        key, value = record.popitem()
-        if key=='field_6':
-            break
-    return render_template('records/record_list.html', records=record, user_id=user_id, group_id=id, field_names=field_names, record_id=record_id,)
+            record_data[record_id] = dict(list(record['record_data'].items())[:5])
+    fields = Field.query.filter_by(group_id=id).limit(5).all()
+    record = record_data
+    return render_template('records/record_list.html', records=record, user_id=user_id, group_id=id, field_names=fields)
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
 def all_records():
@@ -46,30 +36,23 @@ def all_records():
         if field.dataformat == 'number':
             if field.field_key in request_data:
                 value = request_data[field.field_key]
-                if value.isdigit():
-                    request_data[field.field_key] = int(value)
+                request_data[field.field_key] = int(value)
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])
 def details(record_id):
-    group_id = request.args.get('group_id')
-    record_id = mongo.db.records.find_one({'_id': ObjectId(record_id)})
+    record = mongo.db.records.find_one({'_id': ObjectId(record_id)})
+    group_id = record.get('group_id')
     fields = Field.query.filter_by(group_id=group_id).all()
     field_names = {}
-    for field in fields:
-        field_names[field.name] = field.name  
-    record_data = record_id.get('record_data')
-    keys = []
-    for k in field_names.values():
-        keys.append(k)
-    values = []
-    for v in record_data.values():
-        values.append(v)
+    keys = [field.name for field in fields]
+    record_data = record.get('record_data')
+    values = list(record_data.values())
     records = {}
-    for i in range(len(keys)):
-        records[keys[i]] = values[i]
-    return render_template('records/details.html', group_id=group_id, record_data=records, field_names=field_names)
+    for i in keys:
+        records[i] = values[keys.index(i)]
+    return render_template('records/details.html', record_data=records, field_names=field_names)
 
 @records_blueprint.route('/groups/<int:id>', methods=["GET"])
 def back_to_fields(id):

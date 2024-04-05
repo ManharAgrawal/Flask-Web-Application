@@ -31,29 +31,35 @@ class GroupName(db.Model):
         self.name = name
         self.description = description
         self.user_id = user_id
-        if created_date is not None:
-            self.created_date = created_date
-        if updated_date is not None:
-            self.updated_date = updated_date
+        self.created_date = created_date
+        self.updated_date = updated_date
 
 class Field(db.Model):
     __tablename__ = 'fields'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    dataformat = db.Column(db.String(), nullable=False)
     field_key = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    dataformat_id = db.Column(db.Integer, db.ForeignKey('dataformats.id'))
 
-    def __init__(self,name,description, dataformat, field_key, group_id, created_date, updated_date):
+    def __init__(self,name,description, dataformat_id, field_key, group_id, created_date, updated_date):
         self.name = name
         self.description = description
-        self.dataformat = dataformat
+        self.dataformat_id = dataformat_id
         self.field_key = field_key
         self.group_id = group_id
-        if created_date is not None:
-            self.created_date = created_date
-        if updated_date is not None:
-            self.updated_date = updated_date
+        self.created_date = created_date
+        self.updated_date = updated_date
+
+class DataFormat(db.Model):
+    __tablename__ = "dataformats"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    field = db.relationship("Field", backref="dataformats")
+
+    def __init__(self, name, field):
+        self.name = name
+        self.field = field

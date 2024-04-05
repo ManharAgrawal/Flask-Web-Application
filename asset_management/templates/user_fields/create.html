@@ -15,13 +15,11 @@ Create Fields
         <br><label for="description">Description</label>
         <input type="text" name="description" id="description" placeholder="Enter some description">
         <div class="dataformat">
+            <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
-                <option selected="selected" value="number">Number</option>
-                <option value="text">Text</option>
-                <option value="radio">True and False</option>
-                <option value="datetime-local">DateTime-Local</option>
-                <option value="url">URL</option>
-                <option value="email">Email</option>
+                {% for dataformat in dataformats %}
+                    <option value="{{ dataformat_id }}">{{ dataformat.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <input type="hidden" name="field_key" value="1">
