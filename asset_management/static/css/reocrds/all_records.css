@@ -105,6 +105,7 @@ h1 {
         opacity: 0;
         transform: translateY(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -116,11 +117,13 @@ h1 {
         opacity: 0;
         transform: translateX(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
     }
 }
+
 .btn {
     display: inline-block;
     width: 150px;
@@ -131,10 +134,10 @@ h1 {
     overflow: hidden;
     transition: all 0.5s ease-in;
     z-index: 1;
-    margin-left: 47%;    
+    margin-left: 47%;
 }
 
-.btn:hover{
+.btn:hover {
     color: white;
 }
 
@@ -149,7 +152,7 @@ h1 {
     transition: all 0.5s;
     overflow: hidden;
     z-index: -1;
-    
+
 }
 
 .btn::before {
@@ -175,20 +178,54 @@ h1 {
 .btn span {
     color: #03045e;
     font-size: 18px;
-    transition: all 0.3s ease-in;  
+    transition: all 0.3s ease-in;
 }
 
-
-.btn1{
-        padding: 9px 25px;
-        background-color: #2569ad;
-        color: #f8f8f8;
-        border: none;
-        border-radius: 20px;
-        font-size: 20px;
+.btn1 {
+    padding: 9px 25px;
+    background-color: #2569ad;
+    color: #f8f8f8;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
 }
 
-.btn1:hover{
+.btn1:hover {
     background-color: #313030;
     color: wheat;
+}
+
+.button-container {
+    display: flex;
+    background-color: rgb(73, 208, 245);
+    width: 50px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+        rgba(6, 6, 6, 0.5) 5px 10px 15px;
+}
+
+.button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #080808;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+}
+
+.icon {
+    font-size: 20px;
 }

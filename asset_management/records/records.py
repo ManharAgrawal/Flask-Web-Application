@@ -3,7 +3,7 @@ from config import mongo
 from bson import ObjectId
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import GroupName, Field, DataFormat
+from sql_database.models import User, GroupName, Field
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
@@ -12,6 +12,21 @@ records_blueprint = Blueprint('users_records', __name__, template_folder='templa
 def records(id):
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('records/records.html', id=id, fields=fields)
+
+@records_blueprint.route("/groups/<int:id>/profile", methods=["GET"])
+def profile(id):
+    user = User.query.filter_by(id=current_user.id).first()
+    groups = GroupName.query.filter_by(user_id=user.id).all()
+    group_ids = []
+    for group in groups:
+        group_ids.append(group.id)
+    fields = Field.query.all()
+    user_fields = []
+    for field in fields:
+        if field.group_id:
+            user_fields.append(field)
+    user_records = mongo.db.record.find({"group_id": str(id)})
+    return render_template('records/profile.html', user=user, user_groups=groups, user_fields=user_fields, user_records=user_records, id=id)
 
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 def record_list_page(id):
