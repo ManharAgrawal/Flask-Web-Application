@@ -43,7 +43,8 @@ class Field(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
-    dataformat_id = db.Column(db.Integer, db.ForeignKey('dataformats.id'))
+    dataformat_id = db.Column(db.Integer, db.ForeignKey('dataformats.id'), unique=False, nullable=False)
+    dataformat = db.relationship('DataFormat', back_populates='field')
 
     def __init__(self,name,description, dataformat_id, field_key, group_id, created_date, updated_date):
         self.name = name
@@ -58,8 +59,9 @@ class DataFormat(db.Model):
     __tablename__ = "dataformats"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    field = db.relationship("Field", backref="dataformats")
+    input_type = db. Column(db.String())
+    field = db.relationship("Field", back_populates="dataformat", lazy='dynamic') 
 
-    def __init__(self, name, field):
+    def __init__(self, name, input_type):
         self.name = name
-        self.field = field
+        self.input_type = input_type

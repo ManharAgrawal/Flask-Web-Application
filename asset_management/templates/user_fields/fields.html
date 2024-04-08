@@ -27,7 +27,7 @@ All Fields
         <tr>
             <td>{{ field.name }}</td>
             <td>{{ field.description }}</td>
-            <td>{{ field.dataformat }}</td>
+            <td>{{ field.dataformat.name }}</td>
             <td>
                 <a href="{{ url_for('users_field.update', id=id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
                 <a href="{{ url_for('users_field.delete', id=id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>

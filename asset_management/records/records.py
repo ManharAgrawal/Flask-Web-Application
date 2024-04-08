@@ -3,7 +3,7 @@ from config import mongo
 from bson import ObjectId
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import GroupName, Field
+from sql_database.models import GroupName, Field, DataFormat
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
@@ -33,9 +33,9 @@ def all_records():
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all()
     for field in fields:
-        if field.dataformat == 'number':
+        if field.dataformat.input_type == 'number':
             if field.field_key in request_data:
-                value = request_data[field.field_key]
+                value = request_data.get(field.field_key)
                 request_data[field.field_key] = int(value)
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
@@ -45,14 +45,13 @@ def details(record_id):
     record = mongo.db.records.find_one({'_id': ObjectId(record_id)})
     group_id = record.get('group_id')
     fields = Field.query.filter_by(group_id=group_id).all()
-    field_names = {}
     keys = [field.name for field in fields]
     record_data = record.get('record_data')
     values = list(record_data.values())
     records = {}
     for i in keys:
         records[i] = values[keys.index(i)]
-    return render_template('records/details.html', record_data=records, field_names=field_names)
+    return render_template('records/details.html', record_data=records)
 
 @records_blueprint.route('/groups/<int:id>', methods=["GET"])
 def back_to_fields(id):

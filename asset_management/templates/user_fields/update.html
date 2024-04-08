@@ -16,12 +16,13 @@ Update Fields
         <input type="text" name="description" id="description" value="{{field.description}}" placeholder="Enter some description">
         <div class="dataformat">
             <br><label for="dataformat">Choose Type</label>
-            <select name="dataformat" id="dataformat">
+            <select name="dataformat" id="dataformat" value="{{dataformats.id}}">
                 {% for dataformat in dataformats %}
-                    <option value="{{ dataformat.id }}">{{ dataformat.name }}</option>
+                <option value="{{ dataformat.id }}" {% if dataformat.id == field.dataformat_id %} selected {% endif %}>
+                    {{ dataformat.name }}
+                </option>
                 {% endfor %}
             </select>
-        </div>
         </div>
         <input type="hidden" name="field_key" value="{{field.field_key}}">
         <br><input class="create-btn" type="submit" value="Add">

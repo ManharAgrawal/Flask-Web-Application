@@ -1,5 +1,5 @@
 import pdb
-from config import db
+from config import db, mongo
 from sqlalchemy import func
 from datetime import datetime
 from sql_database.models import Field, DataFormat
@@ -24,6 +24,7 @@ def create(id):
     dataformats = request.form.get('dataformat')
     created_date = datetime.utcnow()
     updated_date = datetime.utcnow()
+    new_field = None
     last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar()
     if last_field_key is None:
         field_key = 'field_1'
@@ -36,27 +37,27 @@ def create(id):
         db.session.add(new_field)
         db.session.commit()
         flash('Field Created Successfully!', 'success')
-        return redirect(url_for('users_field.fields', id=id))
+        return redirect(url_for('users_field.fields', id=id, new_field_id=new_field.id))
     return render_template("user_fields/create.html", id=id, fields=new_field)
 
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["GET"])
 def update_page(id,field_id):
     field = Field.query.get(field_id)
-    return render_template('user_fields/update.html', field=field, id=id)
+    dataformats = DataFormat.query.all()
+    return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats)
     
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):
     field = Field.query.get(field_id)
     name = request.form.get('name')
     description = request.form.get('description')
-    dataformats = request.form.get('dataformats')
+    dataformat_id = request.form.get('dataformat')
     field_key = request.form.get('field_key')
     field.updated_date = datetime.utcnow() 
     field.name = name
     field.description = description
-    field.dataformats = dataformats
+    field.dataformat_id = dataformat_id
     field.field_key = field_key
-    field.group_id = id
     db.session.commit()
     flash('The field has been updated successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))

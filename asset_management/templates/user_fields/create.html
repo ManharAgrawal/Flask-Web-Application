@@ -18,7 +18,9 @@ Create Fields
             <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
                 {% for dataformat in dataformats %}
-                    <option value="{{ dataformat_id }}">{{ dataformat.name }}</option>
+                    <option value="{{ dataformat.id }}">
+                        {{ dataformat.name }}
+                    </option>
                 {% endfor %}
             </select>
         </div>
