@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
     groups = db.relationship('GroupName', backref='users', lazy=True)
+    profile_id = db.relationship("Profile", uselist=False, backref="users", lazy=True)
 
     def __init__(self, name, email, password): 
         self.name = name
@@ -65,3 +66,22 @@ class DataFormat(db.Model):
     def __init__(self, name, input_type):
         self.name = name
         self.input_type = input_type
+        
+class Profile(db.Model):
+    __tablename__ = "profiles"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    email = db.Column(db.String(), unique=True)
+    mobile = db.Column(db.Integer)
+    address = db.Column(db.String())
+    position = db.Column(db.String())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    def __init__(self, name, email, mobile, address, position, user_id):
+        self.name = name
+        self.email = email
+        self.mobile = mobile
+        self.address = address
+        self.position = position
+        self.user_id = user_id
+    

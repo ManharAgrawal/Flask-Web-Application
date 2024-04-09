@@ -10,43 +10,41 @@ Records
 {% block content %}
 <div class="heading">
     <h1>Records</h1>
+    <br>
     <div class="button-container">
-        <a href="{{url_for('users_records.profile', id=group_id)}}"><button class="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
-            <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"></path>
-          </svg>
-        </button></a>
-      </div><br>
-    <a href="{{ url_for('users_records.records', id=group_id) }}"><button class="btn1">Create Records</button></a>
-</div>
-<div class="table_text">
-    <br><table class="tb">
-        {% for field in field_names %}
-        <th>{{ field.name }}</th>
-        {% endfor %}
-        <th>Action</th>
-        {% for record_id, record in records.items() %}
-        <tr data-href="{{ url_for('users_records.details', record_id=record_id) }}">
-            {% for field_value in record.values() %}
-                <td>{{ field_value }}</td>
-            {% endfor %}
-            <td>
-                <a href="{{url_for('users_records.delete', id=group_id, record_id=record_id)}}"><button class="btn2">Delete</button></a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div id="flash-messages" class="flash-messages">
-        {% for category, message in messages %}
-        <div class="flash-message {{ category }}">
-            {{ message }}
-        </div>
-        {% endfor %}    
+        <a href="{{ url_for('users_records.records', id=group_id) }}"><button class="btn1">Create Records</button></a>
     </div>
-    {% endif %}
-    {% endwith %}
+    <div class="table_text">
+        <br>
+        <table class="tb">
+            {% for field in field_names %}
+            <th>{{ field.name }}</th>
+            {% endfor %}
+            <th>Action</th>
+            {% for record_id, record in records.items() %}
+            <tr data-href="{{ url_for('users_records.details', record_id=record_id) }}">
+                {% for field_value in record.values() %}
+                <td>{{ field_value }}</td>
+                {% endfor %}
+                <td>
+                    <a href="{{url_for('users_records.delete', id=group_id, record_id=record_id)}}"><button
+                            class="btn2">Delete</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
 </div>
 <a href="{{ url_for('users_field.fields', id=group_id) }}"><button class="btn">Back To Fields</button></a>
 <script src="/static/js/records/records.js"></script>

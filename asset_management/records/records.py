@@ -13,21 +13,6 @@ def records(id):
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('records/records.html', id=id, fields=fields)
 
-@records_blueprint.route("/groups/<int:id>/profile", methods=["GET"])
-def profile(id):
-    user = User.query.filter_by(id=current_user.id).first()
-    groups = GroupName.query.filter_by(user_id=user.id).all()
-    group_ids = []
-    for group in groups:
-        group_ids.append(group.id)
-    fields = Field.query.all()
-    user_fields = []
-    for field in fields:
-        if field.group_id:
-            user_fields.append(field)
-    user_records = mongo.db.record.find({"group_id": str(id)})
-    return render_template('records/profile.html', user=user, user_groups=groups, user_fields=user_fields, user_records=user_records, id=id)
-
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 def record_list_page(id):
     user_id = current_user.id
@@ -43,10 +28,15 @@ def record_list_page(id):
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
 def all_records():
+    pdb.set_trace()
     request_data = dict(request.form)
     group_id = request_data.pop('group_id')
     user_id = current_user.id
-    fields = Field.query.filter_by(group_id=group_id).all()
+    fields = Field.query.filter_by(group_id=group_id).all() 
+    # find fields with same dataformat number, and change this list into array
+    #  fields[0].dataformat.field
+    # [f for f in fields[0].dataformat.field 
+    # output - [<Field 125>, <Field 130>]
     for field in fields:
         if field.dataformat.input_type == 'number':
             if field.field_key in request_data:
