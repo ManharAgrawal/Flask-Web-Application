@@ -45,9 +45,10 @@ class Field(db.Model):
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     dataformat_id = db.Column(db.Integer, db.ForeignKey('dataformats.id'), unique=False, nullable=False)
+    required = db.Column(db.String())
     dataformat = db.relationship('DataFormat', back_populates='field')
 
-    def __init__(self,name,description, dataformat_id, field_key, group_id, created_date, updated_date):
+    def __init__(self, name, description, dataformat_id, field_key, group_id, created_date, updated_date, required):
         self.name = name
         self.description = description
         self.dataformat_id = dataformat_id
@@ -55,6 +56,7 @@ class Field(db.Model):
         self.group_id = group_id
         self.created_date = created_date
         self.updated_date = updated_date
+        self.required = required 
 
 class DataFormat(db.Model):
     __tablename__ = "dataformats"

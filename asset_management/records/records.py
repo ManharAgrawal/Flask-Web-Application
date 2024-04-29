@@ -3,7 +3,7 @@ from config import mongo
 from bson import ObjectId
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import User, GroupName, Field
+from sql_database.models import Field
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
@@ -28,20 +28,18 @@ def record_list_page(id):
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
 def all_records():
-    pdb.set_trace()
     request_data = dict(request.form)
     group_id = request_data.pop('group_id')
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all() 
-    # find fields with same dataformat number, and change this list into array
-    #  fields[0].dataformat.field
-    # [f for f in fields[0].dataformat.field 
-    # output - [<Field 125>, <Field 130>]
     for field in fields:
         if field.dataformat.input_type == 'number':
             if field.field_key in request_data:
                 value = request_data.get(field.field_key)
-                request_data[field.field_key] = int(value)
+                try:
+                    request_data[field.field_key] = int(value)
+                except ValueError:
+                    request_data[field.field_key] = ''
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 

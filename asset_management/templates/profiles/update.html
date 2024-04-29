@@ -13,46 +13,41 @@ Update Profile
 <div class="col-lg-8" >
     <div class="card">
         <div class="card-body">
-            <div class="row mb-3">
-            <form action="{{url_for('user_profiles.update')}}" method="post">
+            <form action="{{ url_for('users_profile.update') }}" method="post">
                 <div class="col-sm-3">
-                    <h6 class="mb-0">Full Name</h6>
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ profile.name }}">
                 </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="{{profile.name}}">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" value="{{ profile.email }}">
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Email</h6>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label>Mobile</label>
+                        <input type="text" class="form-control" name="mobile" value="{{ profile.mobile }}">
+                    </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="{{profile.email}}">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label>Address</label>
+                        <input type="text" class="form-control" name="address" value="{{ profile.address }}">
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Mobile</h6>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label>Position</label>
+                        <input type="text" class="form-control" name="position" value="{{ profile.position }}">
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col-sm-9 text-secondary">
+                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                    </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="{{profile.mobile}}">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Address</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="{{profile.address}}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="button" class="btn btn-primary px-4" value="Save Changes">
-                </div>
-            </div>
-        </form>    
+            </form>                
         </div>
     </div>
 </div>

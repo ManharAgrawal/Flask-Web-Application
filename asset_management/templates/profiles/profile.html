@@ -10,18 +10,18 @@ Profile
 <link rel="stylesheet" href="/static/css/profiles/profile.css">
 {% endblock css %}
 {% block content %}
+<div class="content">
     <div class="row gutters-sm">
         <div class="col-md-4 mb-3">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                            width="150">
                         <div class="mt-3">
                             <h4>{{profile.name}}</h4>
                             <p class="text-secondary mb-1">{{profile.position}}</p>
                             <p class="text-muted font-size-sm">{{profile.address}}</p>
-                            <button class="btn btn-primary">Follow</button>
-                            <button class="btn btn-outline-primary">Message</button>
                         </div>
                     </div>
                 </div>
@@ -69,22 +69,24 @@ Profile
                 <hr>
                 <div class="row">
                     <div class="col-sm-12">
-                        <a class="btn btn-info " target="__blank" href="{{url_for('user_profiles.update')}}">Edit</a>
+                        <a class="btn btn-info " href="{{url_for('users_profile.update')}}">Edit</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div id="flash-messages" class="flash-messages">
-        {% for category, message in messages %}
-        <div class="flash-message {{ category }}">
-            {{ message }}
-        </div>
-        {% endfor %}
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div id="flash-messages" class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+        {{ message }}
     </div>
-    {% endif %}
-    {% endwith %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
 <script src="/static/js/profiles/profile.js"></script>
 {% endblock %}

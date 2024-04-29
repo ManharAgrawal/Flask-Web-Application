@@ -29,7 +29,7 @@ Field Records
                     <label class="form-check-label" for="{{ field.field_key }}False">False</label>
                 </div>
                 {% else %}
-                <input type="{{ field.dataformat.input_type }}" class="form-control" id="{{ field.field_key }}" name="{{ field.field_key }}" placeholder="{{ field.name }}">
+                <input type="{{ field.dataformat.input_type }}" class="form-control" id="{{ field.field_key }}" name="{{ field.field_key }}" placeholder="{{ field.name }}" {% if field.required == 'True' %}required{% endif %}>
                 {% endif %}
                 <input type="hidden" name="{{ field.field_key }}" value="{{ field.field_key }}">
             </div>

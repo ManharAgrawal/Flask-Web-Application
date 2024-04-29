@@ -24,6 +24,7 @@ def create(id):
     dataformats = request.form.get('dataformat')
     created_date = datetime.utcnow()
     updated_date = datetime.utcnow()
+    required = request.form.get('required')
     new_field = None
     last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar()
     if last_field_key is None:
@@ -33,7 +34,7 @@ def create(id):
         new_field_key_int = last_field_key_int + 1
         field_key = f'field_{new_field_key_int}'
     if name and dataformats:
-        new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date)
+        new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date, required=required)
         db.session.add(new_field)
         db.session.commit()
         flash('Field Created Successfully!', 'success')
@@ -45,19 +46,21 @@ def update_page(id,field_id):
     field = Field.query.get(field_id)
     dataformats = DataFormat.query.all()
     return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats)
-    
+
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):
     field = Field.query.get(field_id)
     name = request.form.get('name')
     description = request.form.get('description')
     dataformat_id = request.form.get('dataformat')
+    required = request.form.get('required')
     field_key = request.form.get('field_key')
     field.updated_date = datetime.utcnow() 
     field.name = name
     field.description = description
     field.dataformat_id = dataformat_id
     field.field_key = field_key
+    field.required = required
     db.session.commit()
     flash('The field has been updated successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))
