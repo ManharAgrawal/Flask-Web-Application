@@ -1,0 +1,14 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Status
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+{% endblock css %}
+{% block content %}
+<div class="hello">
+    <h1>See Status</h1>
+</div>
+<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
+{% endblock %}

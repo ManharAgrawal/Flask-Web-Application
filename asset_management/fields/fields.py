@@ -16,7 +16,7 @@ def fields(id):
 def create_page(id):
     dataformats = DataFormat.query.all()
     return render_template("user_fields/create.html", id=id, dataformats=dataformats)
-
+    
 @fields_blueprint.route('/groups/<int:id>/create', methods=["POST"])   
 def create(id):
     name = request.form.get('name')
@@ -26,13 +26,13 @@ def create(id):
     updated_date = datetime.utcnow()
     required = request.form.get('required')
     new_field = None
-    last_field_key = db.session.query(func.max(Field.field_key)).filter_by(group_id=id).scalar()
-    if last_field_key is None:
-        field_key = 'field_1'
-    else:
-        last_field_key_int = int(last_field_key.split('_')[1])
+    last_field_key = Field.query.filter_by(group_id=id).order_by(Field.field_key.desc()).first()
+    if last_field_key:
+        last_field_key_int = int(last_field_key.field_key.split('_')[1])
         new_field_key_int = last_field_key_int + 1
         field_key = f'field_{new_field_key_int}'
+    else:
+        field_key = 'field_1'
     if name and dataformats:
         new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date, required=required)
         db.session.add(new_field)

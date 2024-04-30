@@ -16,5 +16,17 @@ Group Fields
         <textarea name="description" id="description" cols="30" rows="20" placeholder="description"></textarea>
         <input class="create-btn" type="submit" value="Create">
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
+<script src="/static/js/group/create.js"></script>
 {% endblock %}

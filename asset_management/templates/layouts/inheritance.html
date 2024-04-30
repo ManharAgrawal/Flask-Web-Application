@@ -18,6 +18,15 @@
                   </svg>
                 </button></a>
             </div>
+            <div>
+                <label for="link">Go To</label>
+                <select name="link" id="link">
+                        <option value="{{ url_for('users_group.groups') }}">Group</option>
+                        <option value="{{ url_for('users_field.fields', id=id) }}">Field</option>
+                        <option value="{{ url_for('users_records.record_list_page') }}">Record</option>
+                        <option value="{{ url_for('groups_status.status') }}">Status</option>
+                </select>
+            </div>
             <div class="header-right">
                 <a class="active" href="/users_group/groups">Home</a>
                 <a class="active" href="{{ url_for('navigate.contact', user_id=current_user.id) }}">Contact</a>

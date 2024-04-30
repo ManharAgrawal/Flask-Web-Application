@@ -9,8 +9,7 @@ groups_blueprint = Blueprint('users_group', __name__, template_folder='templates
 
 @groups_blueprint.route('/groups', methods=["GET"])
 def group_page():
-    user_id = current_user.id
-    user_groups = GroupName.query.filter_by(user_id=user_id).all()
+    user_groups = GroupName.query.filter_by(user_id=current_user.id).all()
     return render_template("user_groups/groups.html", entities=user_groups)
 
 @groups_blueprint.route('/groups', methods=["POST"])
@@ -20,15 +19,18 @@ def groups():
     description = request.form.get('description')
     created_date = datetime.utcnow()
     updated_date = datetime.utcnow()
-    if name:
-        new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
-        db.session.add(new_group)
-        db.session.commit()
-        status_message, message = 'Group created successfully!', 'success'
-    else:
-        status_message, message = "Enter Name", "error"
-        flash(status_message,message)
-    groups = GroupName.query.all()
+    if not name:
+        status_message, status = "Name field is required", "error"
+        return redirect(url_for("users_group.create"))
+    existing_group = GroupName.query.filter_by(name=name).first()
+    if existing_group:
+        flash("A group with the same name already exists", "error")
+        return redirect(url_for("users_group.create"))
+    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
+    db.session.add(new_group)
+    db.session.commit()
+    status_message, status = 'Group created successfully!', 'success'
+    flash(status_message, status)
     return redirect(url_for("users_group.groups", entities=groups))
 
 @groups_blueprint.route('/groups/create', methods=["GET"])
@@ -43,9 +45,9 @@ def update_page(id):
 @groups_blueprint.route('/groups/<int:id>/update', methods=["POST"])
 def update(id):
     group = GroupName.query.get(id)
-    group.name = request.form['name']
-    group.description = request.form['description']
-    group.updated_data = datetime.utcnow() 
+    group.name = request.form.get('name')
+    group.description = request.form.get('description')
+    group.updated_data = datetime.utcnow()
     db.session.commit()
     flash('The group has been updated successfully!','success')
     return redirect(url_for('users_group.groups'))

@@ -16,20 +16,19 @@ def records(id):
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 def record_list_page(id):
     user_id = current_user.id
-    records = mongo.db.records.find({'group_id': str(id)})
+    records = mongo.db.records.find({'group_id': id})
     record_data = {}
     for record in records:
         if record.get('record_data'):
             record_id = str(record['_id'])
             record_data[record_id] = dict(list(record['record_data'].items())[:5])
     fields = Field.query.filter_by(group_id=id).limit(5).all()
-    record = record_data
-    return render_template('records/record_list.html', records=record, user_id=user_id, group_id=id, field_names=fields)
+    return render_template('records/record_list.html', records=record_data, user_id=user_id, group_id=id, field_names=fields)
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
 def all_records():
     request_data = dict(request.form)
-    group_id = request_data.pop('group_id')
+    group_id = int(request_data.pop('group_id'))
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all() 
     for field in fields:
@@ -40,6 +39,7 @@ def all_records():
                     request_data[field.field_key] = int(value)
                 except ValueError:
                     request_data[field.field_key] = ''
+    # pdb.set_trace()
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
@@ -67,12 +67,13 @@ def delete(id,record_id):
         record = mongo.db.records.find_one({"_id": bson_id})
         if record:
             mongo.db.records.delete_one({"_id": bson_id})
-            flash("Record deleted successfully", "success")
             group_id = record.get('group_id')
+            status_message, status = "Record deleted successfully", "success"
         else:
-            flash("Record not found", "error")
             group_id = None
+            status_message, status = "Record not found", "error"
     except:
-        flash("Invalid ID format", "error")
         group_id = None
+        status_message, status = "Invalid ID format", "error"
+    flash(status_message, status)
     return redirect(url_for('users_records.record_list_page', id=id))

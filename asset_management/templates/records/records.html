@@ -31,7 +31,7 @@ Field Records
                 {% else %}
                 <input type="{{ field.dataformat.input_type }}" class="form-control" id="{{ field.field_key }}" name="{{ field.field_key }}" placeholder="{{ field.name }}" {% if field.required == 'True' %}required{% endif %}>
                 {% endif %}
-                <input type="hidden" name="{{ field.field_key }}" value="{{ field.field_key }}">
+                <input type="hidden" name="{{ field.field_key }}">
             </div>
         </div>
         <br><input type="text" name="group_id" value="{{ id }}" hidden />
