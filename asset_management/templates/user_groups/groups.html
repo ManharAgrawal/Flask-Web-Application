@@ -34,7 +34,7 @@ All Groups
             <td><a href="{{ url_for('users_records.record_list_page', id=entity.id) }}">{{ entity.name }}</a></td>
             <td>{{ entity.description }}</td>
             <td>
-                <a href="{{ url_for('groups_status.status')}}"><button class="btn_ops">Status</button></a>
+                <a href="{{ url_for('groups_status.status', id=entity.id)}}"><button class="btn_ops">Status</button></a>
             </td>
             <td>
                 <a href="{{ url_for('users_group.update', id=entity.id) }}"><button class="btn_ops">Update</button></a>

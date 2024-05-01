@@ -1,6 +1,5 @@
 import pdb
-from config import db, mongo
-from sqlalchemy import func
+from config import db
 from datetime import datetime
 from sql_database.models import Field, DataFormat
 from flask import Blueprint, render_template, request, url_for, redirect, flash
@@ -42,7 +41,7 @@ def create(id):
     return render_template("user_fields/create.html", id=id, fields=new_field)
 
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["GET"])
-def update_page(id,field_id):
+def edit_page(id,field_id):
     field = Field.query.get(field_id)
     dataformats = DataFormat.query.all()
     return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats)
@@ -55,7 +54,7 @@ def update(id, field_id):
     dataformat_id = request.form.get('dataformat')
     required = request.form.get('required')
     field_key = request.form.get('field_key')
-    field.updated_date = datetime.utcnow() 
+    field.updated_date = datetime.utcnow()
     field.name = name
     field.description = description
     field.dataformat_id = dataformat_id

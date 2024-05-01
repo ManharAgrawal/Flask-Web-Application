@@ -9,7 +9,7 @@ groups_blueprint = Blueprint('users_group', __name__, template_folder='templates
 
 @groups_blueprint.route('/groups', methods=["GET"])
 def group_page():
-    user_groups = GroupName.query.filter_by(user_id=current_user.id).all()
+    user_groups = GroupName.query.filter_by(user_id=current_user.id).all()  
     return render_template("user_groups/groups.html", entities=user_groups)
 
 @groups_blueprint.route('/groups', methods=["POST"])

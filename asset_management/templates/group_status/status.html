@@ -5,10 +5,42 @@ Status
 {% block css %}
 {{ super() }}
 <link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/status/status.css">
 {% endblock css %}
 {% block content %}
-<div class="hello">
-    <h1>See Status</h1>
+<br><div class="hello">
+    <h1>Groups Status</h1>
+    <div class="buttons-container">
+        <a href="{{ url_for('groups_status.create', id=id)}}"><button class="btn2">Create Status</button></a>
+    </div>    
+    <br><table class="tb" action="">
+        <tr>
+            <th>Status</th>
+            <th>Description</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        {% for status in status %}
+        <tr>
+            <td>{{status.status}}</td>
+            <td>{{status.description}}</td>
+            <td>
+                <a href="{{ url_for('groups_status.edit_page', id=id, status_id=status.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('groups_status.delete', id=id, status_id=status.id) }}"><button class="btn_ops">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
 <br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
 {% endblock %}
