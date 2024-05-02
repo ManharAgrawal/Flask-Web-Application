@@ -1,7 +1,7 @@
 import pdb
 from config import db
 from datetime import datetime
-from sql_database.models import Field, DataFormat
+from sql_database.models import Field, DataFormat, Status
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
@@ -14,10 +14,13 @@ def fields(id):
 @fields_blueprint.route('/groups/<int:id>/create', methods=["GET"])
 def create_page(id):
     dataformats = DataFormat.query.all()
-    return render_template("user_fields/create.html", id=id, dataformats=dataformats)
-    
+    status = Status.query.filter_by(group_id=id).all()
+    if status is True:
+        return status
+    return render_template("user_fields/create.html", id=id, dataformats=dataformats, status=status)
+
 @fields_blueprint.route('/groups/<int:id>/create', methods=["POST"])   
-def create(id):
+def create(id): 
     name = request.form.get('name')
     description = request.form.get('description')
     dataformats = request.form.get('dataformat')
@@ -32,6 +35,10 @@ def create(id):
         field_key = f'field_{new_field_key_int}'
     else:
         field_key = 'field_1'
+    existing_field = Field.query.filter_by(name=name, group_id=id).first()
+    if existing_field:
+        flash("A field with the same name already exists in this group", "Error")
+        return redirect(url_for("users_field.create", id=id))
     if name and dataformats:
         new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date, required=required)
         db.session.add(new_field)
@@ -44,7 +51,10 @@ def create(id):
 def edit_page(id,field_id):
     field = Field.query.get(field_id)
     dataformats = DataFormat.query.all()
-    return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats)
+    status = Status.query.filter_by(group_id=id).all()
+    if status is True:
+        return status
+    return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats, status=status)
 
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):

@@ -39,7 +39,6 @@ def all_records():
                     request_data[field.field_key] = int(value)
                 except ValueError:
                     request_data[field.field_key] = ''
-    # pdb.set_trace()
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 

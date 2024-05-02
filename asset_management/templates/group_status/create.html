@@ -16,5 +16,16 @@ Create Status
         <input type="text" name="description" id="description" placeholder="Enter some description">
         <br><input class="create-btn" type="submit" value="Create">
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

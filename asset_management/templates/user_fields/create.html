@@ -18,9 +18,17 @@ Create Fields
             <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
                 {% for dataformat in dataformats %}
-                    <option value="{{ dataformat.id }}">
-                        {{ dataformat.name }}
-                    </option>
+                    {% if status and 'Status' %}
+                        {% if 'Status' %}
+                            <option value="{{ dataformat.id }}">
+                                {{ dataformat.name }}
+                            </option>
+                        {% endif %}
+                    {% elif dataformat.name != 'Status' %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
@@ -28,11 +36,22 @@ Create Fields
             <br><label for="required">Required</label>
             <br><input type="radio" id="required" name="required" value="True">
             <label for="required">Yes</label><br>
-            <br><input type="radio" id="required" name="required" value="False" checked/>
+            <br><input type="radio" id="required" name="required" value="False" checked />
             <label for="required">No</label><br>
         </div>
         <input type="hidden" name="field_key" value="1">
         <br><input class="create-btn" type="submit" value="Add">
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}
