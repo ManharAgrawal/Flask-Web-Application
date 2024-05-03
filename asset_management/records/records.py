@@ -3,7 +3,7 @@ from config import mongo
 from bson import ObjectId
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import Field
+from sql_database.models import Field, Status
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
@@ -11,7 +11,8 @@ records_blueprint = Blueprint('users_records', __name__, template_folder='templa
 @records_blueprint.route("/groups/<int:id>/records", methods=["GET"])
 def records(id):
     fields = Field.query.filter_by(group_id=id).all()
-    return render_template('records/records.html', id=id, fields=fields)
+    status = Status.query.filter_by(group_id=id).all()
+    return render_template('records/records.html', id=id, fields=fields, status=status)
 
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 def record_list_page(id):
@@ -29,8 +30,9 @@ def record_list_page(id):
 def all_records():
     request_data = dict(request.form)
     group_id = int(request_data.pop('group_id'))
+    status = int(request_data.pop('status'))
     user_id = current_user.id
-    fields = Field.query.filter_by(group_id=group_id).all() 
+    fields = Field.query.filter_by(group_id=group_id).all()
     for field in fields:
         if field.dataformat.input_type == 'number':
             if field.field_key in request_data:
@@ -39,7 +41,7 @@ def all_records():
                     request_data[field.field_key] = int(value)
                 except ValueError:
                     request_data[field.field_key] = ''
-    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
+    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow(), "status_id": status})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])

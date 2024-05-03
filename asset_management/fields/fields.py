@@ -15,8 +15,6 @@ def fields(id):
 def create_page(id):
     dataformats = DataFormat.query.all()
     status = Status.query.filter_by(group_id=id).all()
-    if status is True:
-        return status
     return render_template("user_fields/create.html", id=id, dataformats=dataformats, status=status)
 
 @fields_blueprint.route('/groups/<int:id>/create', methods=["POST"])   
@@ -52,8 +50,6 @@ def edit_page(id,field_id):
     field = Field.query.get(field_id)
     dataformats = DataFormat.query.all()
     status = Status.query.filter_by(group_id=id).all()
-    if status is True:
-        return status
     return render_template('user_fields/update.html', field=field, id=id, dataformats=dataformats, status=status)
 
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])

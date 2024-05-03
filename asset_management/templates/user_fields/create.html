@@ -18,12 +18,10 @@ Create Fields
             <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
                 {% for dataformat in dataformats %}
-                    {% if status and 'Status' %}
-                        {% if 'Status' %}
-                            <option value="{{ dataformat.id }}">
-                                {{ dataformat.name }}
-                            </option>
-                        {% endif %}
+                    {% if status %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
                     {% elif dataformat.name != 'Status' %}
                         <option value="{{ dataformat.id }}">
                             {{ dataformat.name }}

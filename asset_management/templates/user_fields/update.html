@@ -18,12 +18,10 @@ Update Fields
             <br><label for="dataformat">Choose Type</label>
             <select name="dataformat" id="dataformat">
                 {% for dataformat in dataformats %}
-                    {% if status and 'Status' %}
-                        {% if 'Status' %}
-                            <option value="{{ dataformat.id }}">
-                                {{ dataformat.name }}
-                            </option>
-                        {% endif %}
+                    {% if status %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
                     {% elif dataformat.name != 'Status' %}
                         <option value="{{ dataformat.id }}">
                             {{ dataformat.name }}
@@ -31,7 +29,7 @@ Update Fields
                     {% endif %}
                 {% endfor %}
             </select>
-        </div>                    
+        </div>
         <div>
             <br><label for="required">Required</label>
             <br><input type="radio" id="required" name="required" value="True">

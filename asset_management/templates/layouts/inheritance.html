@@ -21,27 +21,25 @@
                 </button>
             </a>
         </div>
-        <div class="header">
-            <div class="dropdown">
-                <ul class="dropbtn icons btn-right showLeft" onclick="showDropdown()">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="{{url_for('users_group.groups')}}">Groups</a>
-                    {% if current_user.is_authenticated %}
-            <a href="/auth/logout">Logout</a>
-            {% else %}
-            <a href="/auth/login">Login</a>
-            {% endif %}
-                </div>
-            </div>
-        </div>
         <div class="header-right" style="display:flex; justify-content:center; margin-right:40px;">
             <a class="active" href="/users_group/groups">Home</a>
             <a class="active" href="{{ url_for('navigate.contact', user_id=current_user.id) }}">Contact</a>
             <a class="active" href="{{url_for('navigate.about', user_id=current_user.id)}}">About Us</a>
+        </div>
+        <div class="dropdown">
+            <ul class="dropbtn icons btn-right showLeft" onclick="showDropdown()">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="{{url_for('users_group.groups')}}">Groups</a>
+                {% if current_user.is_authenticated %}
+        <a href="/auth/logout">Logout</a>
+        {% else %}
+        <a href="/auth/login">Login</a>
+        {% endif %}
+            </div>
         </div>
     </div>
     {% endif %}
