@@ -30,7 +30,7 @@ Field Records
                 </div>
                 {% elif field.dataformat.input_type == 'status' %}
                 <label for="status">Group Status</label>
-                <select name="status" id="status">
+                <select name="{{field.field_key}}" id="{{field.field_key}}">
                     {% for status in status %}
                     <option value="{{ status.id }}">{{ status.status }}</option>
                     {% endfor %}

@@ -30,18 +30,17 @@ def record_list_page(id):
 def all_records():
     request_data = dict(request.form)
     group_id = int(request_data.pop('group_id'))
-    status = int(request_data.pop('status'))
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all()
     for field in fields:
-        if field.dataformat.input_type == 'number':
+        if field.dataformat.input_type == 'number' or field.dataformat.input_type == 'status':
             if field.field_key in request_data:
                 value = request_data.get(field.field_key)
                 try:
                     request_data[field.field_key] = int(value)
                 except ValueError:
                     request_data[field.field_key] = ''
-    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow(), "status_id": status})
+    mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])
