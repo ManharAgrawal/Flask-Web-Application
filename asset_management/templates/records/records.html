@@ -32,7 +32,7 @@ Field Records
                 <label for="status">Group Status</label>
                 <select name="{{field.field_key}}" id="{{field.field_key}}">
                     {% for status in status %}
-                    <option value="{{ status.id }}">{{ status.status }}</option>
+                    <option value="{{ status.id }}">{{ status.name }}</option>
                     {% endfor %}
                 </select>
                 {% else %}

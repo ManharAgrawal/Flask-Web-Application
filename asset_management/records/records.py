@@ -23,6 +23,13 @@ def record_list_page(id):
         if record.get('record_data'):
             record_id = str(record['_id'])
             record_data[record_id] = dict(list(record['record_data'].items())[:5])
+            for key, value in record_data[record_id].items():
+                if type(value) == str and 'status' in value:
+                    if 'status' in value:
+                        status_id = value.split("_")[1]
+                        status = Status.query.get(status_id)
+                        if status:
+                            record_data[record_id][key] = status.name
     fields = Field.query.filter_by(group_id=id).limit(5).all()
     return render_template('records/record_list.html', records=record_data, user_id=user_id, group_id=id, field_names=fields)
 
@@ -33,13 +40,20 @@ def all_records():
     user_id = current_user.id
     fields = Field.query.filter_by(group_id=group_id).all()
     for field in fields:
-        if field.dataformat.input_type == 'number' or field.dataformat.input_type == 'status':
+        if field.dataformat.input_type == 'number':
             if field.field_key in request_data:
                 value = request_data.get(field.field_key)
                 try:
                     request_data[field.field_key] = int(value)
                 except ValueError:
-                    request_data[field.field_key] = ''
+                    request_data[field.field_key] = ""
+        if field.dataformat.input_type == 'status':
+            if field.field_key in request_data:
+                status_id = request_data.get(field.field_key)
+                try:
+                    request_data[field.field_key] = f"status_{status_id}"                    
+                except ValueError:
+                    request_data[field.field_key] = ""
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
     return redirect(url_for('users_records.record_list_page', id=group_id))
 

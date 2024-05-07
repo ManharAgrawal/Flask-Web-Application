@@ -17,13 +17,13 @@ def create_page(id):
 
 @status_blueprint.route('/groups/<int:id>/create', methods=["POST"])
 def create(id):
-    status = request.form.get('status')
+    name = request.form.get('name')
     description = request.form.get('description')
     created_date = datetime.utcnow()
     updated_date = datetime.utcnow()
     new_status = None
     if status:
-        new_status = Status(status=status, description=description, created_date=created_date, updated_date=updated_date, group_id=id)
+        new_status = Status(name=name, description=description, created_date=created_date, updated_date=updated_date, group_id=id)
         db.session.add(new_status)
         db.session.commit()
         flash('Status Created Successfully!!', 'success')
@@ -38,13 +38,9 @@ def edit_page(id, status_id):
 @status_blueprint.route('/groups/<int:id>/status/<int:status_id>/update', methods=["POST"])
 def update(id, status_id):
     status = Status.query.get(status_id)
-    if status is None:
-        flash('Status not found!', 'error')
-        return redirect(url_for('groups_status.edit_page', id=id, status_id=status_id))
-    
-    new_status_value = request.form.get('status')
+    name = request.form.get('name')
     description = request.form.get('description')
-    status.status = new_status_value
+    status.name = name
     status.description = description
     status.updated_date = datetime.utcnow()
     db.session.commit()

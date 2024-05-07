@@ -92,14 +92,14 @@ class Profile(db.Model):
 class Status(db.Model):
     __tablename__ = "status"
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(), nullable=False)
+    name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     
-    def __init__(self, status, description, group_id, created_date, updated_date,):
-        self.status = status
+    def __init__(self, name, description, group_id, created_date, updated_date,):
+        self.name = name
         self.description = description
         self.group_id = group_id
         self.created_date = created_date

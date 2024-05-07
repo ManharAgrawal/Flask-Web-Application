@@ -21,7 +21,7 @@ Status
         </tr>
         {% for status in status %}
         <tr>
-            <td>{{status.status}}</td>
+            <td>{{status.name}}</td>
             <td>{{status.description}}</td>
             <td>
                 <a href="{{ url_for('groups_status.edit_page', id=id, status_id=status.id) }}"><button class="btn_ops">Update</button></a>
