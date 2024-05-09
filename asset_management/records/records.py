@@ -67,7 +67,14 @@ def details(record_id):
     values = list(record_data.values())
     records = {}
     for i in keys:
-        records[i] = values[keys.index(i)]
+        value = values[keys.index(i)]
+        if type(value) == str and 'status' in value:
+            status_id = str(value).split("_")[1]
+            status = Status.query.get(status_id)
+            if status:
+                records[i] = status.name
+        else:
+            records[i] = value
     return render_template('records/details.html', record_data=records)
 
 @records_blueprint.route('/groups/<int:id>', methods=["GET"])
