@@ -1,16 +1,43 @@
 import pdb
 from config import db
+from functools import wraps
 from datetime import datetime
 from flask_login import current_user
 from sql_database.models import GroupName, Field
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
 
+def login_required(func):
+    # Ensure that only logged-in users can access the routes
+    @wraps(func)
+    def for_login(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash("User is not logged in", "error")
+            return redirect(url_for('auth.login'))
+        return func(*args, **kwargs)
+    return for_login
+
+def for_database(func):
+    # This decorator ensures that a database session exists before connecting to APIs.
+    @wraps(func)
+    def database(*args, **kwargs):
+        if db.session is None:
+            flash("Database session is not initialized")
+            return redirect(url_for('auth.login'))
+        return func(*args, **kwargs)
+    return database
+
 @groups_blueprint.route('/groups', methods=["GET"])
+@login_required
+@for_database
 def group_page():
     user_groups = GroupName.query.filter_by(user_id=current_user.id).all() 
     return render_template("user_groups/groups.html", entities=user_groups)
+
+@groups_blueprint.route('/groups/create', methods=["GET"])
+def create():
+    return render_template('user_groups/create.html')
 
 @groups_blueprint.route('/groups', methods=["POST"])
 def groups():
@@ -32,10 +59,6 @@ def groups():
     status_message, status = 'Group created successfully!', 'success'
     flash(status_message, status)
     return redirect(url_for("users_group.groups", entities=groups))
-
-@groups_blueprint.route('/groups/create', methods=["GET"])
-def create():
-    return render_template('user_groups/create.html')
 
 @groups_blueprint.route('/groups/<int:id>/update', methods=["GET"])
 def update_page(id):

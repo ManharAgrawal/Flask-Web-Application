@@ -1,6 +1,7 @@
 import pdb
 from config import mongo
 from bson import ObjectId
+from functools import wraps
 from datetime import datetime
 from flask_login import current_user
 from sql_database.models import Field, Status
@@ -8,13 +9,25 @@ from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
 
+def login_required(func):
+    # Ensure that only logged-in users can access the routes
+    @wraps(func)
+    def for_login(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash("User is not logged in", "error")
+            return redirect(url_for('auth.login'))
+        return func(*args, **kwargs)
+    return for_login
+
 @records_blueprint.route("/groups/<int:id>/records", methods=["GET"])
+@login_required
 def records(id):
     fields = Field.query.filter_by(group_id=id).all()
     status = Status.query.filter_by(group_id=id).all()
     return render_template('records/records.html', id=id, fields=fields, status=status)
 
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
+@login_required
 def record_list_page(id):
     user_id = current_user.id
     records = mongo.db.records.find({'group_id': id})
@@ -34,6 +47,7 @@ def record_list_page(id):
     return render_template('records/record_list.html', records=record_data, user_id=user_id, group_id=id, field_names=fields)
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
+@login_required
 def all_records():
     request_data = dict(request.form)
     group_id = int(request_data.pop('group_id'))
@@ -58,6 +72,7 @@ def all_records():
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])
+@login_required
 def details(record_id):
     record = mongo.db.records.find_one({'_id': ObjectId(record_id)})
     group_id = record.get('group_id')
@@ -78,10 +93,12 @@ def details(record_id):
     return render_template('records/details.html', record_data=records)
 
 @records_blueprint.route('/groups/<int:id>', methods=["GET"])
+@login_required
 def back_to_fields(id):
     return redirect(url_for('users_field.fields', id=id))
 
 @records_blueprint.route('/group/<int:id>/records/<string:record_id>', methods=["GET"])
+@login_required
 def delete(id,record_id):
     try:
         bson_id = ObjectId(record_id)

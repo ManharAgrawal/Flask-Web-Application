@@ -1,12 +1,25 @@
 import pdb
+from flask_login import current_user
 from config import db
+from functools import wraps
 from datetime import datetime
 from sql_database.models import Field, DataFormat, Status
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
 
+def login_required(func):
+    # Ensure that only logged-in users can access the routes
+    @wraps(func)
+    def for_login(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash("User is not logged in", "error")
+            return redirect(url_for('auth.login'))
+        return func(*args, **kwargs)
+    return for_login
+
 @fields_blueprint.route('/groups/<int:id>/fields', methods=["GET"])
+@login_required
 def fields(id):
     fields = Field.query.filter_by(group_id=id).all()
     return render_template('user_fields/fields.html', fields=fields, id=id)
