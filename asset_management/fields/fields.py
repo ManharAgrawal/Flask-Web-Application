@@ -8,8 +8,8 @@ from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
 
+# Ensure that only logged-in users can access the routes
 def login_required(func):
-    # Ensure that only logged-in users can access the routes
     @wraps(func)
     def for_login(*args, **kwargs):
         if not current_user.is_authenticated:

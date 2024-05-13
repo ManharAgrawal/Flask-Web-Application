@@ -11,8 +11,8 @@ user_blueprint = Blueprint('auth', __name__, template_folder='templates/forms')
 
 # For sign-up
 
+# This decorator checks if the current user is already logged in.
 def already_logged_in_user(func):
-    # This decorator checks if the current user is already logged in.
     @wraps(func)
     def login_decorator(*args, **kwargs):
         if current_user.is_authenticated:
@@ -21,8 +21,8 @@ def already_logged_in_user(func):
         return func(*args, **kwargs)
     return login_decorator
 
+# This decorator checks if the email already exists in the database.
 def already_email_exists(func):
-    # This decorator checks if the email already exists in the database.
     @wraps(func)
     def email_exists(*args, **kwargs):
         email = request.form['email']
@@ -33,8 +33,8 @@ def already_email_exists(func):
         return func(*args, **kwargs)
     return email_exists
 
+# This decorator checks if the password is valid.
 def valid_password(func):
-    # This decorator checks if the password is valid.
     @wraps(func)
     def for_password(*args, **kwargs):
         password = request.form['password']
@@ -46,8 +46,8 @@ def valid_password(func):
 
 # For log-in
 
+# This decorator check if the email is valid format
 def validate_email(func):
-    # This decorator check if the email is valid format
     @wraps(func)
     def for_email(*args, **kwargs):
         email = request.form['email']
@@ -57,8 +57,8 @@ def validate_email(func):
         return func(*args, **kwargs)
     return for_email
 
+# This decorator checks if the email not exists in the database
 def user_not_found(func):
-    # This decorator checks if the email not exists in the database
     @wraps(func)
     def for_user(*args, **kwargs):
         email = request.form['email']
@@ -69,8 +69,8 @@ def user_not_found(func):
         return func(*args, **kwargs)
     return for_user
 
+# This decorator checks if the password entered for login, matches the password stored in the database
 def incorrect_password(func):
-    # This decorator checks if the password entered for login, matches the password stored in the database
     @wraps(func)
     def wrong_pwd(*args, **kwargs):
         email = request.form['email']

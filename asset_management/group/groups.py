@@ -8,8 +8,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
 
+# Ensure that only logged-in users can access the routes
 def login_required(func):
-    # Ensure that only logged-in users can access the routes
     @wraps(func)
     def for_login(*args, **kwargs):
         if not current_user.is_authenticated:
@@ -18,8 +18,8 @@ def login_required(func):
         return func(*args, **kwargs)
     return for_login
 
+# This decorator ensures that a database session exists before connecting to APIs.
 def for_database(func):
-    # This decorator ensures that a database session exists before connecting to APIs.
     @wraps(func)
     def database(*args, **kwargs):
         if db.session is None:

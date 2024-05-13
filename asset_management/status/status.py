@@ -9,8 +9,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 status_blueprint = Blueprint('groups_status', __name__, template_folder='templates/group_status')
 
+# Ensure that only logged-in users can access the routes
 def login_required(func):
-    # Ensure that only logged-in users can access the routes
     @wraps(func)
     def for_login(*args, **kwargs):
         if not current_user.is_authenticated:
@@ -19,8 +19,8 @@ def login_required(func):
         return func(*args, **kwargs)
     return for_login
 
+# Validate the status name before creating a new status.
 def create_status(func):
-    # Validate the status name before creating a new status.
     @wraps(func)
     def status_decor(*args, **kwargs):
         name = request.form.get('name')

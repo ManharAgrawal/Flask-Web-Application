@@ -4,8 +4,8 @@ from flask_login import current_user
 
 navigate_blueprint = Blueprint('navigate', __name__, template_folder='templates/navigations')
 
+# Ensure that only logged-in users can access the routes
 def login_required(func):
-    # Ensure that only logged-in users can access the routes
     @wraps(func)
     def for_login(*args, **kwargs):
         if not current_user.is_authenticated:

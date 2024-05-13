@@ -7,8 +7,8 @@ from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 profile_blueprint = Blueprint('users_profile', __name__, template_folder="template/profiles")
 
+# Ensure that only logged-in users can access the routes
 def login_required(func):
-    # Ensure that only logged-in users can access the routes
     @wraps(func)
     def for_login(*args, **kwargs):
         if not current_user.is_authenticated:
@@ -17,8 +17,8 @@ def login_required(func):
         return func(*args, **kwargs)
     return for_login
 
+# if a profile already exists for the current user before allowing them to create a new one
 def profile_exists(func):
-    # if a profile already exists for the current user before allowing them to create a new one
     @wraps(func)
     def profiles_decor(*args, **kwargs):
         profile = Profile.query.filter_by(user_id=current_user.id).first()
