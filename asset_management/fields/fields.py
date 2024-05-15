@@ -1,22 +1,11 @@
 import pdb
-from flask_login import current_user
 from config import db
-from functools import wraps
 from datetime import datetime
+from decorators.decorator import login_required
 from sql_database.models import Field, DataFormat, Status
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
-
-# Ensure that only logged-in users can access the routes
-def login_required(func):
-    @wraps(func)
-    def for_login(*args, **kwargs):
-        if not current_user.is_authenticated:
-            flash("User is not logged in", "error")
-            return redirect(url_for('auth.login'))
-        return func(*args, **kwargs)
-    return for_login
 
 @fields_blueprint.route('/groups/<int:id>/fields', methods=["GET"])
 @login_required
@@ -25,6 +14,7 @@ def fields(id):
     return render_template('user_fields/fields.html', fields=fields, id=id)
 
 @fields_blueprint.route('/groups/<int:id>/create', methods=["GET"])
+@login_required
 def create_page(id):
     dataformats = DataFormat.query.all()
     status = Status.query.filter_by(group_id=id).all()
@@ -59,6 +49,7 @@ def create(id):
     return render_template("user_fields/create.html", id=id, fields=new_field)
 
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["GET"])
+@login_required
 def edit_page(id,field_id):
     field = Field.query.get(field_id)
     dataformats = DataFormat.query.all()
@@ -96,5 +87,6 @@ def delete(id,field_id):
     return redirect(url_for('users_field.fields',id=id,field_id=field_id))
 
 @fields_blueprint.route('/groups', methods=["GET"])
+@login_required
 def back_to_group():
     return redirect(url_for('users.group.group'))

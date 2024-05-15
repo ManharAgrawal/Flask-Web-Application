@@ -1,23 +1,13 @@
 import pdb
 from config import mongo
 from bson import ObjectId
-from functools import wraps
 from datetime import datetime
 from flask_login import current_user
 from sql_database.models import Field, Status
+from decorators.decorator import login_required
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
 records_blueprint = Blueprint('users_records', __name__, template_folder='templates/records')
-
-# Ensure that only logged-in users can access the routes
-def login_required(func):
-    @wraps(func)
-    def for_login(*args, **kwargs):
-        if not current_user.is_authenticated:
-            flash("User is not logged in", "error")
-            return redirect(url_for('auth.login'))
-        return func(*args, **kwargs)
-    return for_login
 
 @records_blueprint.route("/groups/<int:id>/records", methods=["GET"])
 @login_required
@@ -47,7 +37,6 @@ def record_list_page(id):
     return render_template('records/record_list.html', records=record_data, user_id=user_id, group_id=id, field_names=fields)
 
 @records_blueprint.route("/groups/all_records", methods=["POST"])
-@login_required
 def all_records():
     request_data = dict(request.form)
     group_id = int(request_data.pop('group_id'))
@@ -98,7 +87,6 @@ def back_to_fields(id):
     return redirect(url_for('users_field.fields', id=id))
 
 @records_blueprint.route('/group/<int:id>/records/<string:record_id>', methods=["GET"])
-@login_required
 def delete(id,record_id):
     try:
         bson_id = ObjectId(record_id)

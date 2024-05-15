@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_pymongo import PyMongo
-# from pymongo import MongoClient 
+from flask_mail import Mail
 
 load_dotenv()
 
@@ -28,7 +28,6 @@ app.config['MONGO_URI'] = os.getenv('MONGO_URL')
 app.config['SQLALCHEMY_BINDS'] = {'mongo': mongo_url}
 mongo = PyMongo(app)
 
-
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -38,3 +37,14 @@ login_manager.init_app(app)
 def load_user(user_id):
     from sql_database.models import User
     return User.query.get(int(user_id))
+
+# Email validation
+
+app.config["MAIL_SERVER"] = 'smtp.gmail.com'
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USERNAME"] = 'manharagrawal19@gmail.com'
+app.config["MAIL_PASSWORD"] = 'qjhyxshwlchkocwk'
+app.config["MAIL_USE_TLS"] = True # Transport Layer Security 
+app.config["MAIL_USE_SSL"] = False # Secure Socket Layer
+
+mail = Mail(app)
