@@ -1,13 +1,13 @@
-from config import mail
-from flask_mail import Message
-from flask import request
 import pdb
+from config import mail
+from flask import request
+from flask_mail import Message
+from flask_login import current_user 
 
 def send_email(subject, recipient, body):
     try:
-        pdb.set_trace()
         email = request.form.get('email')
-        recipient = 'manhar@webkorps.com'
+        recipient = current_user.email
         msg = Message(
             subject,
             sender = 'manharagrawal19@gmail.com',

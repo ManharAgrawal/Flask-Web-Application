@@ -2,7 +2,6 @@ import pdb
 from config import db
 from sql_database.models import User
 from werkzeug.security import check_password_hash
-from notifications.notification import send_email 
 from flask_login import login_user, login_required, logout_user
 from flask import Blueprint, request, render_template, redirect, url_for,flash
 from decorators.decorator import already_email_exists, already_logged_in_user, user_not_found, incorrect_password
@@ -46,13 +45,6 @@ def login():
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password, password):
             login_user(user, remember=True)
-            subject = "Welcome to Our Asset Management App!"
-            body = f"Dear {User.name},\n\nWelcome back to Asset Management App!\n\nBest regards,\nThe App Team"
-            email_sent = send_email(subject, user, body)
-            if email_sent:
-                status_message, status = 'Login successful!', 'success'
-            else:
-                status_message, status = 'Failed to send welcome email. Please try again later.', 'error'
             status_message, status = 'Login successful!', 'success'
             return redirect(url_for('users_group.groups', user_id=user.id))
     else:

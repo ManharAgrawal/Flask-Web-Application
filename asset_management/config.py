@@ -40,10 +40,10 @@ def load_user(user_id):
 
 # Email validation
 
-app.config["MAIL_SERVER"] = 'smtp.gmail.com'
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USERNAME"] = 'manharagrawal19@gmail.com'
-app.config["MAIL_PASSWORD"] = 'qjhyxshwlchkocwk'
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") # SMTP(Simple Mail Transfer Protocol) password - Generate Passkey
 app.config["MAIL_USE_TLS"] = True # Transport Layer Security 
 app.config["MAIL_USE_SSL"] = False # Secure Socket Layer
 

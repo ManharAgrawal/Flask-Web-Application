@@ -2,7 +2,8 @@ import pdb
 from config import db
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import GroupName, Field
+from notifications.notification import send_email
+from sql_database.models import GroupName, Field, User
 from decorators.decorator import for_database, login_required
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
@@ -37,6 +38,10 @@ def groups():
     new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
     db.session.add(new_group)
     db.session.commit()
+    user = User.query.get(user_id)
+    subject = "New Group Created"
+    body = f"Dear {user.name},\n\nA New Group '{new_group.name}' has been created.\n\nGroup Description: {new_group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {new_group.created_date}\n\nBest regards,\nThe App Team"
+    send_email(subject, user.name, body)
     status_message, status = 'Group created successfully!', 'success'
     flash(status_message, status)
     return redirect(url_for("users_group.groups", entities=groups))
@@ -50,11 +55,17 @@ def update_page(id):
 @groups_blueprint.route('/groups/<int:id>/update', methods=["POST"])
 def update(id):
     group = GroupName.query.get(id)
+    old_name = group.name
+    old_description = group.description
     group.name = request.form.get('name')
     group.description = request.form.get('description')
     group.updated_data = datetime.utcnow()
     db.session.commit()
-    flash('The group has been updated successfully!','success')
+    user = User.query.get(current_user.id)
+    subject = "Group Updated"
+    body = f"Dear {user.name},\n\nThe Group '{old_name}' has been updated.\n\nOld Group Name: {old_name}\nOld Group Description: {old_description}\n\nNew Name: {group.name}\nNew Description: {group.description}\n\nUpdated By: {user.name}\nGroup Updated Date: {group.updated_date}\n\nBest regards,\nThe App Team"
+    send_email(subject, user.name, body)
+    flash('The Group has been Updated Successfully!','success')
     return redirect(url_for('users_group.groups'))
 
 @groups_blueprint.route('/groups/<int:id>/delete')

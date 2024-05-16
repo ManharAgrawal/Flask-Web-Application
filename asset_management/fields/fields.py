@@ -1,8 +1,11 @@
+from dataclasses import field
 import pdb
 from config import db
 from datetime import datetime
 from decorators.decorator import login_required
-from sql_database.models import Field, DataFormat, Status
+from flask_login import current_user
+from notifications.notification import send_email
+from sql_database.models import User, Field, DataFormat, Status
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 fields_blueprint = Blueprint('users_field', __name__, template_folder='templates/user_fields')
@@ -44,6 +47,11 @@ def create(id):
         new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date, required=required)
         db.session.add(new_field)
         db.session.commit()
+        user = User.query.get(current_user.id)
+        dataformat = new_field.dataformat.name
+        subject = "New Field Created"
+        body = f"Dear {user.name},\n\nA New field '{new_field.name}' has been created.\n\nField Description: {new_field.description}\n\nField Dataformat: {dataformat}\n\nField Created By: {user.name}\n\nField Created Date: {new_field.created_date}\n\nBest regards,\nThe App Team"
+        send_email(subject, user, body)
         flash('Field Created Successfully!', 'success')
         return redirect(url_for('users_field.fields', id=id, new_field_id=new_field.id))
     return render_template("user_fields/create.html", id=id, fields=new_field)
@@ -59,6 +67,9 @@ def edit_page(id,field_id):
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):
     field = Field.query.get(field_id)
+    old_name = field.name
+    old_description = field.description
+    old_dataformat = field.dataformat.name 
     name = request.form.get('name')
     description = request.form.get('description')
     dataformat_id = request.form.get('dataformat')
@@ -71,7 +82,11 @@ def update(id, field_id):
     field.field_key = field_key
     field.required = required
     db.session.commit()
-    flash('The field has been updated successfully!', 'success')
+    user = User.query.get(current_user.id)
+    subject = "Field Updated"
+    body = f"Dear {user.name},\n\nThe old Field '{old_name}' has been updated.\n\nOld Field Name: {old_name}\nOld Field Description: {old_description}\nOld Field Dataformat: {old_dataformat}\n\nNew Field Name: {field.name}\nNew Field Description: {field.description}\nNew Field Dataformat: {field.dataformat.name}\n\nField Updated By: {user.name}\nField Updated Date: {field.updated_date}\n\nBest regards,\nThe App Team"
+    send_email(subject, user, body)
+    flash('The Field has been Updated Successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))
 
 @fields_blueprint.route('/groups/<int:id>/<int:field_id>/delete')

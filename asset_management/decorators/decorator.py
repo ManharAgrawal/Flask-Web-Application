@@ -77,12 +77,14 @@ def for_database(func):
     return database
 
 # if a profile already exists for the current user before allowing them to create a new one
-def profile_exists(func):
-    @wraps(func)
-    def profiles_decor(*args, **kwargs):
-        profile = Profile.query.filter_by(user_id=current_user.id).first()
-        if profile:
-            flash('Profile Already Exists.')
-            return redirect(url_for('users_profile.profile'))
-        return func(*args, **kwargs)
-    return profiles_decor
+def profile_exists(redirect_url):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            profile = Profile.query.filter_by(user_id=current_user.id).first()
+            if profile:
+                flash('Profile Already Exists.')
+                return redirect(url_for(redirect_url))
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator

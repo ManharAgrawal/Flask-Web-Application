@@ -3,7 +3,8 @@ from config import mongo
 from bson import ObjectId
 from datetime import datetime
 from flask_login import current_user
-from sql_database.models import Field, Status
+from sql_database.models import Field, Status, User, GroupName
+from notifications.notification import send_email
 from decorators.decorator import login_required
 from flask import Blueprint, render_template, redirect,  request, flash, url_for
 
@@ -58,6 +59,11 @@ def all_records():
                 except ValueError:
                     request_data[field.field_key] = ""
     mongo.db.records.insert_one({'record_data': request_data, 'user_id': user_id, 'group_id': group_id, 'created_date':datetime.utcnow()})
+    user = User.query.get(current_user.id)
+    group = GroupName.query.get(group_id)
+    subject = "New Record Created"
+    body = f"Dear {user.name},\n\nA new record has been created in group {group.name} with the following values:\n\n{request_data}\n\nBest regards,\nThe App Team"
+    send_email(subject, user.name, body=body)
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])
