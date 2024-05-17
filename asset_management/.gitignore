@@ -1,8 +1,7 @@
 # created by virtualenv automatically
-* readme.md
-* .env
-* venv
-* migrations
-.gitignore
-../.vscode
-../env
+venv/
+__pycache__/
+*.pyc
+.env
+migrations/
+.vscode/
