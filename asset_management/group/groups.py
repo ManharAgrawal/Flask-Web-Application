@@ -41,7 +41,8 @@ def groups():
     user = User.query.get(user_id)
     subject = "New Group Created"
     body = f"Dear {user.name},\n\nA New Group '{new_group.name}' has been created.\n\nGroup Description: {new_group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {new_group.created_date}\n\nBest regards,\nThe App Team"
-    send_email(subject, user.name, body)
+    html_body =  render_template('user_groups/group_create.html', user=user, group=new_group)
+    send_email(subject, user.name, body, html_body)
     status_message, status = 'Group created successfully!', 'success'
     flash(status_message, status)
     return redirect(url_for("users_group.groups", entities=groups))
@@ -64,7 +65,8 @@ def update(id):
     user = User.query.get(current_user.id)
     subject = "Group Updated"
     body = f"Dear {user.name},\n\nThe Group '{old_name}' has been updated.\n\nOld Group Name: {old_name}\nOld Group Description: {old_description}\n\nNew Name: {group.name}\nNew Description: {group.description}\n\nUpdated By: {user.name}\nGroup Updated Date: {group.updated_date}\n\nBest regards,\nThe App Team"
-    send_email(subject, user.name, body)
+    html_body = render_template('user_groups/group_update.html', user=user, old_name=old_name, old_description=old_description, group=group)
+    send_email(subject, user.email, body, html_body)
     flash('The Group has been Updated Successfully!','success')
     return redirect(url_for('users_group.groups'))
 

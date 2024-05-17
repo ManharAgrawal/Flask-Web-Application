@@ -51,7 +51,8 @@ def create(id):
         dataformat = new_field.dataformat.name
         subject = "New Field Created"
         body = f"Dear {user.name},\n\nA New field '{new_field.name}' has been created.\n\nField Description: {new_field.description}\n\nField Dataformat: {dataformat}\n\nField Created By: {user.name}\n\nField Created Date: {new_field.created_date}\n\nBest regards,\nThe App Team"
-        send_email(subject, user, body)
+        html_body = render_template("user_fields/field_create.html", user=user, field=new_field, dataformat=dataformat)
+        send_email(subject, user, body, html_body)
         flash('Field Created Successfully!', 'success')
         return redirect(url_for('users_field.fields', id=id, new_field_id=new_field.id))
     return render_template("user_fields/create.html", id=id, fields=new_field)
@@ -67,6 +68,9 @@ def edit_page(id,field_id):
 @fields_blueprint.route('/groups/<int:id>/fields/<int:field_id>/update', methods=["POST"])
 def update(id, field_id):
     field = Field.query.get(field_id)
+    if not field:
+        flash('Field not found.', 'error')
+        return redirect(url_for('users_field.fields', id=id))
     old_name = field.name
     old_description = field.description
     old_dataformat = field.dataformat.name 
@@ -85,7 +89,8 @@ def update(id, field_id):
     user = User.query.get(current_user.id)
     subject = "Field Updated"
     body = f"Dear {user.name},\n\nThe old Field '{old_name}' has been updated.\n\nOld Field Name: {old_name}\nOld Field Description: {old_description}\nOld Field Dataformat: {old_dataformat}\n\nNew Field Name: {field.name}\nNew Field Description: {field.description}\nNew Field Dataformat: {field.dataformat.name}\n\nField Updated By: {user.name}\nField Updated Date: {field.updated_date}\n\nBest regards,\nThe App Team"
-    send_email(subject, user, body)
+    html_body = render_template("user_fields/field_update.html", user=user, old_name=old_name, old_description=old_description, old_dataformat=old_dataformat, field=field)
+    send_email(subject, user, body, html_body)
     flash('The Field has been Updated Successfully!', 'success')
     return redirect(url_for('users_field.fields', id=id))
 

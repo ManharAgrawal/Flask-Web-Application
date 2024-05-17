@@ -1,5 +1,6 @@
 import pdb
 import logging
+from xxlimited import new
 from config import db
 from datetime import datetime
 from flask_login import current_user
@@ -35,7 +36,8 @@ def create(id):
         user = User.query.get(current_user.id)
         subject = "New Status Created"
         body = f"Dear {user.name},\n\nA new status name'{new_status.name}' has been created.\n\nDescription: {new_status.description}\n\nCreated By: {user.name}\n\nCreated Date: {new_status.created_date}\n\nBest regards,\nThe App Team"
-        send_email(subject, user, body)
+        html_body = render_template('group_status/status_create.html', status=new_status, user=user)
+        send_email(subject, user, body, html_body)
         flash('Status Created Successfully!!', 'success')
         return redirect(url_for('groups_status.status', id=id))
     return render_template('group_status/create.html', id=id, status=new_status)
@@ -60,7 +62,8 @@ def update(id, status_id):
     user = User.query.get(current_user.id)
     subject = "Status Updated"
     body = f"Dear {user.name},\n\nThe status '{old_name}' has been updated.\n\nOld Name: {old_name}\nOld Description: {old_description}\n\nNew Name: {status.name}\nNew Description: {status.description}\n\nUpdated By: {user.name}\nUpdated Date: {status.updated_date}\n\nBest regards,\nThe App Team"
-    send_email(subject, user, body)
+    html_body = render_template('group_status/status_update.html', old_name=old_name, old_description=old_description, new_description=status.description, status=status, user=user)
+    send_email(subject, user, body, html_body)
     flash('The status has been updated successfully!', 'success')
     return redirect(url_for('groups_status.status', id=id, status_id=status_id))
 

@@ -63,7 +63,9 @@ def all_records():
     group = GroupName.query.get(group_id)
     subject = "New Record Created"
     body = f"Dear {user.name},\n\nA new record has been created in group {group.name} with the following values:\n\n{request_data}\n\nBest regards,\nThe App Team"
-    send_email(subject, user.name, body=body)
+    html_body = render_template('records/record_create.html', user=user, record_data=request_data, group_name=group.name, datetime=datetime)
+    send_email(subject, user.name, body, html_body)
+    flash("Record created successfully", "success")
     return redirect(url_for('users_records.record_list_page', id=group_id))
 
 @records_blueprint.route("/groups/details/<string:record_id>", methods=["GET"])

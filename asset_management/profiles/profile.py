@@ -31,7 +31,8 @@ def create():
             user = User.query.get(current_user.id)
             subject = "New Profile Created"
             body = f"New Profile Created by {current_user.name}\n\nA New Profile name'{new_profile.name}' has been created.\n\nProfile Email: {new_profile.email}\n\nProfile Mobile: {new_profile.mobile}\n\nProfile Address: {new_profile.address}\n\nProfile Position: {new_profile.position}\n\nCreated By: {user.name}\n\nCreated Date: {new_profile.created_date}\n\nBest regards,\nThe App Team"
-            send_email(subject, user, body)
+            html_body = render_template("profiles/profile_create.html", profile=new_profile, user=user)
+            send_email(subject, user, body, html_body)
             flash("Profile Created Successfully!", 'success')
             return redirect(url_for("users_profile.profile", new_profile=new_profile))
     return render_template("profiles/create.html")
@@ -56,7 +57,8 @@ def update():
             user = User.query.get(current_user.id)
             subject = "Profile Updated"
             body = f"Dear {current_user.name},\n\n Profile Name: '{old_name}' has been updated.\n\nA New Profile Name: '{profile.name}'.\n\nOld Email: {old_email} has been updated.\n\nNew Email: {profile.email}\n\nOld Mobile: {old_mobile} has been updated.\n\nNew Mobile: {profile.mobile}\n\nOld Address: {old_address} has been updated.\n\nNew Address: {profile.address}\n\nOld Position: {old_position} has been updated.\n\nNew Position: {profile.position}\n\nCreated By: {user.name}\n\nBest regards,\nThe App Team"
-            send_email(subject, user, body)
+            html_body = render_template("profiles/profile_update.html", old_name=old_name, old_email=old_email, old_mobile=old_mobile, old_address=old_address, old_position=old_position, profile=profile, user=user)
+            send_email(subject, user, body, html_body)
             flash("Profile Updated Successfully!", 'success')
             return redirect(url_for("users_profile.profile"))
     return render_template("profiles/update.html", profile=profile)
