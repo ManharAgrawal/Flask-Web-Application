@@ -1,10 +1,11 @@
-{%extends "login.html"%}
+{%extends "layouts/inheritance.html"%}
 {% block title %}
 About Us
 {% endblock title %}
 {% block css %}
 {{ super() }}
-<link rel="stylesheet" href="/static/css/navigate_pages/style_about.css">
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/navigate/about.css">
 {% endblock css %}
 {% block content %}
 <div class="container">
@@ -14,6 +15,7 @@ About Us
     <div class="story">
        <h2>Our Story</h2>
     </div>
+
     <div class="para">
         <p>Lorem and more ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida magna sit amet dui tristique, sed blandit lacus pharetra. Sed faucibus arcu eget urna dapibus, quis dictum ligula pulvinar. Mauris at nisi id augue vehicula scelerisque sit amet vel erat.</p>
     </div>
@@ -21,17 +23,17 @@ About Us
         <h2>Our Team</h2>
         <div class="team-members">
             <div class="team-member">
-                <img src="{{url_for('static', filename='images/creatos.jpeg')}}">
+                <img src="{{ url_for('static', filename='images/creatos.jpeg') }}">
                 <h3>Creatos</h3>
                 <p>CEO</p>
             </div>
             <div class="team-member">
-                <img src="{{url_for('static', filename='images/dormammu.jpeg')}}">
+                <img src="{{ url_for('static', filename='images/dormammu.jpeg') }}">
                 <h3>Dormammu</h3>
                 <p>BOD</p>
             </div>
             <div class="team-member">
-                <img src="{{url_for('static', filename='images/cable.jpeg')}}">
+                <img src="{{ url_for('static', filename='images/cable.jpeg') }}">
                 <h3>Cable</h3>
                 <p>Assassin</p>
             </div>

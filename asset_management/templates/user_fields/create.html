@@ -1,0 +1,55 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Create Fields
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/fields/create.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('users_field.create', id=id) }}" method="post">
+        <br><label for="name">Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter your name">
+        <br><label for="description">Description</label>
+        <input type="text" name="description" id="description" placeholder="Enter some description">
+        <div class="dataformat">
+            <br><label for="dataformat">Choose Type</label>
+            <select name="dataformat" id="dataformat">
+                {% for dataformat in dataformats %}
+                    {% if status %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
+                    {% elif dataformat.name != 'Status' %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <br><label for="required">Required</label>
+            <br><input type="radio" id="required" name="required" value="True">
+            <label for="required">Yes</label><br>
+            <br><input type="radio" id="required" name="required" value="False" checked />
+            <label for="required">No</label><br>
+        </div>
+        <input type="hidden" name="field_key" value="1">
+        <br><input class="create-btn" type="submit" value="Add">
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

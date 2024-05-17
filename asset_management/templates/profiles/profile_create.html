@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Profile Created</title>
+</head>
+<body>
+    <h1>New Profile Created</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>A new Profile '{{ profile.name }}' has been created.</p>
+    <p><strong>Profile Description:</strong> {{ profile.description }}</p>
+    <p><strong>Profile Created By:</strong> {{ user.name }}</p>
+    <p><strong>Profile Created Date:</strong> {{ profile.created_date }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

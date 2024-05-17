@@ -1,20 +1,29 @@
-from ..config import app
-from flask import request, render_template, Blueprint
+from decorators.decorator import login_required
+from flask import request, redirect, url_for, Blueprint, flash, render_template
 
-navigate_blueprint = Blueprint('navigations', __name__, template_folder='templates/navigate_pages')
+navigate_blueprint = Blueprint('navigate', __name__, template_folder='templates/navigations')
 
-@navigate_blueprint.route('/contact')
+@navigate_blueprint.route('/user/contact', methods=["GET"])
+@login_required
+def contact_page():
+    name = ""
+    email = ""
+    message = ""
+    return render_template('navigations/contact.html', name=name, email=email, message=message)
+    
+@navigate_blueprint.route('/user/contact', methods=["POST"])
 def contact():
-    if request.method=='POST':
-        name = request.form['name']
-        email = request.form['email']
-        message = request.form['message']
-    return render_template('contact.html',name, email, message)
+    name = request.form['name']
+    email = request.form['email']
+    message = request.form['message']
+    flash('Message sent successfully!')
+    return redirect(url_for('navigate.contact', name=name, email=email, message=message))
 
-@navigate_blueprint.route('/about')
+@navigate_blueprint.route('/user/about', methods=["GET"])
+@login_required
 def about():
-    return render_template('about.html')
+    return render_template('navigations/about.html')
 
-@navigate_blueprint.route('/terms')
+@navigate_blueprint.route('/user/terms', methods=["GET"])
 def terms():
-    return render_template('terms.html')
+    return render_template('navigations/terms.html')

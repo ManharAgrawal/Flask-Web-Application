@@ -1,0 +1,20 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Update Status
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/status/update.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('groups_status.update', id=id, status_id=status_id) }}" method="post">
+        <br><label for="name">Name</label>
+        <input type="text" name="name" id="name" value="{{ status.name }}">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" value="{{ status.description }}">
+        <br><input class="create-btn" type="submit" value="Update">
+    </form>
+</div>
+{% endblock %}

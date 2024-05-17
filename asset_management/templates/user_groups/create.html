@@ -1,0 +1,32 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Group Fields
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/groups/create.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="/users_group/groups" method="post">
+        <label for="name">Group Name</label>
+        <input type="text" name="name" id="name" placeholder="Name" required>
+        <label for="description">Description</label>
+        <textarea name="description" id="description" cols="30" rows="20" placeholder="description"></textarea>
+        <input class="create-btn" type="submit" value="Create">
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+<script src="/static/js/group/create.js"></script>
+{% endblock %}

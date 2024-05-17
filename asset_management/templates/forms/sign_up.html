@@ -1,60 +1,43 @@
-{% extends "login.html" %}
-{% block title %}Sign Up{% endblock title %}
-
-{% block css %}
-{{ super() }}
-<link rel="stylesheet" href="/static/css/froms/style_signup.css">
-{% endblock css %}
-{% block content %} 
-<div class="main_container">
-    <div class="signup_container">
-        <div class="form">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" href="/static/images/feather-solid.svg">
+    <link rel="stylesheet" href="/static/css/froms/signup.css">
+    <script src="/static/js/form/signup.js"></script>
+</head>
+<body>
+    <div class="main_container">
+        <div class="signup_container">
             <h2>Create an account</h2>
-            <form action="/signup" method="post">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="name" placeholder="Enter your username" required><br>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password1" placeholder="Enter your password"
-                        required><br>
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="password2" placeholder="Confirm your password"
-                        required><br>
-                </div>
-                <input type="submit" name="" value="Sign Up">
-            </form>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }} d-flex align-items-center" role="alert">
-                {% if category == 'success' %}
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                    <use xlink:href="#check-circle-fill" />
-                </svg>
-                <div>
-                    {{ message }}
-                </div>
-                {% else %}
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Error:">
-                    <use xlink:href="#exclamation-triangle-fill" />
-                </svg>
-                <div>
-                    {{ message }}
-                </div>
-                {% endif %}
+            <div class="container">
+                <form action="{{url_for('auth.signup')}}" method="post" class="signup-form" onsubmit="return validateform()">
+                    <h2>Sign Up</h2>
+                    <div class="form-control">
+                        <label for="username">Username</label>
+                        <br><input type="text" name="name" id="username" required><br>
+                        <br><label for="email">Email</label>
+                        <br><input type="email" name="email" id="email" required><br>
+                        <br><label for="password">Password</label>
+                        <br><input type="password" name="password" id="password" required><br>
+                    </div>
+                    <br><input type="submit" value="Submit">
+                </form>
             </div>
-            {% endfor %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div id="flash-messages" class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endwith %}
+            <p>Already have an account? <a href="/auth/login">Log in</a></p>
+            <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms and Conditions</a>.</p>
         </div>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
-        <p>By signing up, you agree to our <a href="{{ url_for('terms') }}">Terms and Conditions</a>.</p>
     </div>
-</div>
-{% endblock %}
+</body>
+
