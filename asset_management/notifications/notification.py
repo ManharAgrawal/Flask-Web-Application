@@ -10,7 +10,7 @@ def send_email(subject, recipient, body, html_body=None):
         recipient = current_user.email
         msg = Message(
             subject,
-            sender = 'your_email_address',
+            sender = 'manharagrawal19@gmail.com',
             recipients = [recipient]
         )
         msg.body = body
