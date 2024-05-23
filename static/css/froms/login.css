@@ -1,0 +1,81 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.login_page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+.login_form {
+  background-color: #f7f6f6;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+form {
+  width: 300px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn {
+  background-image: linear-gradient( #cf5ea2,#1ccfae);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-image: linear-gradient( #cfae1c, #1e4697);
+  color: #000;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px; /* Adjust width as needed */
+  padding: 10px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.flash-message {
+  margin-bottom: 10px;
+}
+
+.flash-message.error {
+  color: red;
+}
+
+.flash-message.success {
+  color: green;
+}

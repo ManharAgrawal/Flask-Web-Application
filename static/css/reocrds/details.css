@@ -1,0 +1,120 @@
+.records-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.records-table th, .records-table td {
+    padding: 5px;
+    border: 1px solid #b5b1b1;
+    text-align: center;
+}
+
+body{
+    font-size: 130%;
+}
+
+.records-table th {
+    background-color: #ededee;
+    color: rgb(4, 4, 4);
+    font-weight: bold;
+    text-align: center;
+}
+
+.records-table tbody tr:nth-child(even) {
+    background-color:transparent;
+    
+}
+
+.records-table tbody tr:hover {
+    background-color: transparent;
+    
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #03045e;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in;
+    z-index: 1;
+    margin-left: 47%;    
+}
+
+.btn:hover{
+    color: white;
+}
+
+.btn::before,
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 100%;
+    transform: skew(15deg);
+    transition: all 0.5s;
+    overflow: hidden;
+    z-index: -1;
+    
+}
+
+.btn::before {
+    left: -10px;
+    background: #240046;
+}
+
+.btn::after {
+    right: -10px;
+    background: #5a189a;
+}
+
+.btn:hover::before,
+.btn:hover::after {
+    width: 58%;
+}
+
+.btn:hover span {
+    color: #e0aaff;
+    transition: 0.3s;
+}
+
+.btn span {
+    color: #03045e;
+    font-size: 18px;
+    transition: all 0.3s ease-in;
+    
+}
+
+ul li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+ul li::before {
+    content: '\2022'; /* Unicode character for a bullet point */
+    color: #000; 
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+ul li b {
+    min-width: 200px; 
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+ul li i {
+    flex: 1; 
+    font-style: italic;
+    margin-right: 20px;
+    margin-left: 20px;
+}

@@ -1,0 +1,43 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" href="/static/images/feather-solid.svg">
+    <link rel="stylesheet" href="/static/css/froms/signup.css">
+    <script src="/static/js/form/signup.js"></script>
+</head>
+<body>
+    <div class="main_container">
+        <div class="signup_container">
+            <h2>Create an account</h2>
+            <div class="container">
+                <form action="{{url_for('auth.signup')}}" method="post" class="signup-form" onsubmit="return validateform()">
+                    <h2>Sign Up</h2>
+                    <div class="form-control">
+                        <label for="username">Username</label>
+                        <br><input type="text" name="name" id="username" required><br>
+                        <br><label for="email">Email</label>
+                        <br><input type="email" name="email" id="email" required><br>
+                        <br><label for="password">Password</label>
+                        <br><input type="password" name="password" id="password" required><br>
+                    </div>
+                    <br><input type="submit" value="Submit">
+                </form>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div id="flash-messages" class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <p>Already have an account? <a href="/auth/login">Log in</a></p>
+            <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms and Conditions</a>.</p>
+        </div>
+    </div>
+</body>
+

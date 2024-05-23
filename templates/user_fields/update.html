@@ -1,0 +1,44 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Update Fields
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/fields/update.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('users_field.update', id=id, field_id=field.id) }}" method="post">
+        <br><label for="name">Name</label>
+        <input type="text" name="name" id="name" value="{{field.name}}" placeholder="Enter your name">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" value="{{field.description}}" placeholder="Enter some description">
+        <div class="dataformat">
+            <br><label for="dataformat">Choose Type</label>
+            <select name="dataformat" id="dataformat">
+                {% for dataformat in dataformats %}
+                    {% if status %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
+                    {% elif dataformat.name != 'Status' %}
+                        <option value="{{ dataformat.id }}">
+                            {{ dataformat.name }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <br><label for="required">Required</label>
+            <br><input type="radio" id="required" name="required" value="True">
+            <label for="required">Yes</label><br>
+            <br><input type="radio" id="required" name="required" value="False" checked/>
+            <label for="required">No</label><br>
+        </div>
+        <input type="hidden" name="field_key" value="{{field.field_key}}">
+        <br><input class="create-btn" type="submit" value="Update">
+    </form>
+</div>
+{% endblock %}

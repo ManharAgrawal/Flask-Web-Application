@@ -1,0 +1,21 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Update Groups
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/groups/update.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('users_group.update', id=group.id) }}" method="post">
+        <label for="name">{{group.name}}</label>
+        <input type="text" name="name" id="name" value="{{group.name}}" placeholder="Name" required>
+        <label for="description">Description</label>
+        <textarea name="description" id="description" cols="30" rows="20"
+            placeholder="description">{{ group.description }}</textarea>
+        <br><input class="create-btn" type="submit" value="Create">
+    </form>
+</div>
+{% endblock %}
