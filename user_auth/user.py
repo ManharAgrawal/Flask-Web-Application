@@ -1,7 +1,9 @@
 import pdb
-from config import db
+from turtle import pd
 from sql_database.models import User
-from werkzeug.security import check_password_hash 
+from config import db, razorpay_client
+from razorpay.errors import BadRequestError 
+from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user 
 from flask import Blueprint, request, render_template, redirect, url_for,flash 
 from decorators.decorator import already_email_exists, already_logged_in_user, user_not_found, incorrect_password
@@ -16,14 +18,13 @@ def signup_form():
 @already_email_exists
 @already_logged_in_user
 def signup():
-    name = request.form['name']
-    email = request.form['email']
-    user = User.query.filter_by(email=email).first()
-    password = request.form['password']
-    if user:
-        status_message, status = "User email already exists", 'error'
-    else:
-        new_user = User(name=name, email=email, password=password)
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if name:
+        razorpay_customer = razorpay_client.customer.create(data={'name': name, 'email': email})
+        razorpay_customer_id = razorpay_customer['id']
+        new_user = User(name=name, email=email, password=password, razorpay_customer_id=razorpay_customer_id)
         db.session.add(new_user)
         db.session.commit()
         status_message, status = 'Signed up successfully!', 'success'
@@ -44,9 +45,9 @@ def login():
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password, password):
-            login_user(user, remember=True)
-            status_message, status = 'Login successful!', 'success'
-            return redirect(url_for('users_group.groups', user_id=user.id))
+        login_user(user, remember=True)
+        status_message, status = 'Login successful!', 'success'
+        return redirect(url_for('users_group.groups', user_id=user.id))
     else:
         status_message, status = 'Incorrect email or password', 'error'
     flash(status_message, status)

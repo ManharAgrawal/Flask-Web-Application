@@ -1,6 +1,6 @@
 import pdb
-from config import collection
 from bson import ObjectId
+from config import collection
 from datetime import datetime
 from flask_login import current_user
 from decorators.decorator import login_required
@@ -20,7 +20,6 @@ def records(id):
 @records_blueprint.route("/groups/<int:id>/record_list", methods=["GET"])
 @login_required
 def record_list_page(id):
-    pdb.set_trace()
     user_id = current_user.id
     records = collection.find({'group_id': id})
     record_data = {}

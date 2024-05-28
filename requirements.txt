@@ -1,4 +1,5 @@
 alembic==1.13.1
+asyncpg
 bash==0.6
 blinker==1.8.2
 botocore==1.34.58

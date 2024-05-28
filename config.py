@@ -1,10 +1,11 @@
 import os
+import razorpay
 from flask import Flask
+from flask_mail import Mail
 from dotenv import load_dotenv  
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
 from pymongo.mongo_client import MongoClient
 
 load_dotenv()
@@ -47,3 +48,9 @@ app.config["MAIL_USE_TLS"] = True # Transport Layer Security
 app.config["MAIL_USE_SSL"] = False # Secure Socket Layer
 
 mail = Mail(app)
+
+# RazorPay Validation
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID") 
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+
+razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))

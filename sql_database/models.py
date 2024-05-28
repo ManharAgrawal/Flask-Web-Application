@@ -1,4 +1,5 @@
-from re import T
+from email.policy import default
+from enum import unique
 from uuid import uuid4
 from config import db
 from datetime import datetime
@@ -11,13 +12,15 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
+    razorpay_customer_id = db.Column(db.String(255), nullable=True)
     groups = db.relationship('GroupName', backref='users', lazy=True)
     profile_id = db.relationship("Profile", uselist=False, backref="users", lazy=True)
 
-    def __init__(self, name, email, password): 
+    def __init__(self, name, email, password, razorpay_customer_id=None): 
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
+        self.razorpay_customer_id = razorpay_customer_id
 
 class GroupName(db.Model):
     __tablename__ = 'groups'
@@ -29,6 +32,8 @@ class GroupName(db.Model):
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     status = db.relationship('Status', backref='groups', lazy=True)
+    paymenet_status = db.Column(db.String(), default="pending")
+    price = db.Column(db.Integer, default=500)
     
     def __init__(self, name, description, user_id, created_date, updated_date):
         self.name = name

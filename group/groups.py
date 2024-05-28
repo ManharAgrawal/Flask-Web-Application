@@ -1,10 +1,10 @@
 import pdb
-from config import db
 from datetime import datetime
 from flask_login import current_user
 from notifications.notification import send_email
 from sql_database.models import GroupName, Field, User
 from decorators.decorator import for_database, login_required
+from config import db, razorpay, RAZORPAY_KEY_SECRET, RAZORPAY_KEY_ID , razorpay_client
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
@@ -37,6 +37,27 @@ def groups():
         return redirect(url_for("users_group.create"))
     new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
     db.session.add(new_group)
+    db.session.commit()
+    pdb.set_trace()
+    response = razorpay_client.payment_link.create({
+                                        "amount": 500,
+                                        "currency": "INR",
+                                        "description": "For Access Other Features Purpose",
+                                        "accept_partial": True,
+                                        "first_min_partial_amount": 100,
+                                        "customer": {
+                                            "name": current_user.name,
+                                            "email": current_user.email,
+                                        },
+                                        "notify": {
+                                            "sms": False,
+                                            "email": True
+                                        },
+                                        "callback_url": "https://127.0.0.1:5000/users_group/groups",
+                                        "callback_method": "get"
+                                    })
+    payment_link_id = response.get('short_url')
+    new_group.payment_link_id = payment_link_id
     db.session.commit()
     user = User.query.get(user_id)
     subject = "New Group Created"
