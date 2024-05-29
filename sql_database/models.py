@@ -32,15 +32,19 @@ class GroupName(db.Model):
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     status = db.relationship('Status', backref='groups', lazy=True)
-    paymenet_status = db.Column(db.String(), default="pending")
-    price = db.Column(db.Integer, default=500)
+    payment_status = db.Column(db.String(), default="pending")
+    price = db.Column(db.Integer, default=50000)
+    payment_link_url = db.Column(db.String(), nullable=True)
     
-    def __init__(self, name, description, user_id, created_date, updated_date):
+    def __init__(self, name, description, user_id, created_date, updated_date, payment_link_url, payment_status, price):
         self.name = name
         self.description = description
         self.user_id = user_id
         self.created_date = created_date
         self.updated_date = updated_date
+        self.payment_link_url = payment_link_url
+        self.payment_status = payment_status
+        self.price = price
 
 class Field(db.Model):
     __tablename__ = 'fields'
