@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Field Updated</title>
+</head>
+<body>
+    <h1>Field Updated</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>The Field '{{ old_name }}' has been updated.</p>
+    <p><strong>Old Field Name:</strong> {{ old_name }}</p>
+    <p><strong>Old Field Description:</strong> {{ old_description }}</p>
+    <p><strong>New Field Name:</strong> {{ field.name }}</p>
+    <p><strong>New Field Description:</strong> {{ field.description }}</p>
+    <p><strong>Updated By:</strong> {{ user.name }}</p>
+    <p><strong>Field Updated Date:</strong> {{ field.updated_date }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

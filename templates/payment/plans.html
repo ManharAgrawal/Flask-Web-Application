@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Plan</title>
+</head>
+<body>
+    <h1>Create Plan</h1>
+    <form method="POST" action="{{ url_for('create_plan') }}">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        
+        <label for="amount">Amount:</label><br>
+        <input type="text" id="amount" name="amount" required><br>
+        
+        <label for="interval">Interval:</label><br>
+        <select id="interval" name="interval" required>
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="annually">Annually</option>
+        </select><br><br>
+        

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Status Updated</title>
+</head>
+<body>
+    <h1>Status Updated</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>The Status '{{ old_name }}' has been updated.</p>
+    <p><strong>Old Status Name:</strong> {{ old_name }}</p>
+    <p><strong>Old Status Description:</strong> {{ old_description }}</p>
+    <p><strong>New Status Name:</strong> {{ status.name }}</p>
+    <p><strong>New Status Description:</strong> {{ status.description }}</p>
+    <p><strong>Updated By:</strong> {{ user.name }}</p>
+    <p><strong>Status Updated Date:</strong> {{ status.updated_date }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

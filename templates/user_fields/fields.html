@@ -1,0 +1,53 @@
+
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+All Fields
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/fields/fields.css">
+{% endblock css %}
+{% block content %}
+<div class="text">
+    <h1 class="h">Hi Team!</h1>
+</div>
+<div class="buttons-container">
+    <a href="{{ url_for('users_field.create', id=id)}}"><button class="btn2">Create New Fields</button></a>
+    <a href="{{ url_for('users_records.records', id=id) }}"><button class="btn2">Create Records</button></a>
+</div>
+<br><div class="table_text">
+    <table class="tb">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>DataFormat</th>
+            <th>Actions</th>
+        </tr>
+        {% for field in fields %}
+        <tr>
+            <td>{{ field.name }}</td>
+            <td>{{ field.description }}</td>
+            <td>{{ field.dataformat.name }}</td>
+            <td>
+                <a href="{{ url_for('users_field.update', id=id, field_id=field.id) }}"><button class="btn_ops">Update</button></a>
+                <a href="{{ url_for('users_field.delete', id=id, field_id=field.id) }}"><button class="btn_ops">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}        
+    </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+<br><a href="{{ url_for('users_group.groups') }}"><button class="btn">Back To Groups</button></a>
+<script src="/static/js/field/field.js"></script>
+{% endblock %}

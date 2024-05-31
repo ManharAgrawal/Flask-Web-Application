@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Status Created</title>
+</head>
+<body>
+    <h1>New Status Created</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>A new Status '{{ status.name }}' has been created.</p>
+    <p><strong>Status Description:</strong> {{ status.description }}</p>
+    <p><strong>Status Created By:</strong> {{ user.name }}</p>
+    <p><strong>Status Created Date:</strong> {{ status.created_date }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

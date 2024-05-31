@@ -1,0 +1,24 @@
+
+<!-- templates/records/record_create.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Record Created</title>
+</head>
+<body>
+    <h1>New Record Created</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>A new record has been created in group '{{ group_name }}' with the following values:</p>
+    <ul>
+        {% for key, value in record_data.items() %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Record Created By:</strong> {{ user.name }}</p>
+    <p><strong>Record Created Date:</strong> {{ datetime.utcnow() }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

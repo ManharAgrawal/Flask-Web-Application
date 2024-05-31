@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup_container {
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.774);
+}
+
+.form {
+    text-align: center;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.signup-form {
+    margin-top: 20px;
+}
+
+.form-control input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-control label {
+    top: 10px;
+    left: 10px;
+    color: #999;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+input[type='submit'] {
+    width: 85%;
+    padding: 10px;
+    background-image: linear-gradient(to left, #d9564b, #0d817d);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type='submit']:hover {
+    background-color: #0056b3;
+}
+
+.flash-message {
+    margin-bottom: 10px;
+}
+
+.flash-message.error {
+    color: red;
+}
+
+.flash-message.success {
+    color: green;
+}

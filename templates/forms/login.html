@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In</title>
+  <link rel="icon" href="/static/images/feather-solid.svg">
+  <link rel="stylesheet" href="/static/css/forms/login.css">
+  <script src="/static/js/form/login.js"></script>
+</head>
+<body>
+  <div class="login_page">
+    <div class="login_form">
+      <p><b>Login Here</b></p>
+      <form action="{{url_for('auth.login')}}" method="post">
+        <div class="form-group custom-text-resize">
+          <br><input type="text" name="email" placeholder="User Email" required><br>
+          <br><input type="password" name="password" placeholder="Password" required><br>
+          <br><input type="submit" class="btn" value="Login">
+          <p>If you are new here <a href="/auth/signup">Sign Up</a></p>
+          <p>By signing up, you agree to our <a href="{{url_for('navigate.terms')}}">Terms And Conditons</a></p>
+        </div>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          <div id="flash-messages" class="flash-messages">
+              {% for category, message in messages %}
+                  <div class="flash-message {{ category }}">
+                      {{ message }}
+                  </div>
+              {% endfor %}
+          </div>
+      {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+</body>
+</html>

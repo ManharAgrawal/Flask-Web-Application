@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Group Created</title>
+    <link rel="stylesheet" href="/static/css/groups/email_create.css">
+</head>
+<body style="color: rgb(252, 251, 251); background-color: rgb(0, 0, 0);">
+    <h1>New Group Created</h1>
+    <p>Dear {{ user.name }},</p>
+    <p>A new group '{{ group.name }}' has been created.</p>
+    <p><strong>Group Description:</strong> {{ group.description }}</p>
+    <p><strong>Group Created By:</strong> {{ user.name }}</p>
+    <p><strong>Group Created Date:</strong> {{ group.created_date }}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The App Team</p>
+</body>
+</html>

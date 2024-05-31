@@ -1,0 +1,32 @@
+
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Create Status
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/status/create.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('groups_status.create', id=id) }}" method="post">
+        <br><label for="name">Name</label>
+        <input type="text" name="name" id="name" placeholder="Status For Groups">
+        <br><label for="description">Description</label>
+        <input type="text" name="description" id="description" placeholder="Enter some description">
+        <br><input class="create-btn" type="submit" value="Create">
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
