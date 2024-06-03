@@ -10,16 +10,17 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
+    is_admin = db.Column(db.Boolean, default=False)
     razorpay_customer_id = db.Column(db.String(255), nullable=True)
     groups = db.relationship('GroupName', backref='users', lazy=True)
     profile_id = db.relationship("Profile", uselist=False, backref="users", lazy=True)
-    payments = db.relationship('Payment', backref='user', lazy=True)
 
-    def __init__(self, name, email, password, razorpay_customer_id=None): 
+    def __init__(self, name, email, password, razorpay_customer_id=None, is_admin=False):
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
         self.razorpay_customer_id = razorpay_customer_id
+        self.is_admin = is_admin
 
 class GroupName(db.Model):
     __tablename__ = 'groups'
@@ -105,25 +106,7 @@ class Status(db.Model):
         self.group_id = group_id
         self.description = description
         self.created_date = created_date
-        self.updated_date = updated_date
-        
-class Payment(db.Model):
-    __tablename__ = "payments"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    subscription = db.Column(db.String(50), nullable=False)
-    payment_status = db.Column(db.String(), default="pending")
-    payment_link_url = db.Column(db.String(), nullable=True)
-    plan_id = db.Column(db.String(100), nullable=True)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+        self.updated_date = updated_date         
 
-    def __init__(self, name, email, subscription, payment_link_url, plan_id, payment_status, user_id):
-        self.name = name
-        self.email = email
-        self.plan_id = plan_id
-        self.user_id = user_id
-        self.subscription = subscription
-        self.payment_status = payment_status
-        self.payment_link_url = payment_link_url
+class Product():
+    pass

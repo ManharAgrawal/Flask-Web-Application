@@ -10,7 +10,7 @@ Update Groups
 {% block content %}
 <div class="container">
     <form action="{{ url_for('users_group.update', id=group.id) }}" method="post">
-        <label for="name">{{group.name}}</label>
+        <label for="name">Name</label>
         <input type="text" name="name" id="name" value="{{group.name}}" placeholder="Name" required>
         <label for="description">Description</label>
         <textarea name="description" id="description" cols="30" rows="20"

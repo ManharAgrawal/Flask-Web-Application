@@ -1,10 +1,10 @@
 import pdb
+from config import db
 from datetime import datetime
 from flask_login import current_user
 from notifications.notifications import send_email
 from sql_database.models import GroupName, Field, User
 from decorators.decorators import for_database, login_required
-from config import db, RAZORPAY_KEY_SECRET, RAZORPAY_KEY_ID, razorpay_client
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 groups_blueprint = Blueprint('users_group', __name__, template_folder='templates/user_groups')
@@ -28,14 +28,17 @@ def groups():
     description = request.form.get('description')
     created_date = datetime.utcnow() # deprecated - no longer mention
     updated_date = datetime.utcnow()
+    payment_status = request.form.get('payment_status')
+    plan_id = request.form.get('plan_id')
+    subscription = request.form.get('subscription')
     if not name:
-        status_message, status = "Name field is required", "error"
+        message_status, status = "Name field is required", "error"
         return redirect(url_for("users_group.create"))
     existing_group = GroupName.query.filter_by(name=name).first()
     if existing_group:
-        flash("A group with the same name already exists", "error")
+        message_status, status = "A group with the same name already exists", "error"
         return redirect(url_for("users_group.create"))
-    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date, payment_link_url=None, payment_status='pending', price=50000)
+    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date,payment_status=payment_status,plan_id=plan_id,subscription=subscription)
     db.session.add(new_group)
     db.session.commit()
     group = GroupName.query.filter_by(name=name).first()
@@ -46,8 +49,8 @@ def groups():
     send_email(subject, user.email, body, html_body)
     message_status, status = 'Group created successfully and payment confirmed!', 'success'
     flash(message_status, status)
-    return redirect(url_for("users_group.groups"))
-            
+    return redirect(url_for('subscription.subscribe'))
+
 @groups_blueprint.route('/groups/<int:id>/update', methods=["GET"])
 @login_required
 def update_page(id):
@@ -89,4 +92,4 @@ def delete(id):
             db.session.commit()
             status_message, status = 'Error In Deleting Group', 'error'
     flash(status_message, status)
-    return redirect(url_for('users_group.groups', id=id))
+    return redirect(url_for('users_group.groups'))
