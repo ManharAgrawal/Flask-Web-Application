@@ -1,9 +1,10 @@
 import pdb
-from config import db
+import requests
 from datetime import datetime
 from flask_login import current_user
+from config import db, razorpay_client
 from notifications.notifications import send_email
-from sql_database.models import GroupName, Field, User
+from sql_database.models import GroupName, Field, User, Plan, Product
 from decorators.decorators import for_database, login_required
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
@@ -28,9 +29,6 @@ def groups():
     description = request.form.get('description')
     created_date = datetime.utcnow() # deprecated - no longer mention
     updated_date = datetime.utcnow()
-    payment_status = request.form.get('payment_status')
-    plan_id = request.form.get('plan_id')
-    subscription = request.form.get('subscription')
     if not name:
         message_status, status = "Name field is required", "error"
         return redirect(url_for("users_group.create"))
@@ -38,18 +36,51 @@ def groups():
     if existing_group:
         message_status, status = "A group with the same name already exists", "error"
         return redirect(url_for("users_group.create"))
-    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date,payment_status=payment_status,plan_id=plan_id,subscription=subscription)
+    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
     db.session.add(new_group)
     db.session.commit()
-    group = GroupName.query.filter_by(name=name).first()
-    user = User.query.get(group.user_id)
-    subject = "New Group Created"
-    body = f"Dear {user.name},\n\nA New Group '{group.name}' has been created.\n\nGroup Description: {group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {group.created_date}\n\nBest regards,\nThe App Team"
-    html_body = render_template('user_groups/group_create.html', user=user, group=group)
-    send_email(subject, user.email, body, html_body)
-    message_status, status = 'Group created successfully and payment confirmed!', 'success'
-    flash(message_status, status)
-    return redirect(url_for('subscription.subscribe'))
+    try:
+        plan = Plan.query.get(plan_id)
+        plan_id = request.form.get('id')
+        if plan is None:
+            flash("Invalid plan ID. Please select a valid plan.", "error")
+            return redirect(url_for("users_group.create"))
+        subscription_data = {
+            "plan_id": plan.plan_id,
+            "total_count": 1,
+            "quantity": 1,
+            "customer_notify": 1,
+            "notify_info": {"notify_email": current_user.email}
+        }
+        subscription = razorpay_client.subscription.create(subscription_data)
+        payment_link = subscription['short_url']
+        db.session.commit()
+        group = GroupName.query.filter_by(name=name).first()
+        user = User.query.get(group.user_id)
+        subject = "New Group Created"
+        body = f"Dear {user.name},\n\nA New Group '{group.name}' has been created.\n\nGroup Description: {group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {group.updated_date}\n\nBest regards,\nThe App Team"
+        html_body = render_template('user_groups/group_create.html', user=user, group=group)
+        send_email(subject, user.email, body, html_body)
+        message_status, status = 'Group created successfully and payment confirmed!', 'success'
+        flash(message_status, status)
+        return redirect(payment_link)
+    except Exception as e:
+        db.session.rollback()
+        db.session.delete(new_group)
+        db.session.commit()
+        flash(f"An error occurred: {str(e)}", "error")
+        return redirect(url_for("users_group.groups"))
+
+@groups_blueprint.route('/payment_callback', methods=["GET"])
+def payment_callback():
+    user = User.query.get(current_user.id)
+    if user:
+        user.subscription_status = 'active'
+        db.session.commit()
+        flash('Subscription activated successfully.', 'success')
+    else:
+        flash('Subscription activation failed.', 'error')
+    return redirect(url_for('groups.group_page'))
 
 @groups_blueprint.route('/groups/<int:id>/update', methods=["GET"])
 @login_required
