@@ -1,0 +1,74 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+All Plans
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/plans/plan.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <h1>All Plans</h1>
+    <br>
+    <div class="row">
+        {% for plan in plans %}
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <h3>{{ plan.name }}</h3>
+                    <br>
+                    {% if plan.name == 'Basic' %}
+                    <li>Amount ₹ 399.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 100</li>
+                    {% elif plan.name == 'Basic Quarterly' %}
+                    <li>Amount ₹ 150.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 80</li>
+                    {% elif plan.name == 'Basic Yearly' %}
+                    <li>Amount ₹ 100.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 120</li>
+                    {% elif plan.name == 'Standard Monthly' %}
+                    <li>Amount ₹ 499.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 180</li>
+                    {% elif plan.name == 'Standard Quarterly' %}
+                    <li>Amount ₹ 399.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 220</li>
+                    {% elif plan.name == 'Standard Yearly' %}
+                    <li>Amount ₹ 299.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 260</li>
+                    {% elif plan.name == 'Enterprise Monthly' %}
+                    <li>Amount ₹ 799.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 400</li>
+                    {% elif plan.name == 'Enterprise Quarterly' %}
+                    <li>Amount ₹ 699.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 550</li>
+                    {% elif plan.name == 'Enterprise Yearly' %}
+                    <li>Amount ₹ 599.00/-Only</li>
+                    <li>Group Create Limit After Subscription - 650</li>
+                    {% endif %}
+                    <input type="hidden" name="{{ plan.plan_id }}">     
+                    <form action="{{ url_for('plan.create_plans') }}" method="post">
+                        <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                        <br>
+                        <a href="{{url_for('plan.create_plans')}}"><button class="ui-btn" data-plan-id="{{ plan.id }}">Subscribe</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script scr="/static/js/plans/plan.js">
+{% endblock %}
