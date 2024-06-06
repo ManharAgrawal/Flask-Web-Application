@@ -1,0 +1,16 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+Renew Plans
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/plans/expired_plan.css">
+{% endblock css %}
+{% block content %}
+<div class="message-container">
+    <h1>Your Plan Has Expired</h1>
+    <p>Please renew your subscription to continue accessing our services.</p>
+    <a href="{{ url_for('plan.plans') }}"><button class="button">Renew Plan</button></a>
+</div>
+{% endblock %}

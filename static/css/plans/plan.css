@@ -1,36 +1,30 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+
 }
 
 .container {
-    padding: 25px;
+    padding: 10px;
     background-image: linear-gradient(to bottom right, rgb(88, 81, 161), rgb(132, 122, 52));
 }
 
-h1{
+h1 {
     text-align: center;
-    text-align:center;
-    margin:auto;
-    color:#ccb3b3;
-    font-size:40px;
-    font-weight:bold
-}
-.row {
-    margin: 0 ;
+    color: #ccb3b3;
+    font-size: 40px;
+    font-weight: bold;
 }
 
-.row::after {
-    content: "";
-    clear: both;
-    display: table;
+.row {
+    display: flex;
+    flex-wrap: wrap ;
+    margin: 30px 15px 5px ;
 }
 
 .column {
-    float: left;
-    width: 25%;
-    margin-left: 35%;
-    padding: 0 10px;
-    
+    flex: 1 0  30%; /* Adjust to make three columns fit in one row */
+    margin: 15px;
+    padding: 10px;
 }
 
 .card {
@@ -39,9 +33,7 @@ h1{
     text-align: center;
     display: flex;
     flex-direction: column;
-
     background-image: linear-gradient(to bottom right, rgb(44, 127, 182), rgb(163, 163, 56));  
-    margin: 3px -63px 2px -5px;
     border-radius: 12px;
     color: #eaeaea;
 }
@@ -62,7 +54,6 @@ h1{
 }
 
 .ui-btn:hover {
-
     background-image: linear-gradient(to bottom right, rgb(166, 166, 84), rgb(147, 105, 189));  
 }
 

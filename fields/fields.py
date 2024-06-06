@@ -32,7 +32,7 @@ def create(id):
     updated_date = datetime.utcnow()
     required = request.form.get('required')
     new_field = None
-    last_field_key = Field.query.filter_by(group_id=id).order_by(Field.field_key.desc()).first()
+    last_field_key = Field.query.filter_by(group_id=id).order_by(Field.field_key).first()
     if last_field_key:
         last_field_key_int = int(last_field_key.field_key.split('_')[1])
         new_field_key_int = last_field_key_int + 1
@@ -43,7 +43,7 @@ def create(id):
     if existing_field:
         flash("A field with the same name already exists in this group", "Error")
         return redirect(url_for("users_field.create", id=id))
-    if name and dataformats:
+    if name:
         new_field = Field(name=name, description=description, dataformat_id=dataformats, field_key=field_key, group_id=id, created_date=created_date, updated_date=updated_date, required=required)
         db.session.add(new_field)
         db.session.commit()

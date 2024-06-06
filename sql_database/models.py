@@ -46,7 +46,7 @@ class Field(db.Model):
     __tablename__ = 'fields'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    des = db.Column(db.String(), nullable=False)
+    description = db.Column(db.String(), nullable=False)
     field_key = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
@@ -55,12 +55,12 @@ class Field(db.Model):
     required = db.Column(db.String())
     dataformat = db.relationship('DataFormat', back_populates='field')
 
-    def __init__(self, name, des, dataformat_id, field_key, group_id, created_date, updated_date, required):
+    def __init__(self, name, description, dataformat_id, field_key, group_id, created_date, updated_date, required):
         self.name = name
         self.required = required 
         self.group_id = group_id
         self.field_key = field_key
-        self.des = des
+        self.description = description
         self.created_date = created_date
         self.updated_date = updated_date
         self.dataformat_id = dataformat_id

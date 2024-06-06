@@ -16,37 +16,13 @@ All Plans
         <div class="row">
             <div class="column">
                 <div class="card">
-                    <h3>{{ plan.name }}</h3>
+                    <h3>{{ plan.item.name }}</h3>
                     <br>
-                    {% if plan.name == 'Basic' %}
-                    <li>Amount ₹ 399.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 100</li>
-                    {% elif plan.name == 'Basic Quarterly' %}
-                    <li>Amount ₹ 150.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 80</li>
-                    {% elif plan.name == 'Basic Yearly' %}
-                    <li>Amount ₹ 100.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 120</li>
-                    {% elif plan.name == 'Standard Monthly' %}
-                    <li>Amount ₹ 499.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 180</li>
-                    {% elif plan.name == 'Standard Quarterly' %}
-                    <li>Amount ₹ 399.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 220</li>
-                    {% elif plan.name == 'Standard Yearly' %}
-                    <li>Amount ₹ 299.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 260</li>
-                    {% elif plan.name == 'Enterprise Monthly' %}
-                    <li>Amount ₹ 799.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 400</li>
-                    {% elif plan.name == 'Enterprise Quarterly' %}
-                    <li>Amount ₹ 699.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 550</li>
-                    {% elif plan.name == 'Enterprise Yearly' %}
-                    <li>Amount ₹ 599.00/-Only</li>
-                    <li>Group Create Limit After Subscription - 650</li>
-                    {% endif %}
-                    <input type="hidden" name="{{ plan.plan_id }}">     
+                    <p>Amount: ₹ {{ plan.item.amount }} /-Only</p>
+                    <br>
+                    <p>Group Create Limit After Subscription - {{ plan.notes.group_limit }}</p>
+                    <br>
+                    <input type="hidden" name="{{ plan.item.plan_id }}">     
                     <form action="{{ url_for('plan.create_plans') }}" method="post">
                         <input type="hidden" name="plan_id" value="{{ plan.id }}">
                         <br>

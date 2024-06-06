@@ -1,7 +1,7 @@
 
-from config import db
 from functools import wraps
 from flask_login import current_user
+from config import db, razorpay_client
 from sql_database.models import User, Profile
 from werkzeug.security import check_password_hash
 from flask import redirect, url_for, request, flash
@@ -77,7 +77,7 @@ def for_database(func):
         return func(*args, **kwargs)
     return database
 
-# if a profile already exists for the current user before allowing them to create a new one
+# If a profile already exists for the current user before allowing them to create a new one
 def profile_exists(redirect_url):
     def decorator(func):
         @wraps(func)
