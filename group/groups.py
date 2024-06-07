@@ -1,8 +1,7 @@
 import pdb
 from datetime import datetime
-from flask_login import login_user
-from flask_login import current_user
 from config import db, razorpay_client
+from flask_login import current_user, login_user
 from notifications.notifications import send_email
 from sql_database.models import GroupName, Field, User
 from decorators.decorators import for_database, login_required
