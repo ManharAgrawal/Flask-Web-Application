@@ -26,7 +26,7 @@ All Plans
                     <form action="{{ url_for('plan.create_plans') }}" method="post">
                         <input type="hidden" name="plan_id" value="{{ plan.id }}">
                         <br>
-                        <a href="{{url_for('plan.create_plans')}}"><button class="ui-btn" data-plan-id="{{ plan.id }}">Subscribe</button></a>
+                        <a href="{{url_for('plan.create_plans')}}"><button class="ui-btn">Subscribe</button></a>
                     </form>
                 </div>
             </div>

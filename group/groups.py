@@ -29,7 +29,6 @@ def create():
 
 @groups_blueprint.route('/groups', methods=["POST"])
 def groups():
-    # pdb.set_trace()
     user_id = current_user.id
     user = User.query.get(user_id)
     subs_id = user.subscription_id
