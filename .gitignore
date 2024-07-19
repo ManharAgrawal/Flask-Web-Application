@@ -1,6 +1,5 @@
 # created by virtualenv automatically
-myenv/
-.env
+.env/
 .vscode/
 *.pyc
 readme.md
