@@ -29,6 +29,8 @@ def create(id):
     description = request.form.get('description')
     dataformats = request.form.get('dataformat')
     created_date = datetime.utcnow()
+    
+
     updated_date = datetime.utcnow()
     required = request.form.get('required')
     new_field = None

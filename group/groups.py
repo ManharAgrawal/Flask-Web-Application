@@ -60,7 +60,7 @@ def groups():
     
     existing_group = GroupName.query.filter_by(name=name).first()
     if existing_group:
-        message_status, status = "A group with the same name alre   ady exists", "error"
+        message_status, status = "A group with the same name already exists", "error"
         return redirect(url_for("users_group.create"))
     
     new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
