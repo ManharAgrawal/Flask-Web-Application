@@ -7,7 +7,7 @@ from fields.fields import fields_blueprint
 from records.records import records_blueprint
 from profile.profile import profile_blueprint
 from navigation.navigation import navigate_blueprint
-from subscription.subscription import subscription_blueprint
+from plans.plan import plan_blueprint
 
 app.register_blueprint(user_blueprint, url_prefix='/auth')
 app.register_blueprint(navigate_blueprint, url_prefix='/navigate')
@@ -16,7 +16,7 @@ app.register_blueprint(fields_blueprint, url_prefix='/users_field')
 app.register_blueprint(status_blueprint, url_prefix='/groups_status')
 app.register_blueprint(records_blueprint, url_prefix='/users_records')
 app.register_blueprint(profile_blueprint, url_prefix='/users_profile')
-app.register_blueprint(subscription_blueprint, url_prefix='/subscribe')
+app.register_blueprint(plan_blueprint, url_prefix='/users_plans')
 
 @app.route('/')
 def home():

@@ -1,7 +1,7 @@
 import pdb
-from config import db
 from datetime import datetime
-from flask_login import current_user
+from config import db, razorpay_client
+from flask_login import current_user, login_user
 from notifications.notifications import send_email
 from sql_database.models import GroupName, Field, User
 from decorators.decorators import for_database, login_required
@@ -19,37 +19,62 @@ def group_page():
 @groups_blueprint.route('/groups/create', methods=["GET"])
 @login_required
 def create():
-    return render_template('user_groups/create.html')
+    user = User.query.get(current_user.id)
+    if user.subscription_id:
+        login_user(user, remember=True)
+        return render_template('user_groups/create.html')
+    else:
+        return redirect(url_for("plan.plans"))
 
 @groups_blueprint.route('/groups', methods=["POST"])
 def groups():
     user_id = current_user.id
+    user = User.query.get(user_id)
+    subs_id = user.subscription_id
+    get_subs = razorpay_client.subscription.fetch(subs_id)
+    plan_id = get_subs['plan_id']
+    
+    if not plan_id:
+        flash("No plans found.", "error")
+        return redirect(url_for("plan.plans"))
+           
+    one_plan = razorpay_client.plan.fetch(plan_id)
+    try:
+        group_limit = int(one_plan["notes"]["group_limit"])
+    except ValueError:
+        flash("Invalid group limit value.", "error")
+        return redirect(url_for("plan.expired_plan"))
+    
+    current_group_count = GroupName.query.filter_by(user_id=user_id).count()
+    if current_group_count >= group_limit:
+        flash("You have reached the maximum number of groups allowed by your plan.", "error")
+        return redirect(url_for("plan.expired_plan"))
+    
     name = request.form.get('name')
     description = request.form.get('description')
     created_date = datetime.utcnow() # deprecated - no longer mention
     updated_date = datetime.utcnow()
-    payment_status = request.form.get('payment_status')
-    plan_id = request.form.get('plan_id')
-    subscription = request.form.get('subscription')
     if not name:
         message_status, status = "Name field is required", "error"
         return redirect(url_for("users_group.create"))
+    
     existing_group = GroupName.query.filter_by(name=name).first()
     if existing_group:
         message_status, status = "A group with the same name already exists", "error"
         return redirect(url_for("users_group.create"))
-    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date,payment_status=payment_status,plan_id=plan_id,subscription=subscription)
+    
+    new_group = GroupName(name=name, description=description, user_id=user_id, created_date=created_date, updated_date=updated_date)
     db.session.add(new_group)
     db.session.commit()
     group = GroupName.query.filter_by(name=name).first()
     user = User.query.get(group.user_id)
     subject = "New Group Created"
-    body = f"Dear {user.name},\n\nA New Group '{group.name}' has been created.\n\nGroup Description: {group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {group.created_date}\n\nBest regards,\nThe App Team"
+    body = f"Dear {user.name},\n\nA New Group '{group.name}' has been created.\n\nGroup Description: {group.description}\n\nGroup Created By: {user.name}\n\nGroup Created Date: {group.updated_date}\n\nBest regards,\nThe App Team"
     html_body = render_template('user_groups/group_create.html', user=user, group=group)
     send_email(subject, user.email, body, html_body)
-    message_status, status = 'Group created successfully and payment confirmed!', 'success'
+    message_status, status = 'Group created successfully', 'success'
     flash(message_status, status)
-    return redirect(url_for('subscription.subscribe'))
+    return redirect(url_for("users_group.groups"))
 
 @groups_blueprint.route('/groups/<int:id>/update', methods=["GET"])
 @login_required

@@ -1,0 +1,50 @@
+{% extends "layouts/inheritance.html" %}
+{% block title %}
+All Plans
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="icon" href="/static/images/feather-solid.svg">
+<link rel="stylesheet" href="/static/css/plans/plan.css">
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <h1>All Plans</h1>
+    <br>
+    <div class="row">
+        {% for plan in plans %}
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <h3>{{ plan.item.name }}</h3>
+                    <br>
+                    <p>Amount: ₹ {{ plan.item.amount }} /-Only</p>
+                    <br>
+                    <p>Group Create Limit After Subscription - {{ plan.notes.group_limit }}</p>
+                    <br>
+                    <input type="hidden" name="{{ plan.item.plan_id }}">     
+                    <form action="{{ url_for('plan.create_plans') }}" method="post">
+                        <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                        <br>
+                        <a href="{{url_for('plan.create_plans')}}"><button class="ui-btn">Subscribe</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-messages" class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script scr="/static/js/plans/plan.js">
+{% endblock %}
