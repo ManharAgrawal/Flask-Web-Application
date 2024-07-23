@@ -1,7 +1,10 @@
 # created by virtualenv automatically
-.env/
+env/
 .vscode/
 *.pyc
 readme.md
 migrations/
-alembic.ini
+.ini
+.idea/
+alembic/
+versions/
